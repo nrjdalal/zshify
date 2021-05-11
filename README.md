@@ -9,9 +9,9 @@ Zshify is a minimalistic, open source package to customize prompt of your Z shel
 &nbsp;&nbsp;&nbsp;&nbsp;Why not change it to it's minimal version? And that too with colors!
 
 - Home
-  > **<p style="color:green">~ ></p>**
+  > <p style="color:green">~ ></p>
 - Desktop
-  > **<p style="color:green">~/Desktop ></p>**
+  > <p style="color:green">~/Desktop ></p>
 
 <br>
 
