@@ -1,13 +1,22 @@
 {
   "name": "zshify",
-  "version": "1.0.25",
-  "description": "A minimalistic library to customize your Z shell (zsh)!",
+  "version": "1.0.29",
+  "description": "A minimalistic package to customize your Z shell (zsh)!",
   "bin": {
     "prompt": "bin/prompt.zsh"
   },
   "author": "Neeraj Dalal",
   "license": "MIT",
-  "devDependencies": {
-    "@nrjdalal/publish": "^1.0.2"
-  }
+  "keywords": [
+    "zsh",
+    "zshell",
+    "terminal",
+    "sh",
+    "shell",
+    "bash",
+    "minimal",
+    "fast",
+    "prompt",
+    "theme"
+  ]
 }
