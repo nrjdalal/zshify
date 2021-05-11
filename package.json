@@ -1,6 +1,6 @@
 {
   "name": "zshify",
-  "version": "1.0.29",
+  "version": "1.0.30",
   "description": "A minimalistic package to customize your Z shell (zsh)!",
   "bin": {
     "prompt": "bin/prompt.zsh"

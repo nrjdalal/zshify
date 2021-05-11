@@ -17,9 +17,9 @@ Zshify is a minimalistic, open source package to customize prompt of your Z shel
 
 ## Installation
 
-This is a [Node.js](https://nodejs.org/en/) module available through the [npm registry](https://www.npmjs.com/).
+This is a [Node.js](https://nodejs.org/en/) package available through the [npm registry](https://www.npmjs.com/).
 
-Installation is done using the [`npm install` command](https://docs.npmjs.com/getting-started/installing-npm-packages-locally):
+Installation is done using the [`npx` command](https://docs.npmjs.com/getting-started/installing-npm-packages-locally):
 
 ```zsh
 npx zshify
