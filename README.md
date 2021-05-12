@@ -2,7 +2,7 @@
 
 <img src="https://raw.githubusercontent.com/nrjdalal/zshify/master/zshify.png" width="480">
 
-Zshify is a minimalistic, one command installation to customize prompt of your Zshell (zsh)!
+Zshify is a minimalistic, one command installation to customize the prompt of your Zshell or Zsh!
 
 ## Installation
 
