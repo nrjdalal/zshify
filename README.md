@@ -1,5 +1,9 @@
 # Zshify - A Minimalistic Touch To Your Prompt!
 
+<img src="https://raw.githubusercontent.com/nrjdalal/zshify/master/zshify.png" style="width:100%; max-width: 480px;">
+
+<br>
+
 Zshify is a minimalistic, open source package to customize prompt of your Z shell (zsh)!
 
 &nbsp;&nbsp;&nbsp;&nbsp;Aren't you tired of default Zsh prompt appearing over and over again with the usual boring info? Like you really want to know your username over and over again.
