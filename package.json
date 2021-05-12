@@ -1,11 +1,19 @@
 {
   "name": "zshify",
-  "version": "1.0.32",
+  "version": "1.0.33",
   "description": "A minimalistic touch to your prompt!",
   "bin": {
     "prompt": "bin/prompt.zsh"
   },
   "author": "Neeraj Dalal",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nrjdalal/zshify.git"
+  },
+  "homepage": "https://github.com/nrjdalal/zshify#readme",
+  "bugs": {
+    "url": "https://github.com/nrjdalal/zshify/issues"
+  },
   "license": "MIT",
   "keywords": [
     "zsh",
