@@ -16,7 +16,7 @@ npx zshify
 
 ## Why Zshify?
 
-Aren't you tired of your default Zsh prompt looking like this?
+Aren't you tired of your default Zsh prompt looking like this? Cluttered, ugly and slow?
 
 > dogefather@Dogeminers-Mac-mini ~ %
 
