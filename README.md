@@ -2,19 +2,9 @@
 
 <img src="https://raw.githubusercontent.com/nrjdalal/zshify/master/zshify.png" width="480">
 
-Zshify is a minimalistic, open source package to customize prompt of your Z shell (zsh)!
-
-&nbsp;&nbsp;&nbsp;&nbsp;Aren't you tired of default Zsh prompt appearing over and over again with the usual boring info? Like you really want to know your username over and over again.
-
-> dogefather@Dogeminers-Mac-mini ~ %
-
-&nbsp;&nbsp;&nbsp;&nbsp;Why not change it to it's minimal version? And that too with colors!
-
-<br>
+Zshify is a minimalistic, one command installation to customize prompt of your Zshell (zsh)!
 
 ## Installation
-
-This is a [Node.js](https://nodejs.org/en/) package available through the [npm registry](https://www.npmjs.com/).
 
 Installation is done using the [`npx` command](https://docs.npmjs.com/getting-started/installing-npm-packages-locally):
 
@@ -23,3 +13,13 @@ npx zshify
 ```
 
 &nbsp;&nbsp;&nbsp;&nbsp;Yeah that's it, no downloads, no hassle. A minimalistic installation for the minimalistic package.
+
+## Why Zshify?
+
+Aren't you tired of your default Zsh prompt looking like this?
+
+> dogefather@Dogeminers-Mac-mini ~ %
+
+&nbsp;&nbsp;&nbsp;&nbsp;Appearing over and over again with the usual boring info? Like you really want to know your username over and over again.
+
+&nbsp;&nbsp;&nbsp;&nbsp;Why not change it to it's minimal version? And that too with colors!
