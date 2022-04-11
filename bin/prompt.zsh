@@ -1,5 +1,6 @@
 #!/bin/zsh
-cat >>~/.zshrc <<ZSHRC
+
+cat >~/.zshrc <<ZSHRC
 HISTFILE=~/.zsh_history
 HISTSIZE=5000
 SAVEHIST=5000
