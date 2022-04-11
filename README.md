@@ -12,7 +12,7 @@ Installation is done using the [`npx` command](https://docs.npmjs.com/getting-st
 npx zshify
 ```
 
-&nbsp;&nbsp;&nbsp;&nbsp;Yeah that's it, no downloads, no hassle. A minimalistic installation for the minimalistic package.
+Yeah that's it, no downloads, no hassle. A minimalistic installation for the minimalistic package.
 
 ## Why Zshify?
 
@@ -20,6 +20,6 @@ Aren't you tired of your default Zsh prompt looking like this? Cluttered, ugly a
 
 > dogefather@Dogeminers-Mac-mini ~ %
 
-&nbsp;&nbsp;&nbsp;&nbsp;Appearing over and over again with the usual boring info? Like you really want to know your username over and over again.
+Appearing over and over again with the usual boring info? Like you really want to know your username over and over again.
 
-&nbsp;&nbsp;&nbsp;&nbsp;Why not change it to it's minimal version? And that too with colors!
+Why not change it to it's minimal version? And that too with colors!
