@@ -5,4 +5,4 @@ grep "source ~/.zshify/prompt.zsh" ~/.zshrc &>/dev/null || echo "source ~/.zshif
 
 which brew &>/dev/null || echo "\n$(tput setaf 1)brew not installed! install via -$(tput sgr0)\n/bin/bash -c \"\$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"\"
 
-echo "\n$(tput setaf 2)zshify enabled, to reload, run -$(tput sgr0) exec zsh"
+echo "\n$(tput setaf 2)zshify enabled! to reload, run -$(tput sgr0) exec zsh"
