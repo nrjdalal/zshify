@@ -1,9 +1,12 @@
 {
   "name": "zshify",
-  "version": "1.0.42",
+  "version": "1.0.46",
   "description": "A minimalistic touch to your prompt!",
   "bin": {
     "prompt": "bin/prompt.zsh"
+  },
+  "scripts": {
+    "release": "npx @nrjdalal/publish && git add -A && git commit -m \"$(date)\" && git push && npm publish"
   },
   "author": "Neeraj Dalal",
   "repository": {
