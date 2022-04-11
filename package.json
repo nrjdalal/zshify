@@ -1,6 +1,6 @@
 {
   "name": "zshify",
-  "version": "1.0.48",
+  "version": "1.0.49",
   "description": "A minimalistic touch to your prompt!",
   "bin": {
     "prompt": "bin/prompt.zsh"
