@@ -32,3 +32,6 @@ precmd() {
   fi
   unset TIMER
 }
+
+# aliases
+alias zshrc='code ~/.zshrc'
