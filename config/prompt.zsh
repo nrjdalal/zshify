@@ -33,5 +33,6 @@ precmd() {
   unset TIMER
 }
 
-# aliases
-alias zshrc='code ~/.zshrc'
+zshrc() {
+  code ~/.zshrc
+}
