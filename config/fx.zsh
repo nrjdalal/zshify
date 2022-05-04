@@ -5,7 +5,7 @@ cdx() {
 
 # better listing
 ls() {
-  ls -A --color
+  command ls -A --color
   # tree --filesfirst -aCL 1 | sed -e 's/├── //g' -e 's/└── //g' | tail -n +2
 }
 
