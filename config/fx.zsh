@@ -4,8 +4,9 @@ cdx() {
 }
 
 # better listing
-lsx() {
-  tree --filesfirst -aCL 1 | sed -e 's/├── //g' -e 's/└── //g' | tail -n +2
+ls() {
+  ls -A --color
+  # tree --filesfirst -aCL 1 | sed -e 's/├── //g' -e 's/└── //g' | tail -n +2
 }
 
 # create github repository, pass --private to create private repository
