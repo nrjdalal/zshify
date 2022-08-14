@@ -64,3 +64,11 @@ rename() {
     command echo " rename dirname new_dirname ~ renames existing dir to new"
   fi
 }
+
+# show() {
+#   defaults write com.apple.finder CreateDesktop false && killall Finder
+# }
+
+# hide() {
+#   defaults write com.apple.finder CreateDesktop false && killall Finder
+# }
