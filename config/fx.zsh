@@ -23,7 +23,7 @@ mkrepo() {
 }
 
 # git add & git commit at once | git push
-@git() {
+g() {
   if [[ "$#" == "0" ]]; then
     command git add -A 2>/dev/null
     command git commit -m "$(date)" 2>/dev/null
@@ -65,10 +65,10 @@ rename() {
   fi
 }
 
-# show() {
-#   defaults write com.apple.finder CreateDesktop false && killall Finder
-# }
+show() {
+  defaults write com.apple.finder CreateDesktop false && killall Finder
+}
 
-# hide() {
-#   defaults write com.apple.finder CreateDesktop false && killall Finder
-# }
+hide() {
+  defaults write com.apple.finder CreateDesktop false && killall Finder
+}
