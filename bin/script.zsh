@@ -4,6 +4,9 @@ mkdir -p ~/.zshify
 curl -s https://raw.githubusercontent.com/nrjdalal/zshify/master/config/prompt.zsh | cat >~/.zshify/prompt.zsh
 grep "source ~/.zshify/prompt.zsh" ~/.zshrc &>/dev/null || echo "source ~/.zshify/prompt.zsh" >>~/.zshrc
 
+curl -s https://raw.githubusercontent.com/nrjdalal/zshify/master/config/alias.zsh | cat >~/.zshify/alias.zsh
+grep "source ~/.zshify/fx.zsh" ~/.zshrc &>/dev/null || echo "source ~/.zshify/alias.zsh" >>~/.zshrc
+
 curl -s https://raw.githubusercontent.com/nrjdalal/zshify/master/config/fx.zsh | cat >~/.zshify/fx.zsh
 grep "source ~/.zshify/fx.zsh" ~/.zshrc &>/dev/null || echo "source ~/.zshify/fx.zsh" >>~/.zshrc
 
