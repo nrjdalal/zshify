@@ -15,8 +15,7 @@ preexec() {
 precmd() {
   CURRENT_BRANCH=$(git branch --show-current 2>/dev/null)
   NEWLINE=$'\n'
-  PROMPT="$newline$USER %F{cyan}%~ %F{white}$CURRENT_BRANCH$NEWLINE%(?.%F{green}.%F{red})%B%(!.#.>)%b%f "
-  newline=$NEWLINE
+  PROMPT="$NEWLINE$USER %F{cyan}%~ %F{white}$CURRENT_BRANCH$NEWLINE%(?.%F{green}.%F{red})%B%(!.#.>)%b%f "
   if [ $TIMER ]; then
     NOW=$(print -P %D{%s%3.})
     local diff=$(($NOW - $TIMER))
