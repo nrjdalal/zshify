@@ -1,5 +1,5 @@
 # make and change to directory
-cdx() {
+mkcd() {
   mkdir -p $1 && cd $1
 }
 
