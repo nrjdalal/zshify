@@ -22,9 +22,9 @@ mkrepo() {
   command git commit -m "$(date)" 2>/dev/null
 
   if [[ "$#" == "0" ]]; then
-    command gh repo create $(basename $(pwd)) --description '' --source . --public --push
-  else
     command gh repo create $(basename $(pwd)) --description '' --source . "$@" --push
+  else
+    command gh repo create $(basename $(pwd)) --description '' --source . --public --push
   fi
 }
 

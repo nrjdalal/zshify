@@ -9,6 +9,10 @@ Zshify is a minimalistic, one command installation to customize the prompt of yo
 Installation is done using the [`npx` command](https://docs.npmjs.com/getting-started/installing-npm-packages-locally):
 
 ```zsh
+bunx zshify
+```
+
+```zsh
 npx zshify
 ```
 
@@ -41,6 +45,29 @@ alias show="defaults write com.apple.finder CreateDesktop true && killall Finder
 
 ## Functions
 
-- cdx: create a directory recursively if it doesn't exists and switch to it
-- g: git add, commit and push (with message)
-- ls: just enhanced version of ls with colors and sorting
+```sh
+# close any application running on a port
+close 3000
+
+# git add, commit and push (with message)
+g "commit message"
+
+# just enhanced version of ls with colors and sorting
+ls
+
+# creates a directory recursively if it doesn't exists and switch to it
+mkcd "newProject" || mkcd "newProject/subProject"
+
+# create a github repo from command line (pass --public for private repo)
+mkrepo || mkrepo --public
+
+# rename current directory to new name
+rename "newName"
+```
+
+## Adanced
+
+```sh
+# to enrich your terminal experience run this command after installing brew
+brew install zsh-syntax-highlightingzsh-autosuggestionszsh-history-substring-search
+```
