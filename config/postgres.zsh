@@ -11,10 +11,6 @@ pglaunch() {
       shift 2
       ;;
 
-    *)
-      echo "Unknown option: $1"
-      exit 1
-      ;;
     # port for postgres container
     -p | --port)
       port="$2"
