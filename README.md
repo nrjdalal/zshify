@@ -6,17 +6,17 @@ Zshify is a minimalistic, one command installation to customize the prompt of yo
 
 ## Installation
 
-Installation is done using the [`npx` command](https://docs.npmjs.com/getting-started/installing-npm-packages-locally):
-
-```zsh
-bunx zshify
-```
+Installation is done using the [`npx`](https://docs.npmjs.com/getting-started/installing-npm-packages-locally) command:
 
 ```zsh
 npx zshify
 ```
 
+Alternatively, you can install using `bunx`.
+
 Yeah that's it, no downloads, no hassle. A minimalistic installation for the minimalistic package.
+
+> See advanced section to to enrich your terminal experience with autosuggestions, history search and syntax highlighting .
 
 ## Why Zshify?
 
@@ -28,7 +28,16 @@ Appearing over and over again with the usual boring info? Like you really want t
 
 Why not change it to it's minimal version? And that too with colors!
 
-## Alias
+## Some addition feature / useful aliases and functions are added as default
+
+### Adanced
+
+```sh
+# to enrich your terminal experience run this command after installing brew
+brew install zsh-autosuggestions zsh-history-substring-search zsh-syntax-highlighting
+```
+
+### Alias
 
 ```sh
 # open files and folders in vscode
@@ -43,7 +52,7 @@ alias hide="defaults write com.apple.finder CreateDesktop false && killall Finde
 alias show="defaults write com.apple.finder CreateDesktop true && killall Finder"
 ```
 
-## Functions
+### Functions
 
 ```sh
 # close any application running on a port
@@ -63,11 +72,4 @@ mkrepo || mkrepo --public
 
 # rename current directory to new name
 rename "newName"
-```
-
-## Adanced
-
-```sh
-# to enrich your terminal experience run this command after installing brew
-brew install zsh-syntax-highlightingzsh-autosuggestionszsh-history-substring-search
 ```
