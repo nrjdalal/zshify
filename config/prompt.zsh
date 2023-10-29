@@ -8,14 +8,16 @@ setopt HIST_IGNORE_ALL_DUPS
 setopt INC_APPEND_HISTORY_TIME
 setopt RM_STAR_SILENT
 
+[ "$PWD" = "$HOME" ] && cd ~/Desktop
+
 preexec() {
   TIMER=$(print -P %D{%s%3.})
 }
 
 precmd() {
   CURRENT_BRANCH=$(git branch --show-current 2>/dev/null)
-  NEWLINE=$'\n'
-  PROMPT="$NEWLINE$USER %F{cyan}%~ %F{white}$CURRENT_BRANCH$NEWLINE%(?.%F{green}.%F{red})%B%(!.#.>)%b%f "
+  [ $TERM_PROGRAM != "vscode" ] && START=$'\n'
+  PROMPT="$START$USER %F{cyan}%~ %F{white}$CURRENT_BRANCH"$'\n'"%(?.%F{green}.%F{red})%B%(!.#.>)%b%f "
   if [ $TIMER ]; then
     NOW=$(print -P %D{%s%3.})
     local diff=$(($NOW - $TIMER))
@@ -29,6 +31,7 @@ precmd() {
     fi
     RPROMPT="%(?.%F{green}.%F{red})${ELAPSED}%f"
   fi
+  START=$'\n'
   unset TIMER
 }
 

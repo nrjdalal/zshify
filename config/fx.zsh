@@ -3,10 +3,16 @@ cdx() {
   mkdir -p $1 && cd $1
 }
 
+# git add & git commit at once | git push
+g() {
+  command git add -A 2>/dev/null
+  command git commit -m "$1" 2>/dev/null
+  command git push
+}
+
 # better listing
 ls() {
-  command ls -A --color
-  # tree --filesfirst -aCL 1 | sed -e 's/├── //g' -e 's/└── //g' | tail -n +2
+  command ls -A --color | sort
 }
 
 # create github repository, pass --private to create private repository
@@ -16,31 +22,9 @@ mkrepo() {
   command git commit -m "$(date)" 2>/dev/null
 
   if [[ "$#" == "0" ]]; then
-    command gh repo create $(basename $(pwd)) -d '' --push -s . --public
+    command gh repo create $(basename $(pwd)) --description '' --source . --public --push
   else
-    command gh repo create $(basename $(pwd)) -d '' --push -s . "$@"
-  fi
-}
-
-# git add & git commit at once | git push
-g() {
-  if [[ "$#" == "0" ]]; then
-    command git add -A 2>/dev/null
-    command git commit -m "$(date)" 2>/dev/null
-    command git push
-  elif [[ "$#" == "1" ]]; then
-    command git add -A 2>/dev/null
-    command git commit -m "$1" 2>/dev/null
-    command git push
-  fi
-}
-
-# manage npm packages using yarn (just add @ in front of npm)
-@npm() {
-  if [[ "$1" == "install" ]]; then
-    command yarn add ${@:2}
-  elif [[ "$1" == "uninstall" ]]; then
-    command yarn remove ${@:2}
+    command gh repo create $(basename $(pwd)) --description '' --source . "$@" --push
   fi
 }
 
