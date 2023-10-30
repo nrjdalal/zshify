@@ -70,6 +70,6 @@ pglaunch() {
   echo
 
   tput setaf 14
-  echo "POSTGRES_URL=postgres://$pguname:$pgupass@localhost:$port/$pgdname"
+  echo "POSTGRES_URL=postgresql://$pguname:$pgupass@localhost:$port/$pgdname"
   tput sgr0
 }
