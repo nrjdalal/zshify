@@ -1,12 +1,12 @@
 {
   "name": "zshify",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "description": "A minimalistic touch to your prompt!",
   "bin": {
     "prompt": "bin/script.zsh"
   },
   "scripts": {
-    "release": "yarn publish --patch"
+    "release": "yarn publish --minor"
   },
   "author": "Neeraj Dalal",
   "repository": {
