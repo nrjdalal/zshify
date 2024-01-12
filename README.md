@@ -9,7 +9,7 @@ Zshify is a minimalistic, one command installation to customize the prompt of yo
 Installation is done using the [`npx`](https://docs.npmjs.com/getting-started/installing-npm-packages-locally) command:
 
 ```zsh
-npx zshify
+bunx zshify
 ```
 
 Alternatively, you can install using `bunx`.
