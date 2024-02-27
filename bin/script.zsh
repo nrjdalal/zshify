@@ -13,7 +13,7 @@ grep "source ~/.zshify/fx.zsh" ~/.zshrc &>/dev/null || echo "source ~/.zshify/fx
 curl -s https://raw.githubusercontent.com/nrjdalal/zshify/master/config/user.zsh | cat >~/.zshify/user.zsh
 grep "source ~/.zshify/user.zsh" ~/.zshrc &>/dev/null || echo "source ~/.zshify/user.zsh" >>~/.zshrc
 
-curl -s https://raw.githubusercontent.com/nrjdalal/zshify/master/config/postgres.zsh | cat >~/.zshify/postgres.zsh
+curl -s https://raw.githubusercontent.com/nrjdalal/pglaunch/main/bin/fx.sh | cat >~/.zshify/postgres.zsh
 grep "source ~/.zshify/postgres.zsh" ~/.zshrc &>/dev/null || echo "source ~/.zshify/postgres.zsh" >>~/.zshrc
 
 which brew &>/dev/null || echo "\n$(tput setaf 1)brew not installed! install via -$(tput sgr0)\n/bin/bash -c \"\$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"\"
