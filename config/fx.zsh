@@ -53,6 +53,11 @@ rename() {
   fi
 }
 
+trash() {
+  command touch rm-a-temp .rm-a-temp
+  command rm -rf * .*
+}
+
 alias mkcd='cdx'
 alias c="code ."
 alias cr="code -r ."

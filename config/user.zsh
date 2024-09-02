@@ -1,4 +1,4 @@
-eval "$(/opt/homebrew/bin/brew shellenv)" &>/dev/null
+eval "$(/opt/homebrew/bin/brew shellenv)"
 
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
