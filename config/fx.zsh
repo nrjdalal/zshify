@@ -17,16 +17,16 @@ ls() {
   command ls -A --color | sort
 }
 
-# create github repository, pass --private to create private repository
+# create github repository, pass nothing for private repo and pass --public for public repo
 mkrepo() {
   command git init
   command git add -A 2>/dev/null
   command git commit -m "$(date)" 2>/dev/null
 
-  if [[ "$#" == "0" ]]; then
-    command gh repo create $(basename $(pwd)) --description '' --source . "$@" --push
-  else
+  if [[ "$1" == "--public" ]]; then
     command gh repo create $(basename $(pwd)) --description '' --source . --public --push
+  else
+    command gh repo create $(basename $(pwd)) --description '' --source . --private --push
   fi
 }
 
