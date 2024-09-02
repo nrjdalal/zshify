@@ -19,5 +19,5 @@ echo "\n$(tput setaf 2)zshify enabled! to reload, run -$(tput sgr0) exec zsh"
 
 # cleanup
 
-grep -vxFf ~/.zshify/user.zsh ~/.zshrc >~/.zshrc.tmp && mv ~/.zshrc.tmp ~/.zshrc
-grep -vxFf ~/.zshify/user.zsh ~/.zprofile >~/.zprofile.tmp && mv ~/.zprofile.tmp ~/.zprofile
+[ -f ~/.zshrc ] && grep -vxFf ~/.zshify/user.zsh ~/.zshrc >~/.zshrc.tmp && mv ~/.zshrc.tmp ~/.zshrc
+[ -f ~/.zprofile ] && grep -vxFf ~/.zshify/user.zsh ~/.zprofile >~/.zprofile.tmp && mv ~/.zprofile.tmp ~/.zprofile
