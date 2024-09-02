@@ -3,7 +3,9 @@ cdx() {
   mkdir -p $1 && cd $1
 }
 
-alias mkcd='cdx'
+clone() {
+  gh repo clone $1
+}
 
 # git add & git commit at once | git push
 g() {
@@ -50,3 +52,7 @@ rename() {
     command echo " rename dirname new_dirname ~ renames existing dir to new"
   fi
 }
+
+alias mkcd='cdx'
+alias c="code ."
+alias cr="code -r ."
