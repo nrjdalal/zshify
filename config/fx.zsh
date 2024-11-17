@@ -4,14 +4,12 @@ cdx() {
 }
 
 clone() {
-  gh repo clone $1
+  gh repo clone $@
 }
 
 # git add & git commit at once | git push
 g() {
-  command git add -A 2>/dev/null
-  command git commit -m "$1" 2>/dev/null
-  command git push
+  command git add -A && command git commit -m "$1" && command git push
 }
 
 # better listing
@@ -53,11 +51,30 @@ rename() {
   fi
 }
 
+# remove all files and folders in current directory
 trash() {
   command touch rm-a-temp .rm-a-temp
   command rm -rf * .*
 }
 
-alias mkcd='cdx'
-alias c="code ."
-alias cr="code -r ."
+# make the current commit the only commit in the repository
+only-commit() {
+  ORIGIN=$(git rev-parse --abbrev-ref origin/HEAD | cut -c8-)
+  command git checkout --orphan newBranch
+  command git add -A
+  if [[ "$#" == "0" ]]; then
+    command git commit -m "feat: initial commit"
+  else
+    command git commit -m "$1"
+  fi
+  command git branch -D $ORIGIN
+  command git branch -m $ORIGIN
+  command git push -f origin $ORIGIN
+  command git gc --aggressive --prune=all
+}
+
+# remove the latest commit
+undo() {
+  command git reset --hard HEAD~1
+  command git push -f
+}
