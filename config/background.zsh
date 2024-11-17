@@ -43,6 +43,8 @@ if [ $TIME_DIFF -gt 86400 ]; then
       # Log the steps with timestamp
       echo \"$timestamp > Running brew update\"
       brew update
+      # Sync personal profile
+      source ~/.zshify/profile.zsh
       echo \"$timestamp > Running brew upgrade\"
       brew upgrade
       echo \"$timestamp > Running brew cleanup\"
