@@ -6,9 +6,18 @@ if [[ "$USER" == "$MATCH_USERNAME" ]]; then
   git config --global init.defaultBranch "main"
   echo "Git configuration updated."
 
-  brew install fzf gh git mas nvm rsync zoxide zsh-autosuggestions zsh-history-substring-search zsh-syntax-highlighting
+  echo "Running brew update"
+  brew update
+
+  brew install -q fzf gh git mas nvm rsync zoxide zsh-autosuggestions zsh-history-substring-search zsh-syntax-highlighting
   echo "Brew formulae ensured."
 
-  brew install --cask google-chrome visual-studio-code applite bruno fontbase iina numi qbittorrent spotify affinity-designer affinity-photo affinity-publisher
+  brew install -q --cask google-chrome visual-studio-code applite bruno fontbase iina numi qbittorrent spotify affinity-designer affinity-photo affinity-publisher
   echo "Brew casks ensured."
+
+  echo "Running brew upgrade"
+  brew upgrade
+
+  echo "Running brew cleanup"
+  brew cleanup --prune=1 -s
 fi
