@@ -13,6 +13,9 @@ grep "source ~/.zshify/fx.zsh" ~/.zshrc &>/dev/null || echo "source ~/.zshify/fx
 curl -s https://raw.githubusercontent.com/nrjdalal/zshify/master/config/alias.zsh | cat >~/.zshify/alias.zsh
 grep "source ~/.zshify/alias.zsh" ~/.zshrc &>/dev/null || echo "source ~/.zshify/alias.zsh" >>~/.zshrc
 
+curl -s https://raw.githubusercontent.com/nrjdalal/zshify/master/config/plugins.zsh | cat >~/.zshify/plugins.zsh
+grep "source ~/.zshify/plugins.zsh" ~/.zshrc &>/dev/null || echo "source ~/.zshify/plugins.zsh" >>~/.zshrc
+
 curl -s https://raw.githubusercontent.com/nrjdalal/zshify/master/config/user.zsh | cat >~/.zshify/user.zsh
 grep "source ~/.zshify/user.zsh" ~/.zshrc &>/dev/null || echo "source ~/.zshify/user.zsh" >>~/.zshrc
 
