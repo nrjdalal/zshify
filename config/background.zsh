@@ -1,64 +1,82 @@
+#!/bin/zsh
+
+INTERVAL=86400      # Time interval for running the background task
+LOG_INTERVAL=604800 # Log entries older than this (in seconds) will be removed
 LOCK_FILE="/tmp/background.lock"
 LOG_DIR="$HOME/.logs"
 LOG_FILE="$LOG_DIR/.brew.log"
 
+# Ensure log directory exists
+mkdir -p "$LOG_DIR"
+
 # Get the timestamp of the last run from the log file
 LAST_RUN_TIMESTAMP=$(grep -m 1 "ZSHIFY_BACKROUND_RUN" "$LOG_FILE" | awk -F" > " '{print $1}' | tail -n 1)
 
-# Check if 24 hours have passed since the last run
 if [ -z "$LAST_RUN_TIMESTAMP" ]; then
-  # If no last run timestamp exists, we assume it's the first time running
-  TIME_DIFF=86401 # Set time difference to more than 24 hours
+  # No previous run timestamp
+  TIME_DIFF=$((INTERVAL + 1))
 else
-  # Convert the timestamp to epoch time (seconds since 1970-01-01)
-  LAST_RUN_EPOCH=$(date -j -f "%Y-%m-%d %H:%M:%S" "$LAST_RUN_TIMESTAMP" +%s)
-  CURRENT_EPOCH=$(date +%s)
+  # Trim trailing spaces from the timestamp
+  LAST_RUN_TIMESTAMP=$(echo "$LAST_RUN_TIMESTAMP" | sed 's/[[:space:]]*$//')
 
-  # Calculate time difference in seconds
-  TIME_DIFF=$((CURRENT_EPOCH - LAST_RUN_EPOCH))
+  # Check if timestamp has time (if not, append 00:00:00)
+  if [[ "$LAST_RUN_TIMESTAMP" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}$ ]]; then
+    LAST_RUN_TIMESTAMP="$LAST_RUN_TIMESTAMP 00:00:00" # Adding default time
+  fi
+
+  # Convert timestamp to epoch (macOS-compatible)
+  LAST_RUN_EPOCH=$(date -j -f "%Y-%m-%d %H:%M:%S" "$LAST_RUN_TIMESTAMP" +%s 2>/dev/null)
+
+  if [ -z "$LAST_RUN_EPOCH" ]; then
+    # If the conversion failed, fall back to a default timestamp (e.g., 1970-01-01)
+    LAST_RUN_EPOCH=0
+  fi
+
+  TIME_DIFF=$(($(date +%s) - LAST_RUN_EPOCH))
 fi
 
-# If 24 hours have passed or it's the first run
-if [ $TIME_DIFF -gt 86400 ]; then
-  # Check if the lock file exists to avoid running multiple instances
-  if [ ! -f "$LOCK_FILE" ]; then
-    # Set options to suppress job control notifications
+if [ $TIME_DIFF -gt $INTERVAL ]; then
+  # Create a lock using `ln`
+  if ln -s "$LOCK_FILE" "$LOCK_FILE.lock" 2>/dev/null; then
+    # Set Zsh options to suppress job control notifications
     setopt NO_MONITOR NO_NOTIFY
 
-    # Create log directory if it doesn't exist
-    mkdir -p "$LOG_DIR"
+    # Delete logs older than the log interval
+    find "$LOG_DIR" -type f -name "*.log" -exec zsh -c '
+      for file; do
+        # Get the modification time of the file in seconds since the epoch
+        FILE_TIMESTAMP=$(stat -f %m "$file")
+        CURRENT_EPOCH=$(date +%s)
+        AGE=$((CURRENT_EPOCH - FILE_TIMESTAMP))
 
-    # Delete log files older than 7 days
-    find "$LOG_DIR" -type f -name "*.log" -mtime +7 -exec rm {} \;
+        # If the file is older than the LOG_INTERVAL, remove it
+        if [ $AGE -gt "$LOG_INTERVAL" ]; then
+          rm "$file"
+        fi
+      done
+    ' _ {} +
 
-    # Define the timestamp
-    timestamp=$(date +"%Y-%m-%d %H:%M:%S")
+    # Start the background task with nohup
+    nohup zsh -c "
+      trap 'rm -f \"$LOCK_FILE.lock\"' EXIT
 
-    # Run brew update, upgrade, and cleanup in the background
-    nohup bash -c "
-      # Trap to ensure the lock file is removed even if commands fail
-      trap 'rm -f \"$LOCK_FILE\"' EXIT
+      # Log the start time
+      echo \"$(date +"%Y-%m-%d %H:%M:%S") > ZSHIFY_BACKROUND_RUN\" >> \"$LOG_FILE\"
 
-      # Create the lock file to prevent multiple instances
-      touch \"$LOCK_FILE\"
-
-      # Log the start of the background tasks
-      echo \"$timestamp ZSHIFY_BACKROUND_RUN\"
-
-      # Sync personal profile for background tasks
+      # Source profile
       source ~/.zshify/profile.zsh
     " >>"$LOG_FILE" 2>&1 </dev/null &
 
-    # Disown the background process so it doesn't block terminal
+    # Detach the process
     disown
+
+    # Unset the options after the background task is started
+    unsetopt NO_MONITOR NO_NOTIFY
   else
-    # If lock file exists, log that background tasks are already running
+    # If the lock exists, log that background tasks are already running
     echo "$(date +"%Y-%m-%d %H:%M:%S") > Background tasks are already running." >>"$LOG_FILE"
   fi
 else
-  # Ensure the log directory exists before writing
-  mkdir -p "$LOG_DIR"
-
-  # Log the message that 24 hours haven't passed yet
-  echo "$(date +"%Y-%m-%d %H:%M:%S") > 24 hours haven't passed since the last run." >>"$LOG_FILE"
+  # Log that the background task last ran within the time interval
+  echo "$(date +"%Y-%m-%d %H:%M:%S") > Background task last ran within the time interval." >>"$LOG_FILE"
 fi
