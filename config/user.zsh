@@ -9,5 +9,8 @@ command -v fzf &>/dev/null && source <(fzf --zsh)
 # zoxide
 command -v zoxide &>/dev/null && eval "$(zoxide init zsh --cmd cd)"
 
+# bun
+[ -d ~/.bun/bin ] && PATH=~/.bun/bin:$PATH
+
 # console-ninja
 [ -d ~/.console-ninja/.bin ] && PATH=~/.console-ninja/.bin:$PATH
