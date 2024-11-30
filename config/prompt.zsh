@@ -16,7 +16,7 @@ preexec() {
 
 precmd() {
   CURRENT_BRANCH=$(git branch --show-current 2>/dev/null)
-  [ $TERM_PROGRAM != "vscode" ] && START=$'\n'
+  [[ "$(fc -ln -1)" == "clear" ]] && START=""
   PROMPT="$START$USER %F{cyan}%~ %F{white}$CURRENT_BRANCH"$'\n'"%(?.%F{green}.%F{red})%B%(!.#.>)%b%f "
   if [ $TIMER ]; then
     NOW=$(print -P %D{%s%3.})
