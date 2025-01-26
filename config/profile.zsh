@@ -4,7 +4,6 @@ if [[ "$USER" == "$MATCH_USERNAME" ]]; then
   git config --global user.name "Neeraj Dalal"
   git config --global user.email "admin@nrjdalal.com"
   git config --global init.defaultBranch "main"
-  echo "Git configuration updated."
 
   echo "Running brew update"
   brew update
