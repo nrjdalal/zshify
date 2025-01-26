@@ -12,5 +12,8 @@ command -v zoxide &>/dev/null && eval "$(zoxide init zsh --cmd cd)"
 # bun
 [ -d ~/.bun/bin ] && PATH=~/.bun/bin:$PATH
 
+# bun completions
+[ -s ~/.bun/_bun ] && source ~/.bun/_bun
+
 # console-ninja
 [ -d ~/.console-ninja/.bin ] && PATH=~/.console-ninja/.bin:$PATH
