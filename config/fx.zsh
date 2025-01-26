@@ -79,3 +79,28 @@ undo() {
   command git reset --hard HEAD~1
   command git push -f
 }
+
+# better npm
+if command -v bun &> /dev/null; then
+  npm() {
+    if [[ "$*" == *"--real"* ]]; then
+      command npm "${@/--real/}"
+    else
+      bun "$@"
+    fi
+  }
+  npx() {
+    if [[ "$*" == *"--real"* ]]; then
+      command npx "${@/--real/}"
+    else
+      bun x "$@"
+    fi
+  }
+else
+  npm() {
+    command npm "$@"
+  }
+  npx() {
+    command npx "$@"
+  }
+fi
