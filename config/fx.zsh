@@ -80,20 +80,24 @@ undo() {
   command git push -f
 }
 
-# better npm
+# improving npm with bun
 if command -v bun &>/dev/null; then
   npm() {
-    if [[ "$*" == *"--real"* ]]; then
+    if [[ "$*" == *"--real"* ]] || [[ -n "$USE_REAL_NPM" ]]; then
+      export USE_REAL_NPM=1
+      trap 'unset USE_REAL_NPM' EXIT
       command npm "${@/--real/}"
     else
       bun "$@"
     fi
   }
   npx() {
-    if [[ "$*" == *"--real"* ]]; then
+    if [[ "$*" == *"--real"* ]] || [[ -n "$USE_REAL_NPX" ]]; then
+      export USE_REAL_NPX=1
+      trap 'unset USE_REAL_NPX' EXIT
       command npx "${@/--real/}"
     else
-      bun x "$@"
+      bunx "$@"
     fi
   }
 else
