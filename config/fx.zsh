@@ -86,7 +86,7 @@ if command -v bun &>/dev/null; then
     if [[ "$*" == *"--real"* ]] || [[ -n "$USE_REAL_NPM" ]]; then
       export USE_REAL_NPM=1
       trap 'unset USE_REAL_NPM' EXIT
-      command npm "${@/--real/}"
+      command npm $(echo "${@/--real/}" | xargs)
     else
       bun "$@"
     fi
@@ -95,7 +95,7 @@ if command -v bun &>/dev/null; then
     if [[ "$*" == *"--real"* ]] || [[ -n "$USE_REAL_NPX" ]]; then
       export USE_REAL_NPX=1
       trap 'unset USE_REAL_NPX' EXIT
-      command npx "${@/--real/}"
+      command npx $(echo "${@/--real/}" | xargs)
     else
       bunx "$@"
     fi
