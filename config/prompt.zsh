@@ -20,7 +20,7 @@ precmd() {
   # fi
   # get the number of dependencies in package.json
   DEPS=$(jq '.dependencies | length' package.json 2>/dev/null)
-  DEPS=$([ $DEPS -eq 0 ] && echo "" || echo " 📦$DEPS")
+  DEPS=$([ "$DEPS" -eq 0 ] 2>/dev/null && echo "" || echo " 📦$DEPS")
   # get the current branch
   CURRENT_BRANCH=$(git branch --show-current 2>/dev/null)
   [[ "$(fc -ln -1)" == "clear" ]] && START=""
