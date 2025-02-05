@@ -15,6 +15,9 @@ preexec() {
 }
 
 precmd() {
+  # if [ $? -ne 0 ]; then
+  #   run some command if the last command failed
+  # fi
   CURRENT_BRANCH=$(git branch --show-current 2>/dev/null)
   [[ "$(fc -ln -1)" == "clear" ]] && START=""
   PROMPT="$START$USER %F{cyan}%~ %F{white}$CURRENT_BRANCH"$'\n'"%(?.%F{green}.%F{red})%B%(!.#.>)%b%f "

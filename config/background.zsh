@@ -4,10 +4,18 @@ INTERVAL=86400      # Time interval for running the background task
 LOG_INTERVAL=604800 # Log entries older than this (in seconds) will be removed
 LOCK_FILE="/tmp/background.lock"
 LOG_DIR="$HOME/.logs"
-LOG_FILE="$LOG_DIR/.brew.log"
+LOG_FILE="$LOG_DIR/.brewlog"
 
-# Ensure log directory exists
 mkdir -p "$LOG_DIR"
+touch "$LOG_FILE"
+
+brewlog() {
+  if [ -z "$1" ]; then
+    cat "$LOG_FILE"
+  elif [ "$1" == "clear" ]; then
+    echo "" >"$LOG_FILE"
+  fi
+}
 
 # Get the timestamp of the last run from the log file
 LAST_RUN_TIMESTAMP=$(grep -m 1 "ZSHIFY_BACKROUND_RUN" "$LOG_FILE" | awk -F" > " '{print $1}' | tail -n 1)
