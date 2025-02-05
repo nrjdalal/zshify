@@ -9,7 +9,7 @@ if [[ "$USER" == "$MATCH_USERNAME" ]]; then
   echo "Running brew update"
   brew update
 
-  brew install -q fzf gh git mas nvm rsync zoxide zsh-autosuggestions zsh-history-substring-search zsh-syntax-highlighting
+  brew install -q fzf gh git jq mas nvm rsync zoxide zsh-autosuggestions zsh-history-substring-search zsh-syntax-highlighting
   echo "Brew formulae ensured."
 
   brew install -q --cask google-chrome visual-studio-code applite bruno fontbase iina numi qbittorrent spotify affinity-designer affinity-photo affinity-publisher

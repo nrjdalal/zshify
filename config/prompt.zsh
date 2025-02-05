@@ -16,11 +16,16 @@ preexec() {
 
 precmd() {
   # if [ $? -ne 0 ]; then
-  #   run some command if the last command failed
+  #   run a command if the last command failed
   # fi
+  # get the number of dependencies in package.json
+  DEPS=$(jq '.dependencies | length' package.json 2>/dev/null)
+  DEPS=$([ $DEPS -eq 0 ] && echo "" || echo " 📦$DEPS")
+  # get the current branch
   CURRENT_BRANCH=$(git branch --show-current 2>/dev/null)
   [[ "$(fc -ln -1)" == "clear" ]] && START=""
-  PROMPT="$START$USER %F{cyan}%~ %F{white}$CURRENT_BRANCH"$'\n'"%(?.%F{green}.%F{red})%B%(!.#.>)%b%f "
+  # set the prompt to the current user, directory, branch, and dependencies
+  PROMPT="$START$USER %F{cyan}%~ %F{15}$CURRENT_BRANCH$DEPS"$'\n'"%(?.%F{green}.%F{red})%B%(!.#.>)%b%f "
   if [ $TIMER ]; then
     NOW=$(print -P %D{%s%3.})
     local diff=$(($NOW - $TIMER))
