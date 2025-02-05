@@ -17,7 +17,7 @@ curl -s https://raw.githubusercontent.com/nrjdalal/pglaunch/main/bin/fx.sh | cat
 grep "source ~/.zshify/config/postgres.zsh" ~/.zshrc &>/dev/null || echo "source ~/.zshify/config/postgres.zsh" >>~/.zshrc
 
 # Check if Homebrew is installed
-which brew &>/dev/null || echo "\n$(tput setaf 1)brew not installed! install via -$(tput sgr0)\n/bin/bash -c \"\$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"\"
+which brew &>/dev/null || echo "\n$(tput setaf 1)brew not installed! install via -$(tput sgr0)\n/bin/bash -c \"\$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)\""
 
 echo "\n$(tput setaf 2)zshify enabled! to reload, run -$(tput sgr0) exec zsh"
 
