@@ -1,0 +1,30 @@
+{
+  "name": "zshify",
+  "version": "13.1.0",
+  "description": "A minimalistic touch to your prompt!",
+  "bin": {
+    "prompt": "bin/script.zsh"
+  },
+  "author": "Neeraj Dalal",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nrjdalal/zshify.git"
+  },
+  "homepage": "https://github.com/nrjdalal/zshify#readme",
+  "bugs": {
+    "url": "https://github.com/nrjdalal/zshify/issues"
+  },
+  "license": "MIT",
+  "keywords": [
+    "zsh",
+    "zshell",
+    "terminal",
+    "sh",
+    "shell",
+    "bash",
+    "minimal",
+    "fast",
+    "prompt",
+    "theme"
+  ]
+}
