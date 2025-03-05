@@ -7,7 +7,11 @@ cdx() {
 clone() {
   gh repo clone $@
 }
-g() { git add -A && git commit -m "$*" && git push || git push; }
+
+# add, commit and push changes
+g() {
+  git add -A && git commit -m "$*" && git push || git push
+}
 
 # create github repository, pass nothing for private repo and pass --public for public repo
 mkrepo() {
