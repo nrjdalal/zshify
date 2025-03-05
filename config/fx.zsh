@@ -17,15 +17,12 @@ g() {
   commit_message="${*:-chore: small tweaks}"
 
   [[ "$commit_message" != *:* ]] && commit_message="chore: $commit_message"
-  if [[ ${#commit_files} -lt 100 ]]; then
+  if [[ $(echo "$commit_files" | awk -F, '{print NF}') -le 3 ]]; then
     commit_summary="$commit_files | $commit_diff"
   else
-    commit_summary="$commit_diff"
+    commit_summary="$(echo "$commit_files" | cut -d, -f1-3), ... | $commit_diff"
   fi
-  full_commit_message="$commit_message | $commit_summary
-
-$commit_diff:
-$commit_files"
+  full_commit_message="$commit_message | $commit_summary"
 
   git commit -m "$full_commit_message" && git push || git push
 }
