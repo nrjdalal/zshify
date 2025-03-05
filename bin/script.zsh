@@ -14,10 +14,10 @@ for config in prompt background fx alias plugins user postgres; do
 done
 
 echo
-echo "-------------- $(tput setaf 2)zshify successfully installed!$(tput sgr0) --------------"
+echo "-------------- $(tput setaf 2)zshify successfully installed\!$(tput sgr0) --------------"
 if ! command -v brew &>/dev/null; then
   echo
-  echo "you can't brew without the brew, right? hightly recommended!"
+  echo "you can't brew without the brew, right? hightly recommended\!"
   echo
   echo "--- $(tput setaf 6)/bin/bash -c \"\$(curl -fsSL https://rdt.li/homebrew)\"$(tput sgr0) ---"
 fi
