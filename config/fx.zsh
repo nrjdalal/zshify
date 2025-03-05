@@ -12,39 +12,27 @@ clone() {
 g() {
   commit_message="${*:-chore: small tweaks}"
   modified_files=$(git diff --name-only)
-  new_files=$(git ls-files --others --exclude-standard)
-  all_files="$modified_files"$'\n'"$new_files"
-  file_count=$(echo "$all_files" | wc -w | xargs)
-  char_count=$(echo "$all_files" | wc -c | xargs)
+  file_count=$(echo "$modified_files" | wc -w | xargs)
+  char_count=$(echo "$modified_files" | wc -c | xargs)
   current_branch=$(git branch --show-current)
   username=$(git config user.name)
   current_time=$(date +"%Y-%m-%d %H:%M:%S")
   lines_changed=$(git diff --shortstat | awk '{print "+" ($4 ? $4 : 0) " -" ($6 ? $6 : 0)}')
-
-  # Calculate lines added/removed for new files
-  for file in $new_files; do
-    if [[ -f $file ]]; then
-      new_lines=$(wc -l <"$file" | xargs)
-      lines_changed="+$new_lines -0"
-    fi
-  done
 
   [[ "$commit_message" != *:* ]] && commit_message="chore: $commit_message"
 
   git add -A
 
   label="files" && [[ "$file_count" -eq 1 ]] && label="file"
-
-  commit_summary="$all_files changed" && [[ "$char_count" -ge 100 ]] && commit_summary="$file_count $label changed"
-
-  full_commit_message="$commit_message | $commit_summary | $lines_changed
+  commit_summary="$modified_files changed" && [[ "$char_count" -ge 100 ]] && commit_summary="$file_count $label changed"
+  full_commit_message="$commit_message | $commit_summary| $lines_changed
 
 Branch: $current_branch
 User: $username
 Date: $current_time
 
 $file_count $label changed:
-$all_files"
+$modified_files"
 
   git commit -m "$full_commit_message" && git push || git push
 }
