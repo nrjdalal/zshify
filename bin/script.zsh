@@ -6,6 +6,7 @@ if [ $? -ne 0 ]; then
   echo
   echo "Git is not available. Please Xcode Command Line Tools first\!"
   xcode-select --install &>/dev/null
+  echo
   return 1
 fi
 
@@ -15,7 +16,8 @@ if ! command -v brew &>/dev/null; then
   echo
   echo "--- $(tput setaf 6)/bin/bash -c \"\$(curl -fsSL https://rdt.li/homebrew)\"$(tput sgr0) ---"
   echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> /Users/nrjdalal/.zprofile
-  eval "$(/opt/homebrew/bin/brew shellenv)"
+  eval "$(/opt/homebrew/bin/brew shellenv)" &>/dev/null
+  echo
   return 1
 fi
 
