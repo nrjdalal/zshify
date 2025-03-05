@@ -2,7 +2,7 @@
 
 if ! command -v brew &>/dev/null; then
   echo
-  echo "You can't brew without the brew, right? Please install Homebrew first."
+  echo "you can't brew without the brew, right? highly recommended\!"
   echo
   echo "--- $(tput setaf 6)/bin/bash -c \"\$(curl -fsSL https://rdt.li/homebrew)\"$(tput sgr0) ---"
   exit 1
