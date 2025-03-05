@@ -2,10 +2,10 @@
 
 if ! command -v brew &>/dev/null; then
   echo
-  echo "you can't brew without the brew, right? highly recommended\!"
+  echo "You cannot brew without the brew, right? Install brew first\!"
   echo
   echo "--- $(tput setaf 6)/bin/bash -c \"\$(curl -fsSL https://rdt.li/homebrew)\"$(tput sgr0) ---"
-  exit 1
+  return 0
 fi
 
 TEMP_DIR=$(mktemp -d)
@@ -20,7 +20,6 @@ done
 
 echo
 echo "-------------- $(tput setaf 2)zshify successfully installed\!$(tput sgr0) --------------"
-
 echo
 echo "It is recommended to reload the shell, run $(tput setaf 3)exec zsh$(tput sgr0) to do so"
 echo
