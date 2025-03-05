@@ -17,7 +17,7 @@ g() {
   branch_name=$(git branch --show-current)
   user_name=$(git config user.name)
   timestamp=$(date +"%Y-%m-%d %H:%M:%S")
-  loc_changed=$(git diff --shortstat | awk '{print "+" $4 " -" $6 " lines changed"}')
+  loc_changed=$(git diff --shortstat | awk '{print "+" ($4 ? $4 : 0) " -" ($6 ? $6 : 0)}')
 
   [[ "$commit_msg" != *:* ]] && commit_msg="chore: $commit_msg"
 
@@ -25,16 +25,16 @@ g() {
 
   file_label="files" && [[ "$changed_files_count" -eq 1 ]] && file_label="file"
 
-  commit_details="$changed_files changed"
-  [[ "$changed_files_char_count" -ge 100 ]] && commit_details="$changed_files_count $file_label changed"
+  commit_details="$changed_files changed" && [[ "$changed_files_char_count" -ge 100 ]] && commit_details="$changed_files_count $file_label changed"
 
-  full_commit_msg="$commit_msg | $commit_details | $loc_changed
-  
+  full_commit_msg="$commit_msg | $commit_details | $loc_changed lines changed
+
 Branch: $branch_name
 User: $user_name
 Date: $timestamp
 
 $changed_files_count $file_label changed:
+
 $changed_files"
 
   git commit -m "$full_commit_msg" && git push || git push
