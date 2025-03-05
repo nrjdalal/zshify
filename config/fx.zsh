@@ -13,12 +13,13 @@ g() {
   git add -A
 
   commit_diff=$(git diff HEAD --shortstat | sed -E 's/ insertions?[^)]*\)/+/g; s/ deletions?[^)]*\)/-/g' | xargs | tr -d ',')
-  commit_files=$(git diff HEAD --name-only | paste -sd ', ' -)
+  commit_files=$(git diff HEAD --name-only)
+  commit_files_comma_separated=$(echo "$commit_files" | tr '\n' ',')
 
   commit_message="${*:-chore: small tweaks}"
   [[ "$commit_message" != *:* ]] && commit_message="chore: $commit_message"
-  commit_message=$(echo "$commit_message|$commit_diff|$commit_files" | cut -c1-94)
-  [[ ${#commit_message} -eq 95 ]] && commit_message="$commit_with_diff..."
+  commit_message=$(echo "$commit_message|$commit_diff|$commit_files_comma_separated" | cut -c1-93)
+  [[ ${#commit_message} -eq 93 ]] && commit_message="$commit_message..."
   IFS='|' read -r part1 part2 part3 <<<"$commit_message"
   commit_message="$part1 | $part3 | $part2"
 
