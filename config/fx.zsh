@@ -27,14 +27,13 @@ g() {
 
   commit_details="$changed_files changed" && [[ "$changed_files_char_count" -ge 100 ]] && commit_details="$changed_files_count $file_label changed"
 
-  full_commit_msg="$commit_msg | $commit_details | $loc_changed lines changed
+  full_commit_msg="$commit_msg | $commit_details | $loc_changed
 
 Branch: $branch_name
 User: $user_name
 Date: $timestamp
 
 $changed_files_count $file_label changed:
-
 $changed_files"
 
   git commit -m "$full_commit_msg" && git push || git push
