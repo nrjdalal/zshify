@@ -17,7 +17,8 @@ g() {
 
   commit_message="${*:-chore: small tweaks}"
   [[ "$commit_message" != *:* ]] && commit_message="chore: $commit_message"
-  commit_with_diff=$(echo "$commit_message | $commit_diff | $commit_files" | cut -c1-100)
+  commit_with_diff=$(echo "$commit_message | $commit_diff | $commit_files" | cut -c1-95)
+  [[ ${#commit_with_diff} -eq 95 ]] && commit_with_diff="$commit_with_diff ... "
 
   commit_message="$commit_with_diff
   
