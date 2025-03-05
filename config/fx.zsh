@@ -82,13 +82,18 @@ rename() {
 
 # Better rm command
 rm() {
+  secure_dirs=("$HOME" "$HOME/Desktop" "$HOME/Documents")
+
   if [[ "$*" == *"--confirm"* ]]; then
     set -- "${@/--confirm/}"
+    shift
   else
-    if [[ "$(pwd)" == "$HOME" ]]; then
-      echo "You are in the home directory. Use --confirm to proceed."
-      return 1
-    fi
+    for dir in "${secure_dirs[@]}"; do
+      if [[ "$(pwd)" =~ ^"$dir"(/|$) ]]; then
+        echo "\nYou are in a secured directory. Use --confirm to proceed."
+        return 1
+      fi
+    done
   fi
 
   if [[ "$#" -eq 0 ]]; then
