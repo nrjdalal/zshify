@@ -31,7 +31,7 @@ g() {
     commit_details="$changed_files_count $file_label changed"
   fi
 
-  full_commit_msg="$commit_msg - $commit_details ($loc_changed)
+  full_commit_msg="$commit_msg - $commit_details / $loc_changed
 
 Branch: $branch_name
 User: $user_name
