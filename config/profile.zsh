@@ -21,6 +21,9 @@ if [[ "$USER" == "$MATCH_USERNAME" ]]; then
   brew install -q --cask bruno fontbase iina numi qbittorrent spotify raycast affinity-designer affinity-photo affinity-publisher
   echo "Secondary casks ensured."
 
+  echo "Prompt based installations done."
+  echo "brew install --cask docker karabiner-elements"
+
   echo "Running brew upgrade"
   brew upgrade
 
