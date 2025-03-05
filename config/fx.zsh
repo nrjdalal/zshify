@@ -12,13 +12,13 @@ clone() {
 g() {
   commit_msg="$*"
   changed_files=$(git diff --name-only)
-  changed_files_count=$(echo "$changed_files" | wc -w)
-  changed_files_length=$(echo "$changed_files" | wc -c)
+  changed_files_count=$(echo "$changed_files" | wc -w | xargs)
+  changed_files_length=$(echo "$changed_files" | wc -c | xargs)
 
   commit_msg="${commit_msg:-chore: small tweaks}"
   [[ "$commit_msg" != *:* ]] && commit_msg="chore: $commit_msg"
 
-  if [[ "$changed_files_length" -le 1 ]]; then
+  if [[ "$changed_files_length" -le 10 ]]; then
     commit_msg="$commit_msg - $changed_files"
   else
     commit_msg="$commit_msg - $changed_files_count files changed"
