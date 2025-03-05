@@ -82,12 +82,19 @@ rename() {
 
 # Better rm command
 rm() {
-  declare -a secure_dirs=("$HOME" "$HOME/Desktop" "$HOME/Documents")
+  declare -a secure_dirs=("$HOME" "$HOME/Desktop")
 
-  if [[ "$*" == *"--confirm"* ]]; then
-    set -- "${@/--confirm/}"
-    shift
-  else
+  local confirm=false
+  local args=()
+  for arg in "$@"; do
+    if [[ "$arg" == "--confirm" ]]; then
+      confirm=true
+    else
+      args+=("$arg")
+    fi
+  done
+
+  if ! $confirm; then
     local current_dir=$(pwd | tr '[:upper:]' '[:lower:]')
     for dir in "${secure_dirs[@]}"; do
       if [[ "$current_dir" == "$(echo "$dir" | tr '[:upper:]' '[:lower:]')" ]]; then
@@ -97,7 +104,7 @@ rm() {
     done
   fi
 
-  if [[ "$#" -eq 0 ]]; then
+  if [[ "${#args[@]}" -eq 0 ]]; then
     local dir_count=$(find . -maxdepth 1 -type d ! -name "." ! -name ".." | wc -l | xargs)
     local file_count=$(find . -maxdepth 1 -type f ! -name "." ! -name ".." ! -name ".*" | wc -l | xargs)
     local hidden_file_count=$(find . -maxdepth 1 -type f -name ".*" ! -name "." ! -name ".." | wc -l | xargs)
@@ -105,7 +112,7 @@ rm() {
     find . -maxdepth 1 ! -name "." ! -name ".." -exec rm -rf {} +
     echo -e "\n$dir_count directories, $file_count files removed"
   else
-    command rm "$@"
+    command rm "${args[@]}"
   fi
 }
 

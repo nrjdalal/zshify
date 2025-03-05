@@ -27,6 +27,11 @@ if [[ "$USER" == "$MATCH_USERNAME" ]]; then
   echo "==> Running brew cleanup..."
   brew cleanup --prune=1 -s
 
+  echo "==> Ensuring node..."
+  nvm install --lts
+  corepack enable pnpm
+  corepack enable yarn
+
   if [[ ! -d ~/.config/karabiner/.git ]]; then
     echo "==> Cloning karabiner configuration..."
     mkdir -p ~/.config/karabiner && cd ~/.config/karabiner && trash
@@ -36,10 +41,6 @@ if [[ "$USER" == "$MATCH_USERNAME" ]]; then
   echo "==> Some manual steps if not already done...
 
 ---------------------------------------------
-
-nvm install --lts
-corepack enable pnpm
-corepack enable yarn
 
 brew install --cask docker karabiner-elements
 
