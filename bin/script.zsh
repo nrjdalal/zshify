@@ -1,11 +1,18 @@
 #!/bin/zsh
 
+if ! command -v git &>/dev/null; then
+  echo
+  echo "Git is not available. Please Xcode Command Line Tools first\!"
+  xcode-select --install &>/dev/null
+  return 1
+fi
+
 if ! command -v brew &>/dev/null; then
   echo
   echo "You cannot brew without the brew, right? Install brew first\!"
   echo
   echo "--- $(tput setaf 6)/bin/bash -c \"\$(curl -fsSL https://rdt.li/homebrew)\"$(tput sgr0) ---"
-  return 0
+  return 1
 fi
 
 TEMP_DIR=$(mktemp -d)
