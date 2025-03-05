@@ -24,7 +24,7 @@ g() {
 
   git commit -m "$(
     cat <<EOF
-$commit_msg - $changed_files_count $file_label affected:
+$commit_msg - $changed_files_count $file_label affected
 
 $changed_files
 EOF
