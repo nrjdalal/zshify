@@ -1,19 +1,33 @@
-# create directory and cd into it
+# Create a directory and navigate into it
 cdx() {
   mkdir -p $1 && cd $1
 }
 
-# clone a github repository
+# Clone a GitHub repository
 clone() {
   gh repo clone $@
 }
 
-# add, commit and push changes
+# Add, commit, and push changes to git
 g() {
-  git add -A && git commit -m "$*" && git push || git push
+  commit_msg="$*"
+  changed_files=$(git diff --name-only)
+  changed_files_count=$(echo "$changed_files" | wc -w)
+  changed_files_length=$(echo "$changed_files" | wc -c)
+
+  commit_msg="${commit_msg:-chore: tweak}"
+  [[ "$commit_msg" != *:* ]] && commit_msg="chore: $commit_msg"
+
+  if [[ "$changed_files_length" -le 50 ]]; then
+    commit_msg="$commit_msg - $changed_files"
+  else
+    commit_msg="$commit_msg - $changed_files_count files changed"
+  fi
+
+  git add -A && git commit -m "$commit_msg" && git push || git push
 }
 
-# create github repository, pass nothing for private repo and pass --public for public repo
+# Initialize a git repository, add files, and create a GitHub repository
 mkrepo() {
   git init && git add -A
 
@@ -29,12 +43,25 @@ mkrepo() {
   gh repo create $(basename $(pwd)) --description '' --source . $repo_type --push
 }
 
-# kill pid by port
-close() {
-  lsof -i :$1 | awk '{print $2}' | tail +2 | xargs kill -9
+# Kill processes using a specific port
+killport() {
+  if [[ -z "$1" ]]; then
+    echo "Usage: close_port <port>"
+    return 1
+  fi
+
+  pids=$(lsof -ti :$1)
+
+  if [[ -z "$pids" ]]; then
+    echo "No processes found using port $1"
+    return 0
+  fi
+
+  echo "$pids" | xargs kill -9
+  echo "Closed processes using port $1"
 }
 
-# rename current working dir or an existing folder
+# Rename current working directory or existing directory
 rename() {
   if [[ "$#" == "1" ]]; then
     [ ! -d "../$1/" ] && rsync -a "$(pwd)/" "../$1" && rm -rf "$(pwd)/" && cd "../$1/"
@@ -45,18 +72,17 @@ rename() {
     [ ! -d "$2/" ] && rsync -a "$1/" "$2" && rm -rf "$1/"
   else
     echo "Usage:"
-    echo " rename new_dirname         ~ renames current working dir"
-    echo " rename dirname new_dirname ~ renames existing dir to new"
+    echo " rename_dir new_dirname         ~ renames current working dir"
+    echo " rename_dir dirname new_dirname ~ renames existing dir to new"
   fi
 }
 
-# remove all files and folders in current directory
+# Delete all files and directories in the current directory
 trash() {
-  touch rm-a-temp .rm-a-temp
   rm -rf * .*
 }
 
-# make the current commit the only commit in the repository
+# Remove commit history and create a new initial commit
 only-commit() {
   CURRENT=$(git rev-parse --abbrev-ref origin/HEAD | cut -c8-)
   git checkout --orphan tempBranch
@@ -72,7 +98,8 @@ only-commit() {
   git gc --aggressive --prune=all
 }
 
-default-main() {
+# Change the default branch from master to main
+git-main() {
   git checkout master
   git checkout -b main
   git push -u origin main
@@ -80,13 +107,13 @@ default-main() {
   git push origin --delete master
 }
 
-# remove the latest commit
+# Undo the last git commit
 undo() {
   git reset --hard HEAD~1
   git push -f
 }
 
-# improving npm with bun
+# Use bun instead of npm, if --real is passed, use the real npm
 if command -v bun &>/dev/null; then
   npm() {
     if [[ "$*" == *"--real"* ]] || [[ -n "$USE_REAL_NPM" ]]; then

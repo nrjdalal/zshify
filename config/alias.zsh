@@ -2,7 +2,6 @@ alias c="code ."
 alias cr="code -r ."
 alias ls="ls -A --color | sort"
 alias mkcd='cdx'
-alias ss="g 'chore: save state'"
 
 # system
 alias showdesk="defaults write com.apple.finder CreateDesktop true; killall Finder;"
