@@ -17,7 +17,7 @@ g() {
   branch_name=$(git branch --show-current)
   user_name=$(git config user.name)
   timestamp=$(date +"%Y-%m-%d %H:%M:%S")
-  loc_changed=$(git diff --shortstat | awk '{print "+" $4 " -" $6 lines changed}')
+  loc_changed=$(git diff --shortstat | awk '{print "+" $4 " -" $6 "lines changed"}')
 
   [[ "$commit_msg" != *:* ]] && commit_msg="chore: $commit_msg"
 
@@ -36,8 +36,6 @@ g() {
 Branch: $branch_name
 User: $user_name
 Date: $timestamp
-
-LOC Changed: $loc_changed
 
 Files changed:
 $changed_files"
