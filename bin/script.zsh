@@ -1,6 +1,6 @@
 #!/bin/zsh
 
-command -v git &>/dev/null
+command git -v &>/dev/null
 
 if [ $? -ne 0 ]; then
   echo
