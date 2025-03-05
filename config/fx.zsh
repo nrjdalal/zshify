@@ -19,9 +19,12 @@ g() {
 
   git add -A
 
+  file_label="files"
+  [[ "$changed_files_count" -eq 1 ]] && file_label="file"
+
   git commit -m "$(
     cat <<EOF
-$commit_msg - $changed_files_count files changed
+$commit_msg - $changed_files_count $file_label affected:
 
 $changed_files
 EOF
