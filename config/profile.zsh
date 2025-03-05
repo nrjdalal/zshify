@@ -28,6 +28,7 @@ if [[ "$USER" == "$MATCH_USERNAME" ]]; then
   brew cleanup --prune=1 -s
 
   echo "==> Ensuring node..."
+  source "/opt/homebrew/opt/nvm/nvm.sh"
   nvm install --lts
   corepack enable pnpm
   corepack enable yarn
@@ -38,7 +39,7 @@ if [[ "$USER" == "$MATCH_USERNAME" ]]; then
     git clone https://github.com/nrjdalal/karabiner-human-config .
   fi
 
-  echo "==> Some manual steps if not already done...
+  echo "\n==> Some manual steps if not already done...
 
 ---------------------------------------------
 
