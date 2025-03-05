@@ -17,15 +17,8 @@ g() {
 
   commit_message="${*:-chore: small tweaks}"
   [[ "$commit_message" != *:* ]] && commit_message="chore: $commit_message"
-  commit_with_diff="${commit_message} | ${commit_diff}"
-  commit_files=$(echo "$commit_files" | awk -v len=0 -v maxlen=100 -F, '{
-    for (i = 1; i <= NF; i++) {
-      len += length($i) + 2
-      if (len > maxlen) break
-      files = files ? files ", " $i : $i
-    }
-    print files
-  }')
+  commit_with_diff=$(echo "$commit_message | $commit_diff | $commit_files" | cut -c1-100)
+
   commit_message="$commit_with_diff
   
 $commit_files"
