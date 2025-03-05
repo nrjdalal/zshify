@@ -43,6 +43,9 @@ corepack enable yarn
 
 brew install --cask docker karabiner-elements
 
+mas install 1502839586
+mas install 1491071483
+
 ---------------------------------------------
 "
 fi
