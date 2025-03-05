@@ -22,10 +22,9 @@ g() {
 
   commit_message="$commit_with_diff
   
-$commit_files
-"
+$commit_files"
 
-  git commit -m "$full_commit_message" && git push || git push
+  git commit -m "$commit_message" && git push || git push
 }
 
 # Initialize a git repository, add files, and create a GitHub repository
