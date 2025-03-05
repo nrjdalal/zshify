@@ -16,6 +16,7 @@ g() {
   commit_files=$(git diff HEAD --name-only | paste -sd ', ' -)
   commit_message="${*:-chore: small tweaks}"
 
+  #
   [[ "$commit_message" != *:* ]] && commit_message="chore: $commit_message"
   if [[ $(echo "$commit_files" | awk -F, '{print NF}') -le 3 ]]; then
     commit_summary="$commit_files | $commit_diff"
