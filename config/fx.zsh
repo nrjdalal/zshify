@@ -8,14 +8,8 @@ clone() {
   gh repo clone $@
 }
 
-# git add & git commit at once | git push
 g() {
-  git add -A && git commit -m "$1" && git push
-}
-
-# better listing
-ls() {
-  command ls -A --color | sort
+  git add -A && git commit -m "$*" && git push
 }
 
 # create github repository, pass nothing for private repo and pass --public for public repo
