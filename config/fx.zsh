@@ -17,9 +17,7 @@ g() {
   branch_name=$(git branch --show-current)
   user_name=$(git config user.name)
   timestamp=$(date +"%Y-%m-%d %H:%M:%S")
-  last_commit_hash=$(git rev-parse --short HEAD)
-  commit_hash=$(git rev-parse --short HEAD~0)
-  loc_changed=$(git diff --shortstat | awk '{print $4 " added, " $6 " deleted"}')
+  loc_changed=$(git diff --shortstat | awk '{print $4 "+, " $6 "-"}')
 
   [[ "$commit_msg" != *:* ]] && commit_msg="chore: $commit_msg"
 
@@ -38,8 +36,6 @@ g() {
 Branch: $branch_name
 User: $user_name
 Date: $timestamp
-Commit: $commit_hash
-Previous Commit: $last_commit_hash
 
 LOC Changed: $loc_changed
 
