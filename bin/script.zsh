@@ -15,14 +15,14 @@ if ! command -v brew &>/dev/null; then
   echo "You cannot brew without the brew, right? Install brew first\!"
   echo
   echo "--- $(tput setaf 6)/bin/bash -c \"\$(curl -fsSL https://rdt.li/homebrew)\"$(tput sgr0) ---"
-  grep 'export PATH="/opt/homebrew/bin:$PATH"' ~/.zshrc &>/dev/null || echo 'export PATH="/opt/homebrew/bin:$PATH"' >>~/.zshrc
+  grep 'eval "$(/opt/homebrew/bin/brew shellenv)"' ~/.zshrc &>/dev/null || echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >>~/.zshrc
   echo
   return 1
 fi
 
 TEMP_DIR=$(mktemp -d)
 
-git clone https://github.com/nrjdalal/zshify.git "$TEMP_DIR" &>/dev/null
+git clone https://github.com/nrjdalal/zshify "$TEMP_DIR" &>/dev/null
 curl -s https://raw.githubusercontent.com/nrjdalal/pglaunch/main/bin/fx.sh | cat >"$TEMP_DIR/config/postgres.zsh"
 rsync -a --delete "$TEMP_DIR"/ ~/.zshify/
 
