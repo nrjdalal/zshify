@@ -15,7 +15,7 @@ g() {
   changed_files_count=$(echo "$changed_files" | wc -w)
   changed_files_length=$(echo "$changed_files" | wc -c)
 
-  commit_msg="${commit_msg:-chore: tweak}"
+  commit_msg="${commit_msg:-chore: small tweaks}"
   [[ "$commit_msg" != *:* ]] && commit_msg="chore: $commit_msg"
 
   if [[ "$changed_files_length" -le 50 ]]; then
