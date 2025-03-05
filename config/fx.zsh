@@ -10,33 +10,31 @@ clone() {
 
 # Add, commit, and push changes to git
 g() {
-  commit_msg="${*:-chore: small tweaks}"
-  changed_files=$(git diff --name-only)
-  changed_files_count=$(echo "$changed_files" | wc -w | xargs)
-  changed_files_char_count=$(echo "$changed_files" | wc -c | xargs)
-  branch_name=$(git branch --show-current)
-  user_name=$(git config user.name)
-  timestamp=$(date +"%Y-%m-%d %H:%M:%S")
-  loc_changed=$(git diff --shortstat | awk '{print "+" ($4 ? $4 : 0) " -" ($6 ? $6 : 0)}')
+  commit_message="${*:-chore: small tweaks}"
+  modified_files=$(git diff --name-only)
+  file_count=$(echo "$modified_files" | wc -w | xargs)
+  char_count=$(echo "$modified_files" | wc -c | xargs)
+  current_branch=$(git branch --show-current)
+  username=$(git config user.name)
+  current_time=$(date +"%Y-%m-%d %H:%M:%S")
+  lines_changed=$(git diff --shortstat | awk '{print "+" ($4 ? $4 : 0) " -" ($6 ? $6 : 0)}')
 
-  [[ "$commit_msg" != *:* ]] && commit_msg="chore: $commit_msg"
+  [[ "$commit_message" != *:* ]] && commit_message="chore: $commit_message"
 
   git add -A
 
-  file_label="files" && [[ "$changed_files_count" -eq 1 ]] && file_label="file"
+  label="files" && [[ "$file_count" -eq 1 ]] && label="file"
+  commit_summary="$modified_files changed" && [[ "$char_count" -ge 100 ]] && commit_summary="$file_count $label changed"
+  full_commit_message="$commit_message | $commit_summary | $lines_changed
 
-  commit_details="$changed_files changed" && [[ "$changed_files_char_count" -ge 100 ]] && commit_details="$changed_files_count $file_label changed"
+Branch: $current_branch
+User: $username
+Date: $current_time
 
-  full_commit_msg="$commit_msg | $commit_details | $loc_changed
+$file_count $label changed:
+$modified_files"
 
-Branch: $branch_name
-User: $user_name
-Date: $timestamp
-
-$changed_files_count $file_label changed:
-$changed_files"
-
-  git commit -m "$full_commit_msg" && git push || git push
+  git commit -m "$full_commit_message" && git push || git push
 }
 
 # Initialize a git repository, add files, and create a GitHub repository
