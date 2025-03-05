@@ -14,6 +14,10 @@ g() {
   changed_files=$(git diff --name-only)
   changed_files_count=$(echo "$changed_files" | wc -w | xargs)
   changed_files_char_count=$(echo "$changed_files" | wc -c | xargs)
+  branch_name=$(git branch --show-current)
+  user_name=$(git config user.name)
+  timestamp=$(date +"%Y-%m-%d %H:%M:%S")
+  commit_hash=$(git rev-parse --short HEAD)
 
   [[ "$commit_msg" != *:* ]] && commit_msg="chore: $commit_msg"
 
@@ -29,6 +33,12 @@ g() {
 
   full_commit_msg="$commit_msg - $commit_details
 
+Branch: $branch_name
+User: $user_name
+Date: $timestamp
+Commit: $commit_hash
+
+Files changed:
 $changed_files"
 
   git commit -m "$full_commit_msg" && git push || git push
