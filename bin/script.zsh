@@ -1,6 +1,6 @@
-TEMP_DIR=$(mktemp -d)
+#!/bin/zsh
 
-mkdir -p "$TEMP_DIR/config" && mkdir -p ~/.zshify/config
+TEMP_DIR=$(mktemp -d)
 
 git clone https://github.com/nrjdalal/zshify.git "$TEMP_DIR" &>/dev/null
 curl -s https://raw.githubusercontent.com/nrjdalal/pglaunch/main/bin/fx.sh | cat >"$TEMP_DIR/config/postgres.zsh"
