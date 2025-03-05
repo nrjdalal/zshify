@@ -9,7 +9,7 @@ clone() {
 }
 
 g() {
-  git add -A && git commit -m "$*" || git push
+  git add -A && git commit -m "$*" && git push
 }
 
 # create github repository, pass nothing for private repo and pass --public for public repo
