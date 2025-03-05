@@ -12,7 +12,7 @@ clone() {
 g() {
   git add -A
 
-  commit_diff=$(git diff HEAD --shortstat | sed -E 's/ insertions?[^)]*\)/+/g; s/ deletions?[^)]*\)/-/g' | xargs | tr ',' ' ')
+  commit_diff=$(git diff HEAD --shortstat | sed -E 's/ insertions?[^)]*\)/+/g; s/ deletions?[^)]*\)/-/g' | xargs | tr -d ',')
   commit_files=$(git diff HEAD --name-only | paste -sd ', ' -)
 
   commit_message="${*:-chore: small tweaks}"
