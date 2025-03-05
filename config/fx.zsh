@@ -17,7 +17,7 @@ g() {
 
   commit_message="${*:-chore: small tweaks}"
   [[ "$commit_message" != *:* ]] && commit_message="chore: $commit_message"
-  commit_with_diff=$(echo "$commit_message | $commit_diff | $commit_files" | cut -c1-97)
+  commit_with_diff=$(echo "$commit_message|$commit_diff|$commit_files" | cut -c1-94)
   [[ ${#commit_with_diff} -eq 95 ]] && commit_with_diff="$commit_with_diff..."
   IFS='|' read -r part1 part2 part3 <<<"$commit_with_diff"
   commit_with_diff="$part1|$part3|$part2"
