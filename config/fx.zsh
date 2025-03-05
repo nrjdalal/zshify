@@ -82,9 +82,23 @@ rename() {
 
 # Better rm command
 rm() {
+  if [[ "$*" == *"--confirm"* ]]; then
+    set -- "${@/--confirm/}"
+  else
+    if [[ "$(pwd)" == "$HOME" ]]; then
+      echo "You are in the home directory. Use --confirm to proceed."
+      return 1
+    fi
+  fi
+
   if [[ "$#" -eq 0 ]]; then
+    dir_count=$(find . -maxdepth 1 -type d ! -name "." ! -name ".." | wc -l | xargs)
+    file_count=$(find . -maxdepth 1 -type f ! -name "." ! -name ".." ! -name ".*" | wc -l | xargs)
+    hidden_file_count=$(find . -maxdepth 1 -type f -name ".*" ! -name "." ! -name ".." | wc -l | xargs)
+    file_count=$((file_count + hidden_file_count))
     find . -maxdepth 1 ! -name "." ! -name ".." -exec rm -rf {} +
     find . -maxdepth 1 ! -name "." ! -name ".." -name ".*" -exec rm -rf {} +
+    echo "\n$dir_count directories, $file_count files removed"
   else
     command rm "$@"
   fi
