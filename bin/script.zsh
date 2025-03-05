@@ -15,7 +15,7 @@ if ! command -v brew &>/dev/null; then
   echo "You cannot brew without the brew, right? Install brew first\!"
   echo
   echo "--- $(tput setaf 6)/bin/bash -c \"\$(curl -fsSL https://rdt.li/homebrew)\"$(tput sgr0) ---"
-  grep 'eval "$(/opt/homebrew/bin/brew shellenv)"' ~/.zprofile &>/dev/null || echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >>~/.zprofile
+  grep 'export PATH="/opt/homebrew/bin:$PATH"' ~/.zshrc &>/dev/null || echo 'export PATH="/opt/homebrew/bin:$PATH"' >>~/.zshrc
   echo
   return 1
 fi
