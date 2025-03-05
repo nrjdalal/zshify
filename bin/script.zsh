@@ -1,6 +1,8 @@
 #!/bin/zsh
 
-if ! command -v git &>/dev/null; then
+command -v git &>/dev/null
+
+if [ $? -ne 0 ]; then
   echo
   echo "Git is not available. Please Xcode Command Line Tools first\!"
   xcode-select --install &>/dev/null
