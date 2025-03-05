@@ -18,7 +18,7 @@ g() {
   commit_msg="${commit_msg:-chore: small tweaks}"
   [[ "$commit_msg" != *:* ]] && commit_msg="chore: $commit_msg"
 
-  if [[ "$changed_files_length" -le 50 ]]; then
+  if [[ "$changed_files_length" -le 1 ]]; then
     commit_msg="$commit_msg - $changed_files"
   else
     commit_msg="$commit_msg - $changed_files_count files changed"
