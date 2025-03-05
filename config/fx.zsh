@@ -80,9 +80,14 @@ rename() {
   fi
 }
 
-# Delete all files and directories in the current directory
-trash() {
-  rm -rf * .*
+# Better rm command
+rm() {
+  if [[ "$#" -eq 0 ]]; then
+    find . -maxdepth 1 ! -name "." ! -name ".." -exec rm -rf {} +
+    find . -maxdepth 1 ! -name "." ! -name ".." -name ".*" -exec rm -rf {} +
+  else
+    command rm "$@"
+  fi
 }
 
 # Remove commit history and create a new initial commit
