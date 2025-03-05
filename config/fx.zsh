@@ -13,7 +13,7 @@ g() {
   git add -A
 
   commit_diff=$(git diff HEAD --shortstat | xargs)
-  commit_files=$(git diff HEAD --name-only)
+  commit_files=$(git diff HEAD --name-only | paste -sd ', ' -)
   commit_message="${*:-chore: small tweaks}"
 
   [[ "$commit_message" != *:* ]] && commit_message="chore: $commit_message"
