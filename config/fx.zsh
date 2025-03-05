@@ -10,12 +10,11 @@ clone() {
 
 # Add, commit, and push changes to git
 g() {
-  commit_msg="$*"
+  commit_msg="${*:-chore: small tweaks}"
   changed_files=$(git diff --name-only)
   changed_files_count=$(echo "$changed_files" | wc -w | xargs)
   changed_files_char_count=$(echo "$changed_files" | wc -c | xargs)
 
-  commit_msg="${commit_msg:-chore: small tweaks}"
   [[ "$commit_msg" != *:* ]] && commit_msg="chore: $commit_msg"
 
   git add -A
@@ -28,13 +27,11 @@ g() {
     commit_details="$changed_files_count $file_label affected"
   fi
 
-  git commit -m "$(
-    cat <<EOF
-$commit_msg - $commit_details
+  full_commit_msg="$commit_msg - $commit_details
 
-$changed_files
-EOF
-  )" && git push || git push
+$changed_files"
+
+  git commit -m "$full_commit_msg" && git push || git push
 }
 
 # Initialize a git repository, add files, and create a GitHub repository
