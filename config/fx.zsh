@@ -1,4 +1,4 @@
-# make and change to directory
+# create directory and cd into it
 cdx() {
   mkdir -p $1 && cd $1
 }
@@ -15,15 +15,18 @@ g() {
 
 # create github repository, pass nothing for private repo and pass --public for public repo
 mkrepo() {
-  git init
-  git add -A 2>/dev/null
-  git commit -m "feat: init awesomeness" 2>/dev/null
+  git init && git add -A
 
-  if [[ "$1" == "--public" ]]; then
-    gh repo create $(basename $(pwd)) --description '' --source . --public --push
-  else
-    gh repo create $(basename $(pwd)) --description '' --source . --private --push
-  fi
+  commit_msg="feat: init awesomeness"
+
+  [[ "$#" -gt 0 && "${@: -1}" != "--public" && "${@: -1}" != "--private" ]] && commit_msg="$*"
+  [[ "${@: -1}" == "--public" || "${@: -1}" == "--private" && "$#" -gt 1 ]] && commit_msg="${*:1:$#-1}"
+
+  git commit -m "$commit_msg" 2>/dev/null
+
+  repo_type="--private" && [[ "${@: -1}" == "--public" ]] && repo_type="--public"
+
+  gh repo create $(basename $(pwd)) --description '' --source . $repo_type --push
 }
 
 # kill pid by port
