@@ -23,21 +23,17 @@ g() {
 
   git add -A
 
-  if [[ "$changed_files_char_count" -lt 100 ]]; then
-    commit_details="$changed_files"
-  else
-    file_label="files"
-    [[ "$changed_files_count" -eq 1 ]] && file_label="file"
-    commit_details="$changed_files_count $file_label changed"
-  fi
+  file_label="files" && [[ "$changed_files_count" -eq 1 ]] && file_label="file"
+
+  commit_details="$changed_files changed"
+  [[ "$changed_files_char_count" -ge 100 ]] && commit_details="$changed_files_count $file_label changed"
 
   full_commit_msg="$commit_msg | $commit_details | $loc_changed
-
 Branch: $branch_name
 User: $user_name
 Date: $timestamp
 
-Files changed:
+$changed_files_count $file_label changed:
 $changed_files"
 
   git commit -m "$full_commit_msg" && git push || git push
