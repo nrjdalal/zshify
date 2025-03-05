@@ -10,29 +10,22 @@ clone() {
 
 # Add, commit, and push changes to git
 g() {
-  commit_message="${*:-chore: small tweaks}"
-  modified_files=$(git diff --name-only)
-  file_count=$(echo "$modified_files" | wc -w | xargs)
-  char_count=$(echo "$modified_files" | wc -c | xargs)
-  current_branch=$(git branch --show-current)
-  username=$(git config user.name)
-  current_time=$(date +"%Y-%m-%d %H:%M:%S")
-  lines_changed=$(git diff --shortstat | awk '{print "+" ($4 ? $4 : 0) " -" ($6 ? $6 : 0)}')
-
-  [[ "$commit_message" != *:* ]] && commit_message="chore: $commit_message"
-
   git add -A
 
-  label="files" && [[ "$file_count" -eq 1 ]] && label="file"
-  commit_summary="$modified_files changed" && [[ "$char_count" -ge 100 ]] && commit_summary="$file_count $label changed"
-  full_commit_message="$commit_message | $commit_summary | $lines_changed
+  commit_diff=$(git diff HEAD --shortstat | xargs)
+  commit_files=$(git diff HEAD --name-only)
+  commit_message="${*:-chore: small tweaks}"
 
-Branch: $current_branch
-User: $username
-Date: $current_time
+  [[ "$commit_message" != *:* ]] && commit_message="chore: $commit_message"
+  if [[ ${#commit_files} -lt 100 ]]; then
+    commit_summary="$commit_files | $commit_diff"
+  else
+    commit_summary="$commit_diff"
+  fi
+  full_commit_message="$commit_message | $commit_summary
 
-$file_count $label changed:
-$modified_files"
+$commit_diff:
+$commit_files"
 
   git commit -m "$full_commit_message" && git push || git push
 }
