@@ -13,18 +13,24 @@ g() {
   commit_msg="$*"
   changed_files=$(git diff --name-only)
   changed_files_count=$(echo "$changed_files" | wc -w | xargs)
+  changed_files_char_count=$(echo "$changed_files" | wc -c | xargs)
 
   commit_msg="${commit_msg:-chore: small tweaks}"
   [[ "$commit_msg" != *:* ]] && commit_msg="chore: $commit_msg"
 
   git add -A
 
-  file_label="files"
-  [[ "$changed_files_count" -eq 1 ]] && file_label="file"
+  if [[ "$changed_files_char_count" -lt 100 ]]; then
+    commit_details="$changed_files"
+  else
+    file_label="files"
+    [[ "$changed_files_count" -eq 1 ]] && file_label="file"
+    commit_details="$changed_files_count $file_label affected"
+  fi
 
   git commit -m "$(
     cat <<EOF
-$commit_msg - $changed_files_count $file_label affected
+$commit_msg - $commit_details
 
 $changed_files
 EOF
