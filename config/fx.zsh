@@ -14,7 +14,7 @@ g() {
 
   commit_diff=$(git diff HEAD --shortstat | sed -E 's/ insertions?[^)]*\)/+/g; s/ deletions?[^)]*\)/-/g' | xargs | tr -d ',')
   commit_files=$(git diff HEAD --name-only)
-  commit_files_comma_separated=$(echo "$commit_files" | tr '\n' ', ' | sed 's/,$//')
+  commit_files_comma_separated=$(echo "$commit_files" | sed ':a;N;$!ba;s/\n/, /g')
 
   commit_message="${*:-chore: small tweaks}"
   [[ "$commit_message" != *:* ]] && commit_message="chore: $commit_message"
