@@ -14,16 +14,16 @@ g() {
 
   commit_diff=$(git diff HEAD --shortstat | sed -E 's/ insertions?[^)]*\)/+/g; s/ deletions?[^)]*\)/-/g' | xargs)
   commit_files=$(git diff HEAD --name-only | paste -sd ', ' -)
-  commit_message="${*:-chore: small tweaks}"
 
-  #
+  commit_message="${*:-chore: small tweaks}"
   [[ "$commit_message" != *:* ]] && commit_message="chore: $commit_message"
-  if [[ $(echo "$commit_files" | awk -F, '{print NF}') -le 3 ]]; then
-    commit_summary="$commit_files | $commit_diff"
-  else
-    commit_summary="$(echo "$commit_files" | cut -d, -f1-3), ... | $commit_diff"
-  fi
-  full_commit_message="$commit_message | $commit_summary"
+
+  commit_with_diff="${commit_message} | ${commit_diff}"
+
+  commit_message="$commit_with_diff
+  
+$commit_files
+"
 
   git commit -m "$full_commit_message" && git push || git push
 }
