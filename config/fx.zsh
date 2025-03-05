@@ -24,7 +24,7 @@ g() {
   git add -A
 
   label="files" && [[ "$file_count" -eq 1 ]] && label="file"
-  commit_summary="$modified_files changed" && [[ "$char_count" -ge 100 ]] && commit_summary="$file_count $label changed"
+  commit_summary="$modified_files changed" && [[ "$char_count" -ge 10 ]] && commit_summary="$file_count $label changed"
   full_commit_message="$commit_message | $commit_summary | $lines_changed
 
 Branch: $current_branch
