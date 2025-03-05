@@ -18,10 +18,10 @@ g() {
 
   commit_message="${*:-chore: small tweaks}"
   [[ "$commit_message" != *:* ]] && commit_message="chore: $commit_message"
-  commit_message=$(echo "$commit_message|$commit_diff|$commit_files_comma_separated" | cut -c1-93)
-  [[ ${#commit_message} -eq 93 ]] && commit_message="$commit_message..."
+  commit_message=$(echo "$commit_message|$commit_diff|$commit_files_comma_separated" | cut -c1-91)
+  [[ ${#commit_message} -eq 91 ]] && commit_message="$commit_message..."
   IFS='|' read -r part1 part2 part3 <<<"$commit_message"
-  commit_message="$part1 | $part3 | $part2"
+  commit_message="$part1 🔥 $part3 🔥 $part2"
 
   commit_message="$commit_message
   
@@ -108,6 +108,12 @@ git-main() {
   git push -u origin main
   gh repo edit --default-branch main
   git push origin --delete master
+}
+
+# Reset the git repository to a specific commit
+reset() {
+  git reset --hard $1
+  git push -f
 }
 
 # Undo the last git commit
