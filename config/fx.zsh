@@ -13,14 +13,19 @@ g() {
   commit_msg="$*"
   changed_files=$(git diff --name-only)
   changed_files_count=$(echo "$changed_files" | wc -w | xargs)
-  changed_files_length=$(echo "$changed_files" | wc -c | xargs)
 
   commit_msg="${commit_msg:-chore: small tweaks}"
   [[ "$commit_msg" != *:* ]] && commit_msg="chore: $commit_msg"
 
-  commit_msg="$commit_msg - $changed_files_count files changed\n\n$changed_files"
+  git add -A
 
-  git add -A && git commit -m "$commit_msg" && git push || git push
+  git commit -m "$(
+    cat <<EOF
+$commit_msg - $changed_files_count files changed
+
+$changed_files
+EOF
+  )" && git push || git push
 }
 
 # Initialize a git repository, add files, and create a GitHub repository
