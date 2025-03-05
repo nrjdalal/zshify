@@ -12,20 +12,20 @@ clone() {
 g() {
   git add -A
 
-  commit_diff=$(git diff HEAD --shortstat | sed -E 's/ insertions?[^)]*\)/+/g; s/ deletions?[^)]*\)/-/g' | xargs | tr -d ',')
-  commit_files=$(git diff HEAD --name-only)
-  commit_files_comma_separated=$(echo "$commit_files" | tr '\n' ', ' | sed 's/,/, /g' | sed 's/, $//g')
+  diff_summary=$(git diff HEAD --shortstat | sed -E 's/ insertions?[^)]*\)/+/g; s/ deletions?[^)]*\)/-/g' | xargs | tr -d ',')
+  changed_files=$(git diff HEAD --name-only)
+  files_list=$(echo "$changed_files" | tr '\n' ', ' | sed 's/,/, /g' | sed 's/, $//g')
 
   commit_message="${*:-chore: small tweaks}"
   [[ "$commit_message" != *:* ]] && commit_message="chore: $commit_message"
-  commit_message=$(echo "$commit_message|$commit_diff|$commit_files_comma_separated" | cut -c1-91)
+  commit_message=$(echo "$commit_message|$diff_summary|$files_list" | cut -c1-91)
   [[ ${#commit_message} -eq 91 ]] && commit_message="$commit_message..."
-  IFS='|' read -r part1 part2 part3 <<<"$commit_message"
-  commit_message="$part1 🔥 $part3 🔥 $part2"
+  IFS='|' read -r msg_part1 msg_part2 msg_part3 <<<"$commit_message"
+  commit_message="$msg_part1 🔥 $msg_part3 🔥 $msg_part2"
 
   commit_message="$commit_message
   
-$commit_files"
+$changed_files"
 
   git commit -m "$commit_message" && git push || git push
 }
