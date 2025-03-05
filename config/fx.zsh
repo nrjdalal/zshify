@@ -18,11 +18,7 @@ g() {
   commit_msg="${commit_msg:-chore: small tweaks}"
   [[ "$commit_msg" != *:* ]] && commit_msg="chore: $commit_msg"
 
-  if [[ "$changed_files_length" -le 10 ]]; then
-    commit_msg="$commit_msg - $changed_files"
-  else
-    commit_msg="$commit_msg - $changed_files_count files changed"
-  fi
+  commit_msg="$commit_msg - $changed_files_count files changed\n\n$changed_files"
 
   git add -A && git commit -m "$commit_msg" && git push || git push
 }
