@@ -1,5 +1,3 @@
-#!/bin/zsh
-
 TEMP_DIR=$(mktemp -d)
 
 mkdir -p "$TEMP_DIR/config" && mkdir -p ~/.zshify/config
