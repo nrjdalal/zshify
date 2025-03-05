@@ -74,7 +74,7 @@ only-commit() {
   git gc --aggressive --prune=all
 }
 
-defalut-main() {
+default-main() {
   git checkout master
   git checkout -b main
   git push -u origin main
