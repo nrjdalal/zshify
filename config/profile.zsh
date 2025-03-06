@@ -2,6 +2,8 @@ MATCH_USERNAME="nrjdalal"
 
 if [[ "$USER" == "$MATCH_USERNAME" ]]; then
   echo "==> System preferences..."
+  restart_dock=false
+  restart_finder=false
   [[ $(defaults read com.apple.dock "autohide") != 1 ]] && defaults write com.apple.dock "autohide" -bool "true" && restart_dock=true
   [[ $(defaults read com.apple.dock "minimize-to-application") != 1 ]] && defaults write com.apple.dock "minimize-to-application" -bool "true" && restart_dock=true
   [[ $(defaults read com.apple.dock "orientation") != "left" ]] && defaults write com.apple.dock "orientation" -string "left" && restart_dock=true
@@ -17,7 +19,6 @@ if [[ "$USER" == "$MATCH_USERNAME" ]]; then
   [[ $(defaults read NSGlobalDomain "NSAutomaticCapitalizationEnabled") != 0 ]] && defaults write NSGlobalDomain "NSAutomaticCapitalizationEnabled" -bool "false"
   [[ $(defaults read NSGlobalDomain "NSAutomaticSpellingCorrectionEnabled") != 0 ]] && defaults write NSGlobalDomain "NSAutomaticSpellingCorrectionEnabled" -bool "false"
   [[ $(defaults read NSGlobalDomain "WebAutomaticSpellingCorrectionEnabled") != 0 ]] && defaults write NSGlobalDomain "WebAutomaticSpellingCorrectionEnabled" -bool "false"
-
   [[ "$restart_dock" == true ]] && killall Dock
   [[ "$restart_finder" == true ]] && killall Finder
 
