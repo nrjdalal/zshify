@@ -1,9 +1,8 @@
 #!/bin/zsh
 
-command git -v &>/dev/null
+echo && command git -v &>/dev/null
 
 if [ $? -ne 0 ]; then
-  echo
   echo "Git is not available. Please Xcode Command Line Tools first!"
   xcode-select --install &>/dev/null
   echo
@@ -11,13 +10,11 @@ if [ $? -ne 0 ]; then
 fi
 
 if ! command -v brew &>/dev/null; then
-  echo
-  echo "You cannot brew without the brew, right? Install brew first!"
+  echo "You can not brew without the homebrew. Installing homebrew!"
   echo
   echo "--- $(tput setaf 6)/bin/bash -c \"\$(curl -fsSL https://rdt.li/homebrew)\"$(tput sgr0) ---"
-  grep 'eval "$(/opt/homebrew/bin/brew shellenv)"' ~/.zshrc &>/dev/null || echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >>~/.zshrc
   echo
-  return 1
+  grep 'eval "$(/opt/homebrew/bin/brew shellenv)"' ~/.zshrc &>/dev/null || echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >>~/.zshrc
 fi
 
 TEMP_DIR=$(mktemp -d)
@@ -30,7 +27,6 @@ for config in prompt background fx alias plugins user postgres; do
   grep "source ~/.zshify/config/${config}.zsh" ~/.zshrc &>/dev/null || echo "source ~/.zshify/config/${config}.zsh" >>~/.zshrc
 done
 
-echo
 echo "-------------- $(tput setaf 2)zshify successfully installed!$(tput sgr0) --------------"
 echo
 echo "It is recommended to reload the shell, run $(tput setaf 3)exec zsh$(tput sgr0) to do so"
