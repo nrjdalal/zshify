@@ -4,12 +4,12 @@ if [[ "$USER" == "$MATCH_USERNAME" ]]; then
   echo && echo "==> System preferences..."
   restart_dock=false
   restart_finder=false
+  [[ $(defaults read com.apple.AppleMultitouchTrackpad "Clicking") != 1 ]] && defaults write com.apple.AppleMultitouchTrackpad "Clicking" -bool "true"
   [[ $(defaults read com.apple.dock "autohide") != 1 ]] && defaults write com.apple.dock "autohide" -bool "true" && restart_dock=true
   [[ $(defaults read com.apple.dock "minimize-to-application") != 1 ]] && defaults write com.apple.dock "minimize-to-application" -bool "true" && restart_dock=true
   [[ $(defaults read com.apple.dock "orientation") != "left" ]] && defaults write com.apple.dock "orientation" -string "left" && restart_dock=true
   [[ $(defaults read com.apple.dock "show-recents") != 0 ]] && defaults write com.apple.dock "show-recents" -bool "false" && restart_dock=true
   [[ $(defaults read com.apple.dock "static-only") != 1 ]] && defaults write com.apple.dock "static-only" -bool "true" && restart_dock=true
-  [[ $(defaults read com.apple.driver.AppleBluetoothMultitouch.trackpad "Clicking") != 1 ]] && defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad "Clicking" -bool "true"
   [[ $(defaults read com.apple.finder "CreateDesktop") != 0 ]] && defaults write com.apple.finder "CreateDesktop" -bool "false" && restart_finder=true
   [[ $(defaults read com.apple.finder "FXRemoveOldTrashItems") != 1 ]] && defaults write com.apple.finder "FXRemoveOldTrashItems" -bool "true" && restart_finder=true
   [[ $(defaults read com.apple.finder "ShowPathbar") != 1 ]] && defaults write com.apple.finder "ShowPathbar" -bool "true" && restart_finder=true
