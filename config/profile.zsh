@@ -2,19 +2,19 @@ MATCH_USERNAME="nrjdalal"
 
 if [[ "$USER" == "$MATCH_USERNAME" ]]; then
   echo "==> System preferences..."
-  defaults write com.apple.dock autohide -bool true
-  defaults write com.apple.dock minimize-to-application -bool true
-  defaults write com.apple.dock orientation -string left
-  defaults write com.apple.dock show-recents -bool false
-  defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool true
-  defaults write com.apple.finder CreateDesktop -bool false
-  defaults write com.apple.finder ShowPathbar -bool true
-  defaults write com.apple.finder ShowStatusBar -bool true
-  defaults write com.apple.HIToolbox AppleFnUsageType -int 0
-  defaults write com.apple.WindowManager EnableTiledWindowMargins -bool false
-  defaults write NSGlobalDomain NSAutomaticCapitalizationEnabled -bool false
-  defaults write NSGlobalDomain NSAutomaticSpellingCorrectionEnabled -bool false
-  defaults write NSGlobalDomain WebAutomaticSpellingCorrectionEnabled -bool false
+  [[ $(defaults read com.apple.dock "autohide") != 0 ]] && defaults write com.apple.dock "autohide" -bool false && killall Dock
+  [[ $(defaults read com.apple.dock "minimize-to-application") != 1 ]] && defaults write com.apple.dock "minimize-to-application" -bool true && killall Dock
+  [[ $(defaults read com.apple.dock "orientation") != "left" ]] && defaults write com.apple.dock "orientation" -string "left" && killall Dock
+  [[ $(defaults read com.apple.dock "show-recents") != 0 ]] && defaults write com.apple.dock "show-recents" -bool false && killall Dock
+  [[ $(defaults read com.apple.driver.AppleBluetoothMultitouch.trackpad "Clicking") != 1 ]] && defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad "Clicking" -bool true
+  [[ $(defaults read com.apple.finder "CreateDesktop") != 0 ]] && defaults write com.apple.finder "CreateDesktop" -bool false && killall Finder
+  [[ $(defaults read com.apple.finder "ShowPathbar") != 1 ]] && defaults write com.apple.finder "ShowPathbar" -bool true && killall Finder
+  [[ $(defaults read com.apple.finder "ShowStatusBar") != 1 ]] && defaults write com.apple.finder "ShowStatusBar" -bool true && killall Finder
+  [[ $(defaults read com.apple.HIToolbox "AppleFnUsageType") != 0 ]] && defaults write com.apple.HIToolbox "AppleFnUsageType" -int 0
+  [[ $(defaults read com.apple.WindowManager "EnableTiledWindowMargins") != 0 ]] && defaults write com.apple.WindowManager "EnableTiledWindowMargins" -bool false
+  [[ $(defaults read NSGlobalDomain "NSAutomaticCapitalizationEnabled") != 0 ]] && defaults write NSGlobalDomain "NSAutomaticCapitalizationEnabled" -bool false
+  [[ $(defaults read NSGlobalDomain "NSAutomaticSpellingCorrectionEnabled") != 0 ]] && defaults write NSGlobalDomain "NSAutomaticSpellingCorrectionEnabled" -bool false
+  [[ $(defaults read NSGlobalDomain "WebAutomaticSpellingCorrectionEnabled") != 0 ]] && defaults write NSGlobalDomain "WebAutomaticSpellingCorrectionEnabled" -bool false
 
   echo "==> Setting up git..."
   git config --global init.defaultBranch "main"
