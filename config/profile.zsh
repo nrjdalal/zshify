@@ -2,9 +2,16 @@ MATCH_USERNAME="nrjdalal"
 
 if [[ "$USER" == "$MATCH_USERNAME" ]]; then
   echo "==> System preferences..."
-  if [ "$(defaults read com.apple.AppleMultitouchTrackpad Clicking)" != "1" ]; then
-    defaults write com.apple.AppleMultitouchTrackpad Clicking -bool true
-  fi
+  defaults write com.apple.dock autohide -bool true
+  defaults write com.apple.dock minimize-to-application -bool true
+  defaults write com.apple.dock orientation -string left
+  defaults write com.apple.dock show-recents -bool false
+  defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool true
+  defaults write com.apple.HIToolbox AppleFnUsageType -int 0
+  defaults write com.apple.WindowManager EnableTiledWindowMargins -bool false
+  defaults write NSGlobalDomain NSAutomaticCapitalizationEnabled -bool false
+  defaults write NSGlobalDomain NSAutomaticSpellingCorrectionEnabled -bool false
+  defaults write NSGlobalDomain WebAutomaticSpellingCorrectionEnabled -bool false
 
   echo "==> Setting up git..."
   git config --global init.defaultBranch "main"
