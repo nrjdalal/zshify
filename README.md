@@ -12,7 +12,7 @@ Installation is done using the [`npx`](https://docs.npmjs.com/getting-started/in
 npx zshify
 ```
 
-Alternatively, you can install using `bunx zshify` (recommended).
+Alternatively, you can install using `/bin/zsh -c "$(curl -fsSL https://rdt.li/zshify)"` command.
 
 Yeah that's it, no downloads, no hassle. A minimalistic installation for a minimalistic package.
 
