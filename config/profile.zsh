@@ -1,6 +1,11 @@
 MATCH_USERNAME="nrjdalal"
 
 if [[ "$USER" == "$MATCH_USERNAME" ]]; then
+  echo "==> System preferences..."
+  if [ "$(defaults read com.apple.AppleMultitouchTrackpad Clicking)" != "1" ]; then
+    defaults write com.apple.AppleMultitouchTrackpad Clicking -bool true
+  fi
+
   echo "==> Setting up git..."
   git config --global init.defaultBranch "main"
   git config --global push.autoSetupRemote true
