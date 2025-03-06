@@ -1,6 +1,7 @@
 MATCH_USERNAME="nrjdalal"
 
 if [[ "$USER" == "$MATCH_USERNAME" ]]; then
+
   echo && echo "==> System preferences..."
   restart_dock=false
   restart_finder=false
@@ -28,6 +29,12 @@ if [[ "$USER" == "$MATCH_USERNAME" ]]; then
   git config --global user.name "Neeraj Dalal"
   git config --global user.email "admin@nrjdalal.com"
 
+  echo && echo "==> Ensuring node..."
+  source "/opt/homebrew/opt/nvm/nvm.sh"
+  nvm install --lts
+  corepack enable pnpm
+  corepack enable yarn
+
   echo && echo "==> Setting up brew..."
   brew analytics off && brew update
 
@@ -48,12 +55,6 @@ if [[ "$USER" == "$MATCH_USERNAME" ]]; then
 
   echo && echo "==> Running brew cleanup..."
   brew cleanup --prune=1 -s
-
-  echo && echo "==> Ensuring node..."
-  source "/opt/homebrew/opt/nvm/nvm.sh"
-  nvm install --lts
-  corepack enable pnpm
-  corepack enable yarn
 
   if [[ ! -d ~/.config/karabiner/.git ]]; then
     echo && echo "==> Cloning karabiner configuration..."
