@@ -28,14 +28,19 @@ if [[ "$USER" == "$MATCH_USERNAME" ]]; then
 
   for pref in "${preferences[@]}"; do
     domain=$(echo "$pref" | cut -d' ' -f1)
-    key_name=$(echo "$pref" | cut -d' ' -f2)
+    key=$(echo "$pref" | cut -d' ' -f2)
     type=$(echo "$pref" | cut -d' ' -f3)
     value=$(echo "$pref" | cut -d' ' -f4)
-    current_value=$(defaults read "$domain" "$key_name" 2>/dev/null)
+    current_value=$(defaults read "$domain" "$key" 2>/dev/null)
 
     if [[ "$current_value" != "$value" ]]; then
-      updated_value=$(defaults write "$domain" "$key_name" $type "$value" && defaults read "$domain" "$key_name")
-      echo "==> Updated $domain $key_name from $current_value to $updated_value"
+      command="defaults write $domain $key"
+      [[ "$type" == "bool" ]] && command="$command -bool"
+      [[ "$type" == "int" ]] && command="$command -int"
+      [[ "$type" == "string" ]] && command="$command -string"
+      eval "$command $value"
+      updated_value=$(defaults read "$domain" "$key")
+      echo "==> Updated: $domain $key from $current_value to $updated_value"
     fi
 
     [[ "$domain" == "com.apple.dock" ]] && restart_dock=true
