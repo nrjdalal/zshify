@@ -4,7 +4,7 @@ command git -v &>/dev/null
 
 if [ $? -ne 0 ]; then
   echo
-  echo "Git is not available. Please Xcode Command Line Tools first\!"
+  echo "Git is not available. Please Xcode Command Line Tools first!"
   xcode-select --install &>/dev/null
   echo
   return 1
@@ -12,7 +12,7 @@ fi
 
 if ! command -v brew &>/dev/null; then
   echo
-  echo "You cannot brew without the brew, right? Install brew first\!"
+  echo "You cannot brew without the brew, right? Install brew first!"
   echo
   echo "--- $(tput setaf 6)/bin/bash -c \"\$(curl -fsSL https://rdt.li/homebrew)\"$(tput sgr0) ---"
   grep 'eval "$(/opt/homebrew/bin/brew shellenv)"' ~/.zshrc &>/dev/null || echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >>~/.zshrc
@@ -31,7 +31,7 @@ for config in prompt background fx alias plugins user postgres; do
 done
 
 echo
-echo "-------------- $(tput setaf 2)zshify successfully installed\!$(tput sgr0) --------------"
+echo "-------------- $(tput setaf 2)zshify successfully installed!$(tput sgr0) --------------"
 echo
 echo "It is recommended to reload the shell, run $(tput setaf 3)exec zsh$(tput sgr0) to do so"
 echo
