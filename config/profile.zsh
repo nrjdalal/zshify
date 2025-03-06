@@ -7,6 +7,7 @@ if [[ "$USER" == "$MATCH_USERNAME" ]]; then
   defaults write com.apple.dock orientation -string left
   defaults write com.apple.dock show-recents -bool false
   defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool true
+  defaults write com.apple.finder CreateDesktop -bool false
   defaults write com.apple.finder ShowPathbar -bool true
   defaults write com.apple.finder ShowStatusBar -bool true
   defaults write com.apple.HIToolbox AppleFnUsageType -int 0
