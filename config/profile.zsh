@@ -23,6 +23,7 @@ if [[ "$USER" == "$MATCH_USERNAME" ]]; then
     "NSGlobalDomain WebAutomaticSpellingCorrectionEnabled -bool 0"
   )
 
+  pref_changed=false
   restart_dock=false
   restart_finder=false
 
@@ -41,6 +42,7 @@ if [[ "$USER" == "$MATCH_USERNAME" ]]; then
       eval "$command $value"
       updated_value=$(defaults read "$domain" "$key")
       echo "==> Updated: $domain $key from $current_value to $updated_value"
+      pref_changed=true
     fi
 
     [[ "$domain" == "com.apple.dock" ]] && restart_dock=true
@@ -99,4 +101,15 @@ mas install 1491071483
 
 ---------------------------------------------
 "
+
+  if [[ "$pref_changed" == true ]]; then
+    osascript <<EOF
+set dialogTitle to "System Settings"
+set dialogMessage to "Preferences updated. Restart to apply changes."
+set userChoice to button returned of (display dialog dialogMessage with title dialogTitle buttons {"Restart Now", "Later"} default button "Later")
+if userChoice is "Restart Now" then
+  do shell script "sudo shutdown -r now" with administrator privileges
+end if
+EOF
+  fi
 fi
