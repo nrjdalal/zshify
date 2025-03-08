@@ -6,7 +6,6 @@ if [[ "$USER" == "$MATCH_USERNAME" ]]; then
 
   echo && echo "==> System preferences..."
   preferences=(
-    "com.apple.AppleMultitouchTrackpad Clicking -bool 1"
     "com.apple.dock autohide -bool 1"
     "com.apple.dock minimize-to-application -bool 1"
     "com.apple.dock orientation -string left"
@@ -16,6 +15,8 @@ if [[ "$USER" == "$MATCH_USERNAME" ]]; then
     "com.apple.finder FXRemoveOldTrashItems -bool 1"
     "com.apple.finder ShowPathbar -bool 1"
     "com.apple.finder ShowStatusBar -bool 1"
+
+    "com.apple.AppleMultitouchTrackpad Clicking -bool 1"
     "com.apple.HIToolbox AppleFnUsageType -int 0"
     "com.apple.WindowManager EnableTiledWindowMargins -bool 0"
     "NSGlobalDomain NSAutomaticCapitalizationEnabled -bool 0"
@@ -47,7 +48,6 @@ if [[ "$USER" == "$MATCH_USERNAME" ]]; then
       [[ "$domain" == "com.apple.finder" ]] && restart_finder=true
       [[ "$domain" != "com.apple.dock" && "$domain" != "com.apple.finder" ]] && pref_changed=true
     fi
-
   done
 
   echo && echo "==> Setting up git..."
@@ -80,8 +80,8 @@ if [[ "$USER" == "$MATCH_USERNAME" ]]; then
   echo && echo "==> Running brew upgrade..."
   brew upgrade
 
-  echo && echo "==> Running brew cleanup..."
-  brew cleanup --prune=1 -s
+  echo && echo "==> Running cleanup..."
+  rm -rf ~/.junk && brew cleanup --prune=1 -s
 
   if [[ ! -d ~/.config/karabiner/.git ]]; then
     echo && echo "==> Cloning karabiner configuration..."
