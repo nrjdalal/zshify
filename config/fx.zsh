@@ -12,7 +12,7 @@ clone() {
 g() {
   git add -A
 
-  diff_summary=$(git diff HEAD --shortstat | sed -E 's/ insertions?[^)]*\)/+/g; s/ deletions?[^)]*\)/-/g' | xargs | tr -d ',')
+  diff_summary=$(git diff HEAD --shortstat | sed -E 's/ insertions?[^)]*\)/+/g; s/ deletions?[^)]*\)/-/g; s/ changed//g' | xargs | tr -d ',')
   changed_files=$(git diff HEAD --name-only)
   files_list=$(echo "$changed_files" | awk -F'/' '{print $NF}' | tr '\n' ' ')
 
