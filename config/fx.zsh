@@ -21,7 +21,7 @@ g() {
   if [[ $(echo "$commit_message, $diff_summary" | wc -w) -gt 100 ]]; then
     commit_message="$commit_message"
   else
-    commit_message=$(echo "$commit_message| ~ $diff_summary|to $files_list" | cut -c1-91)
+    commit_message=$(echo "$commit_message|~ $diff_summary|to $files_list" | cut -c1-91)
     [[ ${#commit_message} -eq 91 ]] && commit_message="$commit_message..."
     IFS='|' read -r msg_part1 msg_part2 msg_part3 <<<"$commit_message"
     commit_message="$msg_part1 $msg_part3$msg_part2"
