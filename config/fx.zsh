@@ -16,7 +16,7 @@ g() {
   changed_files=$(git diff HEAD --name-only)
   files_list=$(echo "$changed_files" | awk -F'/' '{print $NF}' | tr '\n' ' ')
 
-  commit_message="${*:-chore: small tweaks}"
+  commit_message="${*:-chore: tweaks}"
   [[ "$commit_message" != *:* ]] && commit_message="chore: $commit_message"
   if [[ $(echo "$commit_message ~ $diff_summary" | wc -w) -gt 100 ]]; then
     commit_message="$commit_message"
