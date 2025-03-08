@@ -20,8 +20,11 @@ g() {
   [[ "$commit_message" != *:* ]] && commit_message="chore: $commit_message"
   if [[ $(echo "$commit_message ~ $diff_summary" | wc -w) -gt 100 ]]; then
     commit_message="$commit_message"
+  elif [[ $(echo "$commit_message ~ $diff_summary" | wc -w) -gt 96 ]]; then
+    commit_message="$commit_message ~ $diff_summary"
   else
-    commit_message=$(echo "$commit_message |~ $diff_summary|to $files_list" | cut -c1-100)
+    commit_message=$(echo "$commit_message |~ $diff_summary|to $files_list" | cut -c1-98)
+    [[ ${#commit_message} -eq 98 ]] && commit_message="$commit_message... "
     IFS='|' read -r msg_part1 msg_part2 msg_part3 <<<"$commit_message"
     commit_message="$msg_part1$msg_part3$msg_part2"
   fi
