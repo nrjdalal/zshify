@@ -18,7 +18,7 @@ g() {
 
   commit_message="${*:-chore: small tweaks}"
   [[ "$commit_message" != *:* ]] && commit_message="chore: $commit_message"
-  if [[ $(echo "$commit_message, $diff_summary" | wc -w) -gt 100 ]]; then
+  if [[ $(echo "$commit_message ~ $diff_summary" | wc -w) -gt 100 ]]; then
     commit_message="$commit_message"
   else
     commit_message=$(echo "$commit_message |~ $diff_summary|to $files_list" | cut -c1-91)
