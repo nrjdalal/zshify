@@ -14,14 +14,14 @@ g() {
 
   diff_summary=$(git diff HEAD --shortstat | sed -E 's/ insertions?[^)]*\)/+/g; s/ deletions?[^)]*\)/-/g' | xargs | tr -d ',')
   changed_files=$(git diff HEAD --name-only)
-  files_list=$(echo "$changed_files" | tr '\n' ', ' | sed 's/,/, /g' | sed 's/, $//g')
+  files_list=$(echo "$changed_files" | sed 's/^src\///' | tr '\n' ', ' | sed 's/,/, /g' | sed 's/, $//g')
 
   commit_message="${*:-chore: small tweaks}"
   [[ "$commit_message" != *:* ]] && commit_message="chore: $commit_message"
-  commit_message=$(echo "$commit_message|$diff_summary|$files_list" | cut -c1-91)
+  commit_message=$(echo "$commit_message|🔥 $diff_summary|🔥 $files_list" | cut -c1-91)
   [[ ${#commit_message} -eq 91 ]] && commit_message="$commit_message..."
   IFS='|' read -r msg_part1 msg_part2 msg_part3 <<<"$commit_message"
-  commit_message="$msg_part1 🔥 $msg_part3 🔥 $msg_part2"
+  commit_message="$msg_part1 $msg_part3 $msg_part2"
 
   commit_message="$commit_message
   
