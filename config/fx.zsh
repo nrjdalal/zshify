@@ -20,7 +20,7 @@ g() {
   [[ "$commit_message" != *:* ]] && commit_message="chore: $commit_message"
   if [[ $(echo "$commit_message ~ $diff_summary" | wc -w) -gt 100 ]]; then
     commit_message="$commit_message"
-  elif [[ $(echo "$commit_message ~ $diff_summary" | wc -w) -gt 96 ]]; then
+  elif [[ $(echo "$commit_message ~ $diff_summary" | wc -w) -gt 88 ]]; then
     commit_message="$commit_message ~ $diff_summary"
   else
     commit_message=$(echo "$commit_message |~ $diff_summary|to $files_list" | cut -c1-98)
