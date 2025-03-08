@@ -23,9 +23,9 @@ if [[ "$USER" == "$MATCH_USERNAME" ]]; then
     "NSGlobalDomain WebAutomaticSpellingCorrectionEnabled -bool 0"
   )
 
-  pref_changed=false
   restart_dock=false
   restart_finder=false
+  pref_changed=false
 
   for pref in "${preferences[@]}"; do
     domain=$(echo "$pref" | cut -d' ' -f1)
@@ -42,15 +42,13 @@ if [[ "$USER" == "$MATCH_USERNAME" ]]; then
       eval "$command $value"
       updated_value=$(defaults read "$domain" "$key")
       echo "==> Updated: $domain $key from $current_value to $updated_value"
-      pref_changed=true
+
+      [[ "$domain" == "com.apple.dock" ]] && restart_dock=true
+      [[ "$domain" == "com.apple.finder" ]] && restart_finder=true
+      [[ "$domain" != "com.apple.dock" && "$domain" != "com.apple.finder" ]] && pref_changed=true
     fi
 
-    [[ "$domain" == "com.apple.dock" ]] && restart_dock=true
-    [[ "$domain" == "com.apple.finder" ]] && restart_finder=true
   done
-
-  [[ "$restart_dock" == true ]] && killall Dock
-  [[ "$restart_finder" == true ]] && killall Finder
 
   echo && echo "==> Setting up git..."
   git config --global init.defaultBranch "main"
@@ -102,6 +100,8 @@ mas install 1491071483
 ---------------------------------------------
 "
 
+  [[ "$restart_dock" == true ]] && killall Dock
+  [[ "$restart_finder" == true ]] && killall Finder
   if [[ "$pref_changed" == true ]]; then
     osascript <<EOF
 set dialogTitle to "System Settings"
