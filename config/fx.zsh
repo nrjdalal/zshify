@@ -14,7 +14,7 @@ g() {
 
   diff_summary=$(git diff HEAD --shortstat | sed -E 's/ insertions?[^)]*\)/+/g; s/ deletions?[^)]*\)/-/g' | xargs | tr -d ',')
   changed_files=$(git diff HEAD --name-only)
-  files_list=$(echo "$changed_files" | awk -F'/' '{print $NF}' | tr '\n' ', ' | sed 's/,/, /g' | sed 's/, $//g')
+  files_list=$(echo "$changed_files" | awk -F'/' '{print $NF}' | tr '\n' ' ')
 
   commit_message="${*:-chore: small tweaks}"
   [[ "$commit_message" != *:* ]] && commit_message="chore: $commit_message"
