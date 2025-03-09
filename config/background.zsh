@@ -20,7 +20,7 @@ brewlog() {
 }
 
 # Get the timestamp of the last run from the log file
-LAST_RUN_TIMESTAMP=$(grep -m 1 "ZSHIFY_BACKROUND_RUN" "$LOG_FILE" | awk -F" > " '{print $1}' | tail -n 1)
+LAST_RUN_TIMESTAMP=$(grep "ZSHIFY_BACKROUND_RUN" "$LOG_FILE" | tail -n 1 | awk -F" > " '{print $1}')
 
 if [ -z "$LAST_RUN_TIMESTAMP" ]; then
   # No previous run timestamp
