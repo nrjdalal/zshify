@@ -8,6 +8,16 @@ clone() {
   gh repo clone $@
 }
 
+# Switch to a branch or create a new branch
+b() {
+  if [[ -z "$1" ]]; then
+    echo "Usage: b <branch-name>"
+    return 1
+  fi
+
+  git checkout $1 2>/dev/null || git checkout -b $1
+}
+
 # Add, commit, and push changes to git
 g() {
   git add -A
