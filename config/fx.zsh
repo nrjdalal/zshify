@@ -10,12 +10,7 @@ clone() {
 
 # Protect directories from git commands
 git() {
-  if [[ "$PWD" == "$HOME" || "$PWD" == "$HOME/Desktop" ]]; then
-    echo "Secured Directory"
-    return 1
-  else
-    command git $@
-  fi
+  [[ "$PWD" == "$HOME" || "$PWD" == "$HOME/Desktop" ]] || command git $@
 }
 
 # Switch to a branch or create a new branch
