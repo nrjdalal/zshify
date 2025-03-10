@@ -82,6 +82,9 @@ if [[ "$USER" == "$MATCH_USERNAME" ]]; then
   echo && echo "==> Some manual steps if not already done...
 ---------------------------------------------
 
+# https://gumroad.com/library for Supercharge
+# https://usgraphics.com/accounts for Berkeley Mono
+
 brew install --cask docker karabiner-elements
 
 mas install 1502839586
