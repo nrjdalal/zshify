@@ -96,7 +96,7 @@ mas install 1491071483
   brew install -q --cask google-chrome visual-studio-code
 
   echo && echo "==> Ensuring secondary casks..."
-  brew install -q --cask bruno fontbase iina jordanbaird-ice numi pearcleaner qbittorrent spotify raycast rocket affinity-designer affinity-photo affinity-publisher
+  brew install -q --cask bruno fontbase iina jordanbaird-ice numi pearcleaner qbittorrent spotify raycast rocket whatsapp affinity-designer affinity-photo affinity-publisher
 
   echo && echo "==> Running brew upgrade..."
   brew upgrade
