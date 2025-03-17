@@ -17,4 +17,4 @@ command -v zoxide &>/dev/null && eval "$(zoxide init zsh --cmd cd)"
 [ -d ~/.console-ninja/.bin ] && PATH=~/.console-ninja/.bin:$PATH
 
 # python
-[ -d ~/Library/Python/3.9/bin ] && PATH="~/Library/Python/3.9/bin:$PATH"
+[ -d ~/Library/Python/3.9/bin ] && PATH=~/Library/Python/3.9/bin:$PATH
