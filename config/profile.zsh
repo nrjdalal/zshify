@@ -71,7 +71,7 @@ if [[ "$USER" == "$MATCH_USERNAME" ]]; then
   brew analytics off && brew update
 
   echo && echo "==> Ensuring brew formulae..."
-  brew install -q --force fzf oven-sh/bun/bun gh git jq mas nvm ollama rsync tree zoxide zsh-autosuggestions zsh-history-substring-search zsh-syntax-highlighting
+  brew install -q --force fzf oven-sh/bun/bun gh git jq mas nvm ollama python@3.9 rsync tree zoxide zsh-autosuggestions zsh-history-substring-search zsh-syntax-highlighting
 
   if [[ ! -d ~/.config/karabiner/.git ]]; then
     echo && echo "==> Cloning karabiner configuration..."
