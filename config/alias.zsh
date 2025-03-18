@@ -11,5 +11,5 @@ alias hidedesk="defaults write com.apple.finder CreateDesktop false; killall Fin
 # npm
 alias nanoid="bunx nanoid@latest --alphabet QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm1234567890 --size 24"
 alias p="bunx gitpick@latest"
-alias po="bunx gitpick@latest -o"
 alias pn="bunx gitpick@latest nrjdalal/awesome-templates/tree/main/next.js-apps/next.js-pro ."
+alias pt="bunx gitpick@latest nrjdalal/starter ."
