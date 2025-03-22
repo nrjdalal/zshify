@@ -45,7 +45,7 @@ g() {
   
 $changed_files"
 
-  git commit -m "$commit_message" && git push || git push
+  git commit -S -m "$commit_message" && git push || git push
 }
 
 # Initialize a git repository, add files, and create a GitHub repository
@@ -57,7 +57,7 @@ mkrepo() {
   [[ "$#" -gt 0 && "${@: -1}" != "--public" && "${@: -1}" != "--private" ]] && commit_msg="$*"
   [[ "${@: -1}" == "--public" || "${@: -1}" == "--private" && "$#" -gt 1 ]] && commit_msg="${*:1:$#-1}"
 
-  git commit -m "$commit_msg" 2>/dev/null
+  git commit -S -m "$commit_msg" 2>/dev/null
 
   repo_type="--private" && [[ "${@: -1}" == "--public" ]] && repo_type="--public"
 
@@ -140,9 +140,9 @@ only-commit() {
   git checkout --orphan tempBranch
   git add -A
   if [[ "$#" == "0" ]]; then
-    git commit -m "feat: init awesomeness"
+    git commit -S -m "feat: init awesomeness"
   else
-    git commit -m "$1"
+    git commit -S -m "$1"
   fi
   git branch -D $CURRENT
   git branch -m $CURRENT

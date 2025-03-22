@@ -117,7 +117,10 @@ Expire-Date: 0
 EOF
   git config --global commit.gpgSign true
   git config --global gpg.program gpg
-  git config --global user.signingkey $(gpg --list-secret-keys --keyid-format LONG | grep '^sec' | awk -F'/' '{print $2}' | awk '{print $1}')
+  KEY_ID=$(gpg --list-secret-keys --keyid-format LONG | grep '^sec' | head -n 1 | awk -F'/' '{print $2}' | awk '{print $1}')
+  git config --global user.signingkey $KEY_ID
+  GPG_PUBLIC_KEY=$(gpg --armor --export $KEY_ID)
+  echo "$GPG_PUBLIC_KEY" | gh gpg-key add -
 
   [[ "$restart_dock" == true ]] && killall Dock
   [[ "$restart_finder" == true ]] && killall Finder
