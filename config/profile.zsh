@@ -55,12 +55,6 @@ if [[ "$USER" == "$MATCH_USERNAME" ]]; then
     fi
   done
 
-  echo && echo "==> Setting up git..."
-  git config --global init.defaultBranch "main"
-  git config --global push.autoSetupRemote true
-  git config --global user.name "Neeraj Dalal"
-  git config --global user.email "admin@nrjdalal.com"
-
   echo && echo "==> Ensuring node..."
   source "/opt/homebrew/opt/nvm/nvm.sh"
   nvm install --lts
@@ -71,7 +65,7 @@ if [[ "$USER" == "$MATCH_USERNAME" ]]; then
   brew analytics off && brew update
 
   echo && echo "==> Ensuring brew formulae..."
-  brew install -q --force fzf oven-sh/bun/bun gh git jq mas nvm ollama python@3.9 rsync tree zoxide zsh-autosuggestions zsh-history-substring-search zsh-syntax-highlighting
+  brew install -q --force fzf oven-sh/bun/bun gh git gnupg jq mas nvm ollama python@3.9 rsync tree zoxide zsh-autosuggestions zsh-history-substring-search zsh-syntax-highlighting
 
   if [[ ! -d ~/.config/karabiner/.git ]]; then
     echo && echo "==> Cloning karabiner configuration..."
@@ -103,6 +97,27 @@ mas install 1491071483
 
   echo && echo "==> Running cleanup..."
   rm -rf ~/.junk && brew cleanup --prune=1 -s
+
+  echo && echo "==> Setting up git..."
+  git config --global init.defaultBranch "main"
+  git config --global push.autoSetupRemote true
+  git config --global user.name "Neeraj Dalal"
+  git config --global user.email "admin@nrjdalal.com"
+
+  echo && echo "==> Setting up commit signing..."
+  gpg --batch --generate-key <<EOF
+%no-protection
+Key-Type: RSA
+Key-Length: 2048
+Subkey-Type: RSA
+Subkey-Length: 2048
+Name-Real: Neeraj Dalal
+Name-Email: admin@nrjdalal.com
+Expire-Date: 0
+EOF
+  git config --global commit.gpgSign true
+  git config --global gpg.program gpg
+  git config --global user.signingkey $(gpg --list-secret-keys --keyid-format LONG | grep '^sec' | awk -F'/' '{print $2}' | awk '{print $1}')
 
   [[ "$restart_dock" == true ]] && killall Dock
   [[ "$restart_finder" == true ]] && killall Finder
