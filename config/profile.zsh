@@ -76,6 +76,8 @@ if [[ "$USER" == "$MATCH_USERNAME" ]]; then
   echo && echo "==> Some manual steps if not already done...
 ---------------------------------------------
 
+gh auth login --scopes "repo, read:org, workflow, write:gpg_key"
+
 # https://gumroad.com/library for Supercharge
 # https://usgraphics.com/accounts for Berkeley Mono
 
