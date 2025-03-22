@@ -122,6 +122,7 @@ EOF
   GPG_PUBLIC_KEY=$(gpg --armor --export $KEY_ID)
   echo "$GPG_PUBLIC_KEY" | gh gpg-key add -
 
+  echo && echo "==> Finalizing..."
   [[ "$restart_dock" == true ]] && killall Dock
   [[ "$restart_finder" == true ]] && killall Finder
   if [[ "$pref_changed" == true ]]; then
