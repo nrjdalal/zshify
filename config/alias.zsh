@@ -9,7 +9,8 @@ alias showdesk="defaults write com.apple.finder CreateDesktop true; killall Find
 alias hidedesk="defaults write com.apple.finder CreateDesktop false; killall Finder;"
 
 # npm
+alias ai="bunx dalal@latest ollama"
 alias nanoid="bunx nanoid@latest --alphabet QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm1234567890 --size 24"
 alias p="bunx gitpick@latest"
-alias pn="bunx gitpick@latest nrjdalal/awesome-templates/tree/main/next.js-apps/next.js-pro ."
+alias pn="bunx gitpick@latest nrjdalal/awesome-templates/tree/main/next.js-apps/next.js-pro . && bun i && git init && git add . && git commit -m 'feat: init awesomeness'"
 alias pt="bunx gitpick@latest nrjdalal/starter ."
