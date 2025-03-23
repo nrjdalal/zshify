@@ -55,17 +55,17 @@ if [[ "$USER" == "$MATCH_USERNAME" ]]; then
     fi
   done
 
-  echo && echo "==> Ensuring node..."
-  source "/opt/homebrew/opt/nvm/nvm.sh"
-  nvm install --lts
-  corepack enable pnpm
-  corepack enable yarn
-
   echo && echo "==> Setting up brew..."
   brew analytics off && brew update
 
   echo && echo "==> Ensuring brew formulae..."
   brew install -q --force fzf oven-sh/bun/bun gh git gnupg jq mas nvm ollama python@3.9 rsync tree zoxide zsh-autosuggestions zsh-history-substring-search zsh-syntax-highlighting
+
+  echo && echo "==> Ensuring node..."
+  source "/opt/homebrew/opt/nvm/nvm.sh"
+  nvm install --lts
+  corepack enable pnpm
+  corepack enable yarn
 
   if [[ ! -d ~/.config/karabiner/.git ]]; then
     echo && echo "==> Cloning karabiner configuration..."
