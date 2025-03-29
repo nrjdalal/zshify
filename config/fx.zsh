@@ -49,16 +49,13 @@ $changed_files"
 # Initialize a git repository, add files, and create a GitHub repository
 mkrepo() {
   git init && git add -A
-
-  commit_msg="feat: init awesomeness"
-
-  [[ "$#" -gt 0 && "${@: -1}" != "--public" && "${@: -1}" != "--private" ]] && commit_msg="$*"
-  [[ "${@: -1}" == "--public" || "${@: -1}" == "--private" && "$#" -gt 1 ]] && commit_msg="${*:1:$#-1}"
-
+  repo_type="--private"
+  commit_msg="${*:-feat: init awesomeness}"
+  [[ "$*" == *"--public"* ]] && repo_type="--public"
+  [[ "$*" == *"--private"* ]] && repo_type="--private"
+  commit_msg=$(echo "$commit_msg" | sed 's/--public//g' | sed 's/--private//g' | xargs)
+  [[ -z "$commit_msg" ]] && commit_msg="feat: init awesomeness"
   git commit -S -m "$commit_msg" 2>/dev/null
-
-  repo_type="--private" && [[ "${@: -1}" == "--public" ]] && repo_type="--public"
-
   gh repo create $(basename $(pwd)) --description '' --source . $repo_type --push
 }
 
