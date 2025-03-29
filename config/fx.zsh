@@ -27,20 +27,16 @@ b() {
 g() {
   git add -A
 
-  diff_summary=$(git diff HEAD --shortstat | sed -E 's/ insertions?[^)]*\)/+/g; s/ deletions?[^)]*\)/-/g; s/ changed//g' | xargs | tr -d ',')
   changed_files=$(git diff HEAD --name-only)
   files_list=$(echo "$changed_files" | awk -F'/' '{print $NF}' | tr '\n' ' ')
 
   commit_message="${*:-chore: tweaks}"
   [[ "$commit_message" != *:* ]] && commit_message="chore: $commit_message"
-  if [[ $(echo "$commit_message ~ $diff_summary" | wc -w) -gt 100 ]]; then
+
+  if [[ $(echo "$commit_message $files_list" | wc -w) -gt 100 ]]; then
     commit_message="$commit_message"
-  else
-    commit_message=$(echo "$commit_message |~ $diff_summary|to $files_list" | cut -c1-98)
-    [[ ${#commit_message} -eq 98 ]] && commit_message="$commit_message... "
-    IFS='|' read -r msg_part1 msg_part2 msg_part3 <<<"$commit_message"
-    commit_message="$msg_part1$msg_part3$msg_part2"
   fi
+
   commit_message="$commit_message
   
 $changed_files"
