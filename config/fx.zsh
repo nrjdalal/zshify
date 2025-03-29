@@ -33,10 +33,10 @@ g() {
   commit_message="${*:-chore: tweaks}"
   [[ "$commit_message" != *:* ]] && commit_message="chore: $commit_message"
 
-  echo "$commit_message $files_list"
-
-  if [[ $(echo "$commit_message $files_list" | wc -w) -gt 100 ]]; then
+  if [[ $(echo "$commit_message > $files_list" | wc -w) -gt 100 ]]; then
     commit_message="$commit_message"
+  elif [[ "$commit_message" != "chore: tweaks" ]]; then
+    commit_message="$commit_message > $files_list"
   fi
 
   commit_message="$commit_message
