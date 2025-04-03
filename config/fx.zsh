@@ -27,10 +27,14 @@ b() {
 g() {
   git add -A
 
-  changed_files=$(git diff HEAD --name-only)
+  changed_files=$(git diff --numstat HEAD | awk '{print $1 + $2, $3}' | sort -nr | cut -d' ' -f2-)
   files_list=$(echo "$changed_files" | awk -F'/' '{print $NF}' | tr '\n' ' ')
 
-  commit_message="${*:-chore: tweaks}"
+  if echo "$changed_files" | grep -qE '\.md$'; then
+    commit_message="${*:-docs: tweaks}"
+  else
+    commit_message="${*:-chore: tweaks}"
+  fi
   [[ "$commit_message" != *:* ]] && commit_message="chore: $commit_message"
 
   if [[ $(echo "$commit_message > $files_list" | wc -c) -gt 100 ]]; then
