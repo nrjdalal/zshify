@@ -28,7 +28,7 @@ g() {
   git add -A
 
   changed_files=$(git diff --numstat HEAD | awk '{print $1 + $2, $3}' | sort -nr | cut -d' ' -f2-)
-  files_list=$(echo "$changed_files" | grep -vE '^(package\.json|bun\.lock|package-lock\.json|pnpm-lock\.yaml|yarn\.lock)$') && [ -n "$other_files" ] && changed_files="$other_files"
+  files_list=$(echo "$changed_files" | grep -vE '^(package\.json|bun\.lock|package-lock\.json|pnpm-lock\.yaml|yarn\.lock)$') && [ -n "$files_list" ] && changed_files="$files_list"
 
   if echo "$files_list" | grep -qE '^\.github/workflows'; then
     commit_message="${*:-$([ -z "$(echo "$files_list" | grep -vE '^\.github/workflows')" ] && echo "ci: tweaks" || echo "chore: tweaks")}"
