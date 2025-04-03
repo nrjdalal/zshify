@@ -38,7 +38,7 @@ g() {
     commit_message="${*:-chore: tweaks}"
   fi
 
-  files_list=$(echo "$changed_files" | awk -F'/' '{print $NF}' | tr '\n' ' ')
+  files_list=$(echo "$files_list" | awk -F'/' '{print $NF}' | tr '\n' ' ')
 
   [[ "$commit_message" != *:* ]] && commit_message="chore: $commit_message"
 
