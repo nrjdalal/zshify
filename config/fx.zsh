@@ -42,15 +42,13 @@ g() {
     fi
   elif echo "$changed_files" | grep -qE '\.md$'; then
     if [ -z "$(echo "$changed_files" | grep -vE '\.md$')" ]; then
-      commit_message="${*:-ci: tweaks}"
+      commit_message="${*:-docs: tweaks}"
     else
       commit_message="${*:-chore: tweaks}"
     fi
   else
     commit_message="${*:-chore: tweaks}"
   fi
-
-  #
 
   [[ "$commit_message" != *:* ]] && commit_message="chore: $commit_message"
 
