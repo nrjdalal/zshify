@@ -28,6 +28,10 @@ g() {
   git add -A
 
   changed_files=$(git diff --numstat HEAD | awk '{print $1 + $2, $3}' | sort -nr | cut -d' ' -f2-)
+  other_files=$(echo "$changed_files" | grep -vE '^(package\.json|bun\.lock|pnpm-lock\.yaml)$')
+  if [ -n "$other_files" ]; then
+    changed_files="$other_files"
+  fi
   files_list=$(echo "$changed_files" | awk -F'/' '{print $NF}' | tr '\n' ' ')
 
   if echo "$changed_files" | grep -qE '\.md$'; then
