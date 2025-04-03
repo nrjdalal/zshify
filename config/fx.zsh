@@ -29,7 +29,6 @@ g() {
 
   changed_files=$(git diff --numstat HEAD | awk '{print $1 + $2, $3}' | sort -nr | cut -d' ' -f2-)
   files_list=$(echo "$changed_files" | awk -F'/' '{print $NF}' | tr '\n' ' ')
-
   other_files=$(echo "$changed_files" | grep -vE '^(package\.json|bun\.lock|package-lock\.json|pnpm-lock\.yaml|yarn\.lock)$') && [ -n "$other_files" ] && changed_files="$other_files"
 
   if echo "$changed_files" | grep -qE '^\.github/workflows'; then
