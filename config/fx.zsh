@@ -30,23 +30,11 @@ g() {
   changed_files=$(git diff --numstat HEAD | awk '{print $1 + $2, $3}' | sort -nr | cut -d' ' -f2-)
   files_list=$(echo "$changed_files" | awk -F'/' '{print $NF}' | tr '\n' ' ')
 
-  other_files=$(echo "$changed_files" | grep -vE '^(package\.json|bun\.lock|package-lock\.json|pnpm-lock\.yaml|yarn\.lock)$')
-  if [ -n "$other_files" ]; then
-    changed_files="$other_files"
-  fi
-
+  other_files=$(echo "$changed_files" | grep -vE '^(package\.json|bun\.lock|package-lock\.json|pnpm-lock\.yaml|yarn\.lock)$') && [ -n "$other_files" ] && changed_files="$other_files"
   if echo "$changed_files" | grep -qE '^\.github/workflows'; then
-    if [ -z "$(echo "$changed_files" | grep -vE '^\.github/workflows')" ]; then
-      commit_message="${*:-ci: tweaks}"
-    else
-      commit_message="${*:-chore: tweaks}"
-    fi
+    commit_message="${*:-$([ -z "$(echo "$changed_files" | grep -vE '^\.github/workflows')" ] && echo "ci: tweaks" || echo "chore: tweaks")}"
   elif echo "$changed_files" | grep -qE '\.md$'; then
-    if [ -z "$(echo "$changed_files" | grep -vE '\.md$')" ]; then
-      commit_message="${*:-docs: tweaks}"
-    else
-      commit_message="${*:-chore: tweaks}"
-    fi
+    commit_message="${*:-$([ -z "$(echo "$changed_files" | grep -vE '\.md$')" ] && echo "docs: tweaks" || echo "chore: tweaks")}"
   else
     commit_message="${*:-chore: tweaks}"
   fi
