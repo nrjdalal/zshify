@@ -34,11 +34,22 @@ g() {
   fi
   files_list=$(echo "$changed_files" | awk -F'/' '{print $NF}' | tr '\n' ' ')
 
-  if echo "$changed_files" | grep -qE '\.md$'; then
-    commit_message="${*:-docs: tweaks}"
+  if echo "$changed_files" | grep -qE '^\.github/workflows'; then
+    if [ -z "$(echo "$changed_files" | grep -vE '^\.github/workflows')" ]; then
+      commit_message="${*:-ci: tweaks}"
+    else
+      commit_message="${*:-chore: tweaks}"
+    fi
+  elif echo "$changed_files" | grep -qE '\.md$'; then
+    if [ -z "$(echo "$changed_files" | grep -vE '\.md$')" ]; then
+      commit_message="${*:-ci: tweaks}"
+    else
+      commit_message="${*:-chore: tweaks}"
+    fi
   else
     commit_message="${*:-chore: tweaks}"
   fi
+
   [[ "$commit_message" != *:* ]] && commit_message="chore: $commit_message"
 
   if [[ $(echo "$commit_message > $files_list" | wc -c) -gt 100 ]]; then
