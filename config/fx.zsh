@@ -28,7 +28,8 @@ g() {
   git add -A
 
   changed_files=$(git diff --numstat HEAD | awk '{print $1 + $2, $3}' | sort -nr | cut -d' ' -f2-)
-  files_list=$(echo "$changed_files" | grep -vE '^(package\.json|bun\.lock|package-lock\.json|pnpm-lock\.yaml|yarn\.lock)$') && [ "$files_list" = "" ] && files_list="$changed_files"
+  files_list=$(echo "$changed_files" | grep -vE '^(package\.json|bun\.lock|package-lock\.json|pnpm-lock\.yaml|yarn\.lock)$')
+  [ "$files_list" = "" ] && files_list="$changed_files"
 
   echo "~$files_list~"
 
