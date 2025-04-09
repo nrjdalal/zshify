@@ -31,8 +31,6 @@ g() {
   files_list=$(echo "$changed_files" | grep -vE '^(package\.json|bun\.lock|package-lock\.json|pnpm-lock\.yaml|yarn\.lock)$')
   [ "$files_list" = "" ] && files_list="$changed_files"
 
-  echo "~$files_list~"
-
   if echo "$files_list" | grep -qE '^\.github/workflows'; then
     commit_message="${*:-$([ -z "$(echo "$files_list" | grep -vE '^\.github/workflows')" ] && echo "ci: tweaks" || echo "chore: tweaks")}"
   elif echo "$files_list" | grep -qE '\.md$'; then
