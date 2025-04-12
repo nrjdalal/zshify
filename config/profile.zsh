@@ -56,6 +56,7 @@ if [[ "$USER" == "$MATCH_USERNAME" ]]; then
   done
 
   echo && echo "==> Setting up brew..."
+  export NONINTERACTIVE=1
   brew analytics off && brew update
 
   echo && echo "==> Ensuring brew formulae..."
