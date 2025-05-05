@@ -97,7 +97,12 @@ pglaunch() {
   name="$name-$(openssl rand -base64 3 | LC_CTYPE=C tr -dc 'a-zA-Z0-9' | head -c 4)"
 
   if [[ "$service" == "postgres" ]]; then
-    [[ -z "$port" ]] && port="5555"
+    [[ -z "$port" ]] && port=$((RANDOM % (5555 - 4444 + 1) + 4444))
+
+    # check if port is already in use
+    while lsof -i:$port &>/dev/null; do
+      port=$((RANDOM % (5555 - 4444 + 1) + 4444))
+    done
 
     port="$port"
     pguname="postgres"
