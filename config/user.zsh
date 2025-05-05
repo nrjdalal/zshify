@@ -1,3 +1,6 @@
+# corepack
+export COREPACK_ENABLE_AUTO_PIN=0
+
 # nvm
 [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && source "/opt/homebrew/opt/nvm/nvm.sh"
 

@@ -11,6 +11,7 @@ alias hidedesk="defaults write com.apple.finder CreateDesktop false; killall Fin
 # npm
 alias ai="bunx dalal@latest ollama"
 alias nanoid="bunx nanoid@latest --alphabet QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm1234567890 --size 24"
-alias p="bunx gitpick@latest"
-alias pn="bunx gitpick@latest nrjdalal/awesome-templates/tree/main/next.js-apps/next.js-pro . && bun i && git init && git add . && git commit -S -m 'feat: init awesomeness'"
-alias pt="bunx gitpick@latest nrjdalal/starter ."
+alias next="bunx gitpick@latest nrjdalal/awesome-templates/tree/main/next.js-apps/next.js-pro . && bun i && git init && git add . && git commit -S -m 'feat: init awesomeness'"
+alias pick="bunx gitpick@latest"
+alias ts="bunx gitpick@latest nrjdalal/the-typescript-starter ."
+alias ui="bunx shadcn@latest add -o https://dub.sh/ui.json && bunx prettier --write --ignore-unknown *"
