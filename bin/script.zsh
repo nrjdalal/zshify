@@ -20,10 +20,9 @@ fi
 TEMP_DIR=$(mktemp -d)
 
 git clone https://github.com/nrjdalal/zshify "$TEMP_DIR" &>/dev/null
-curl -s https://raw.githubusercontent.com/nrjdalal/pglaunch/main/bin/fx.sh | cat >"$TEMP_DIR/config/postgres.zsh"
 rsync -a --delete "$TEMP_DIR"/ ~/.zshify/
 
-for config in prompt background fx alias plugins user postgres; do
+for config in prompt background fx alias plugins user; do
   grep "source ~/.zshify/config/${config}.zsh" ~/.zshrc &>/dev/null || echo "source ~/.zshify/config/${config}.zsh" >>~/.zshrc
 done
 
