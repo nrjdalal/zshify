@@ -57,7 +57,7 @@ g() {
 $changed_files"
   fi
 
-  git commit -S -m "$commit_message" && git push || git push
+  git commit -S -m "$commit_message"
 }
 
 # Initialize a git repository, add files, and create a GitHub repository
