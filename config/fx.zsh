@@ -49,9 +49,13 @@ g() {
     commit_message=$(echo "$commit_message > $files_list")
   fi
 
-  commit_message="$commit_message
-  
+  if [[ "$PWD" == "$HOME/work"* ]]; then
+    commit_message="$commit_message"
+  else
+    commit_message="$commit_message
+
 $changed_files"
+  fi
 
   git commit -S -m "$commit_message" && git push || git push
 }
