@@ -76,19 +76,29 @@ mkrepo() {
 # Kill processes using a specific port
 killport() {
   if [[ -z "$1" ]]; then
-    echo "Usage: close_port <port>"
+    echo "Usage: killport <port|name>"
     return 1
   fi
 
-  pids=$(lsof -ti :$1)
+  local target="$1"
+  local pids
 
-  if [[ -z "$pids" ]]; then
-    echo "No processes found using port $1"
-    return 0
+  if [[ "$target" =~ ^[0-9]+$ ]]; then
+    pids=$(lsof -ti :"$target")
+    if [[ -z "$pids" ]]; then
+      echo "No processes found using port $target"
+      return 0
+    fi
+  else
+    pids=$(pgrep -f "$target")
+    if [[ -z "$pids" ]]; then
+      echo "No processes found matching name \"$target\""
+      return 0
+    fi
   fi
 
   echo "$pids" | xargs kill -9
-  echo "Closed processes using port $1"
+  echo "Killed processes: $pids"
 }
 
 # Rename current working directory or existing directory
