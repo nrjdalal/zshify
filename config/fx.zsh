@@ -8,10 +8,21 @@ clone() {
   gh repo clone $@
 }
 
-# Protect directories from git commands
+# Enhanced git command
 git() {
-  [[ "$PWD" == "$HOME" || "$PWD" == "$HOME/Desktop" ]] || command git $@
+  # Disallow git in HOME or Desktop
+  if [[ "$PWD" == "$HOME" || "$PWD" == "$HOME/Desktop" ]]; then
+    return 1
+  fi
+
+  # Intercept only: git checkout -b <branch>
+  if [[ "$1" == "checkout" && "$2" == "-b" && -n "$3" && $# -eq 3 ]]; then
+    command git checkout "$3" 2>/dev/null || command git checkout -b "$3"
+  else
+    command git "$@"
+  fi
 }
+
 
 # Switch to a branch or create a new branch
 b() {
@@ -23,7 +34,7 @@ b() {
   git checkout $1 2>/dev/null || git checkout -b $1
 }
 
-# Add, commit, and push changes to git
+# Add and commit changes with a smart commit message
 g() {
   git add -A
 
