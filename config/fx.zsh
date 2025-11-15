@@ -68,7 +68,7 @@ g() {
 $changed_files"
   fi
 
-  git commit -S -m "$commit_message"
+  git commit -m "$commit_message"
 }
 
 # Initialize a git repository, add files, and create a GitHub repository
@@ -80,7 +80,7 @@ mkrepo() {
   [[ "$*" == *"--private"* ]] && repo_type="--private"
   commit_msg=$(echo "$commit_msg" | sed 's/--public//g' | sed 's/--private//g' | xargs)
   [[ -z "$commit_msg" ]] && commit_msg="feat: init awesomeness"
-  git commit -S -m "$commit_msg" 2>/dev/null
+  git commit -m "$commit_msg" 2>/dev/null
   gh repo create $(basename $(pwd)) --description '' --source . $repo_type --push
 }
 
@@ -116,8 +116,8 @@ killport() {
 rename() {
   if [[ "$#" == "1" ]]; then
     [ ! -d "../$1/" ] && rsync -a "$(pwd)/" "../$1" && rm -rf "$(pwd)/" && cd "../$1/"
-    if [[ $? == 0 && "$TERM_PROGRAM" == "vscode" ]]; then
-      code -r .
+    if [[ $? == 0 && "$TERM_PROGRAM" == "cursor" ]]; then
+      cursor -r .
     fi
   elif [[ "$#" == "2" ]]; then
     [ ! -d "$2/" ] && rsync -a "$1/" "$2" && rm -rf "$1/"
@@ -170,9 +170,9 @@ only-commit() {
   git checkout --orphan tempBranch
   git add -A
   if [[ "$#" == "0" ]]; then
-    git commit -S -m "feat: init awesomeness"
+    git commit -m "feat: init awesomeness"
   else
-    git commit -S -m "$1"
+    git commit -m "$1"
   fi
   git branch -D $CURRENT
   git branch -m $CURRENT

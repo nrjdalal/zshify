@@ -1,5 +1,5 @@
-alias c="code ."
-alias cr="code -r ."
+alias c="cursor ."
+alias cr="cursor -r ."
 alias ls="ls -A --color | sort"
 alias mkcd='cdx'
 alias trash='rm'
@@ -25,6 +25,6 @@ next() {
   if ! git rev-parse --show-toplevel >/dev/null 2>&1; then
     git init
     git add .
-    git commit -S -m "feat: init awesomeness"
+    git commit -m "feat: init awesomeness"
   fi
 }
