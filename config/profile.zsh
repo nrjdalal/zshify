@@ -1,6 +1,6 @@
 #!/bin/zsh
 
-MATCH_USERNAME="nrjdalal"
+MATCH_USERNAME="dismiss"
 
 if [[ "$USER" == "$MATCH_USERNAME" ]]; then
 
@@ -93,7 +93,7 @@ mas install 1491071483
   brew install -q --cask --force google-chrome visual-studio-code
 
   echo && echo "==> Ensuring secondary casks..."
-  brew install -q --cask --force bruno fontbase iina jordanbaird-ice numi pearcleaner qbittorrent raycast rocket whatsapp affinity-designer affinity-photo affinity-publisher
+  brew install -q --cask --force fontbase iina jordanbaird-ice qbittorrent raycast rocket whatsapp affinity
 
   echo && echo "==> Running brew upgrade..."
   brew upgrade
