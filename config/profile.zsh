@@ -1,6 +1,6 @@
 #!/bin/zsh
 
-MATCH_USERNAME="dismiss"
+MATCH_USERNAME="neeraj-dalal"
 
 if [[ "$USER" == "$MATCH_USERNAME" ]]; then
 
