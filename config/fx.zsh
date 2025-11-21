@@ -34,42 +34,50 @@ b() {
   git checkout $1 2>/dev/null || git checkout -b $1
 }
 
-# Add and commit changes with a smart commit message
-g() {
-  git add -A
-
-  changed_files=$(git diff --numstat HEAD | awk '{print $1 + $2, $3}' | sort -nr | cut -d' ' -f2-)
-  files_list=$(echo "$changed_files" | grep -vE '^(package\.json|bun\.lock|package-lock\.json|pnpm-lock\.yaml|yarn\.lock)$')
-  [ "$files_list" = "" ] && files_list="$changed_files"
-
-  if echo "$files_list" | grep -qE '^\.github/workflows'; then
-    commit_message="${*:-$([ -z "$(echo "$files_list" | grep -vE '^\.github/workflows')" ] && echo "ci: tweaks" || echo "chore: tweaks")}"
-  elif echo "$files_list" | grep -qE '\.md$'; then
-    commit_message="${*:-$([ -z "$(echo "$files_list" | grep -vE '\.md$')" ] && echo "docs: tweaks" || echo "chore: tweaks")}"
-  else
-    commit_message="${*:-chore: tweaks}"
-  fi
-
-  files_list=$(echo "$files_list" | awk -F'/' '{print $NF}' | tr '\n' ' ')
-
-  [[ "$commit_message" != *:* ]] && commit_message="chore: $commit_message"
-
-  if [[ $(echo "$commit_message > $files_list" | wc -c) -gt 100 ]]; then
-    commit_message=$(echo "$commit_message > $files_list" | cut -c 1-97)...
-  else
-    commit_message=$(echo "$commit_message > $files_list")
-  fi
-
-  if [[ "$PWD" == "$HOME/work"* ]]; then
-    commit_message="$commit_message"
-  else
-    commit_message="$commit_message
-
-$changed_files"
-  fi
-
-  git commit -m "$commit_message"
+# Git operations
+_git_has_changes() {
+  [[ -n "$(git status --porcelain)" ]]
 }
+
+_git_has_staged() {
+  [[ -n "$(git diff --cached --name-only)" ]]
+}
+
+_git_maybe_add() {
+  if ! _git_has_staged; then
+    git add -A
+  fi
+}
+
+_git_commit_with_prefix() {
+  local msg="$*"
+  local pattern='^[a-zA-Z]+(\([^)]+\))?!?:'
+  if [[ -z "$msg" ]]; then
+    return 1
+  fi
+  if [[ ! "$msg" =~ $pattern ]]; then
+    msg="chore: $msg"
+  fi
+  git commit -m "$msg"
+}
+
+gacp() {
+  if _git_has_changes; then
+    _git_maybe_add
+    if ! _git_commit_with_prefix "$@"; then
+      echo "Commit failed (no or invalid message); aborting push."
+      return 1
+    fi
+  fi
+  git push
+}
+alias g="gacp"
+
+gc() { _git_commit_with_prefix "$@"; }
+alias commit="gc"
+
+ga() { git add -A; }
+alias add="ga"
 
 # Initialize a git repository, add files, and create a GitHub repository
 mkrepo() {
