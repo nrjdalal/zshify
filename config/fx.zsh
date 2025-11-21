@@ -26,12 +26,17 @@ git() {
 
 # Switch to a branch or create a new branch
 b() {
-  if [[ -z "$1" ]]; then
+  local name="$1"
+  if [[ -z "$name" ]]; then
     echo "Usage: b <branch-name>"
     return 1
   fi
 
-  git checkout $1 2>/dev/null || git checkout -b $1
+  if git show-ref --verify --quiet "refs/heads/$name"; then
+    git switch "$name"
+  else
+    git switch -c "$name"
+  fi
 }
 
 # Git operations
@@ -78,6 +83,30 @@ alias commit="gc"
 
 ga() { git add -A; }
 alias add="ga"
+
+stash() {
+  local name="$1"
+  if [[ -z "$name" ]]; then
+    git stash push
+  else
+    git stash push -m "$name"
+  fi
+}
+
+pop() {
+  local name="$1"
+  if [[ -z "$name" ]]; then
+    git stash pop
+    return
+  fi
+  local ref
+  ref=$(git stash list | grep "$name" | head -n 1 | awk -F: '{print $1}')
+  if [[ -z "$ref" ]]; then
+    echo "No stash found with name: $name"
+    return 1
+  fi
+  git stash pop "$ref"
+}
 
 # Initialize a git repository, add files, and create a GitHub repository
 mkrepo() {
