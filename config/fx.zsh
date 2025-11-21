@@ -34,7 +34,7 @@ b() {
   git checkout $1 2>/dev/null || git checkout -b $1
 }
 
-# Git operations shorthands
+# Git operations
 _git_has_changes() {
   [[ -n "$(git status --porcelain)" ]]
 }
