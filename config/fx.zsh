@@ -8,7 +8,7 @@ clone() {
   gh repo clone $@
 }
 
-ghs() {
+switch() {
   local account="$1"
 
   if [[ -n "$account" ]]; then
