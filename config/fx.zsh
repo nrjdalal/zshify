@@ -8,6 +8,19 @@ clone() {
   gh repo clone $@
 }
 
+ghs() {
+  local account="$1"
+
+  if [[ -n "$account" ]]; then
+    gh auth switch --hostname github.com --user "$account" 2>/dev/null || gh auth login --hostname github.com --git-protocol https --web
+  else
+    gh auth switch --hostname github.com 2>/dev/null || gh auth login --hostname github.com --git-protocol https --web
+  fi
+
+  gh auth setup-git 2>/dev/null
+  printf "protocol=https\nhost=github.com\n\n" | git credential-osxkeychain erase 2>/dev/null || true
+}
+
 # Enhanced git command
 git() {
   # Disallow git in HOME or Desktop
@@ -34,6 +47,8 @@ b() {
 
   if git show-ref --verify --quiet "refs/heads/$name"; then
     git switch "$name"
+  elif git show-ref --verify --quiet "refs/remotes/origin/$name"; then
+    git switch --track "origin/$name"
   else
     git switch -c "$name"
   fi
