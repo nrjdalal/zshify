@@ -29,7 +29,7 @@ Why not change it to it's minimal yet advanced version? And that too with colors
 
 ```sh
 # to enrich your terminal experience run this command after installing brew
-brew install bat zsh-autosuggestions zsh-history-substring-search zsh-syntax-highlighting fzf zoxide
+brew install bat fzf zoxide zsh-autosuggestions zsh-history-substring-search zsh-syntax-highlighting
 ```
 
 ## What's Included
