@@ -48,7 +48,29 @@ precmd() {
     _PROMPT_LAST_PKG="$_pkg_mtime"
     _recompute_deps
   fi
-  CURRENT_BRANCH=$(git branch --show-current 2>/dev/null)
+  # Git info (branch, ahead/behind, stash)
+  CURRENT_BRANCH=""
+  local GIT_INFO=""
+  local git_dir=$(command git rev-parse --git-dir 2>/dev/null)
+  if [[ -n "$git_dir" ]]; then
+    # Branch from HEAD file (no fork)
+    local head=$(<"$git_dir/HEAD")
+    [[ "$head" == ref:\ * ]] && CURRENT_BRANCH="${head#ref: refs/heads/}"
+    # Ahead/behind
+    local ab=$(command git rev-list --left-right --count HEAD...@{u} 2>/dev/null)
+    if [[ -n "$ab" ]]; then
+      local ahead=${ab%%$'\t'*}
+      local behind=${ab##*$'\t'}
+      (( ahead > 0 )) && GIT_INFO+=" ↑$ahead"
+      (( behind > 0 )) && GIT_INFO+=" ↓$behind"
+    fi
+    # Stash count (pure file read, no fork)
+    if [[ -f "$git_dir/logs/refs/stash" ]]; then
+      local stash_count=0
+      while IFS= read -r _; do ((stash_count++)); done < "$git_dir/logs/refs/stash"
+      (( stash_count > 0 )) && GIT_INFO+=" ≡$stash_count"
+    fi
+  fi
   [[ "$(fc -ln -1)" == "clear" ]] && START=""
   # set the prompt to the current user, directory, branch, and dependencies
   local ELAPSED=""
@@ -67,9 +89,11 @@ precmd() {
   local right="$ELAPSED"
   local padding=""
   if [[ -n "$right" ]]; then
-    local left="$USER ${${PWD/#$HOME/~}} $CURRENT_BRANCH$DEPS"
+    local left="$USER ${${PWD/#$HOME/~}} $CURRENT_BRANCH$DEPS$GIT_INFO"
     # Count extra width for emojis (each emoji is 2 cols but ${#} counts 1)
-    local emoji_count=$(echo "$left" | grep -o '[📦💠]' | wc -l | tr -d ' ')
+    local emoji_count=0
+    [[ "$left" == *📦* ]] && ((emoji_count++))
+    [[ "$left" == *💠* ]] && ((emoji_count++))
     local left_len=$(( ${#left} + emoji_count ))
     local right_len=${#right}
     local pad=$((COLUMNS - left_len - right_len - 1))
@@ -79,9 +103,9 @@ precmd() {
   local _c="%F{green}"
   (( _last_exit != 0 )) && _c="%F{red}"
   if [[ -n "$ELAPSED" ]]; then
-    PROMPT="$START$USER %F{cyan}%~ %F{15}$CURRENT_BRANCH$DEPS$padding${_c}$ELAPSED%f"$'\n'"${_c}%B%(!.#.>)%b%f "
+    PROMPT="$START$USER %F{cyan}%~ %F{15}$CURRENT_BRANCH$DEPS$GIT_INFO$padding${_c}$ELAPSED%f"$'\n'"${_c}%B%(!.#.>)%b%f "
   else
-    PROMPT="$START$USER %F{cyan}%~ %F{15}$CURRENT_BRANCH$DEPS"$'\n'"${_c}%B%(!.#.>)%b%f "
+    PROMPT="$START$USER %F{cyan}%~ %F{15}$CURRENT_BRANCH$DEPS$GIT_INFO"$'\n'"${_c}%B%(!.#.>)%b%f "
   fi
   START=$'\n'
   unset TIMER
