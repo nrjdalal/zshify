@@ -108,7 +108,9 @@ mas install 1491071483
   git config --global user.email "admin@nrjdalal.com"
 
   echo && echo "==> Setting up commit signing..."
-  gpg --batch --generate-key <<EOF
+  KEY_ID=$(gpg --list-secret-keys --keyid-format LONG 2>/dev/null | grep '^sec' | head -n 1 | awk -F'/' '{print $2}' | awk '{print $1}')
+  if [[ -z "$KEY_ID" ]]; then
+    gpg --batch --generate-key <<EOF
 %no-protection
 Key-Type: RSA
 Key-Length: 2048
@@ -118,12 +120,13 @@ Name-Real: Neeraj Dalal
 Name-Email: admin@nrjdalal.com
 Expire-Date: 0
 EOF
+    KEY_ID=$(gpg --list-secret-keys --keyid-format LONG | grep '^sec' | head -n 1 | awk -F'/' '{print $2}' | awk '{print $1}')
+    GPG_PUBLIC_KEY=$(gpg --armor --export "$KEY_ID")
+    echo "$GPG_PUBLIC_KEY" | gh gpg-key add -
+  fi
   git config --global commit.gpgSign true
   git config --global gpg.program gpg
-  KEY_ID=$(gpg --list-secret-keys --keyid-format LONG | grep '^sec' | head -n 1 | awk -F'/' '{print $2}' | awk '{print $1}')
-  git config --global user.signingkey $KEY_ID
-  GPG_PUBLIC_KEY=$(gpg --armor --export $KEY_ID)
-  echo "$GPG_PUBLIC_KEY" | gh gpg-key add -
+  git config --global user.signingkey "$KEY_ID"
 
   echo && echo "==> Finalizing..."
   [[ "$restart_dock" == true ]] && killall Dock
