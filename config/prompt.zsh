@@ -15,16 +15,15 @@ preexec() {
 }
 
 precmd() {
-  # if [ $? -ne 0 ]; then
-  #   run a command if the last command failed
-  # fi
-  # get the number of dependencies in package.json
-  DEPS=$(jq '.dependencies | length' package.json 2>/dev/null)
-  DEVDEPS=$(jq '.devDependencies | length' package.json 2>/dev/null)
-  DEPS=$([ "$DEPS" -eq 0 ] 2>/dev/null && echo "" || echo " 📦$DEPS")
-  DEVDEPS=$([ "$DEVDEPS" -eq 0 ] 2>/dev/null && echo "" || echo " 💠$DEVDEPS")
-  DEPS="$DEVDEPS$DEPS"
-  # get the current branch
+  # Recompute deps and branch only when directory changes
+  if [[ "$PWD" != "$_PROMPT_LAST_PWD" ]]; then
+    _PROMPT_LAST_PWD="$PWD"
+    DEPS=$(jq '.dependencies | length' package.json 2>/dev/null)
+    DEVDEPS=$(jq '.devDependencies | length' package.json 2>/dev/null)
+    DEPS=$([ "$DEPS" -eq 0 ] 2>/dev/null && echo "" || echo " 📦$DEPS")
+    DEVDEPS=$([ "$DEVDEPS" -eq 0 ] 2>/dev/null && echo "" || echo " 💠$DEVDEPS")
+    DEPS="$DEVDEPS$DEPS"
+  fi
   CURRENT_BRANCH=$(git branch --show-current 2>/dev/null)
   [[ "$(fc -ln -1)" == "clear" ]] && START=""
   # set the prompt to the current user, directory, branch, and dependencies
