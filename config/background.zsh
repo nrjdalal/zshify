@@ -66,16 +66,24 @@ if [ $TIME_DIFF -gt $INTERVAL ]; then
       done
     ' _ {} +
 
-    # Start the background task with nohup
+    # Start the background task fully detached from terminal
     nohup zsh -c "
       trap 'rm -f \"$LOCK_FILE.lock\"' EXIT
 
-      # Log the start time
-      echo \"$(date +"%Y-%m-%d %H:%M:%S") > ZSHIFY_BACKROUND_RUN\" >> \"$LOG_FILE\"
+      # Detach from controlling terminal
+      exec </dev/null >/dev/null 2>/dev/null
 
-      # Source profile
-      source ~/.zshify/config/profile.zsh
-    " >>"$LOG_FILE" 2>&1 </dev/null &
+      # Ensure no interactive prompts
+      export NONINTERACTIVE=1
+      export HOMEBREW_NO_AUTO_UPDATE=1
+      export SUDO_ASKPASS=/usr/bin/false
+
+      # Log the start time
+      echo \"\$(date +\"%Y-%m-%d %H:%M:%S\") > ZSHIFY_BACKROUND_RUN\" >> \"$LOG_FILE\"
+
+      # Source profile, capture all output to log
+      source ~/.zshify/config/profile.zsh >> \"$LOG_FILE\" 2>&1
+    " </dev/null >>"$LOG_FILE" 2>&1 &
 
     # Detach the process
     disown
