@@ -9,11 +9,16 @@ setopt INC_APPEND_HISTORY_TIME
 setopt RM_STAR_SILENT
 
 [ "$PWD" = "$HOME" ] && cd ~/Desktop
+# Newline before prompt unless fresh terminal (cursor at row 1)
 START=$'\n'
+print -n '\e[6n' > /dev/tty
+IFS='[;' read -sd R _ _row _ < /dev/tty
+(( _row == 1 )) && START=""
 
 preexec() {
   TIMER=$(print -P %D{%s%3.})
   _CMD_RUNNING=1
+  _LAST_CMD="$1"
 }
 
 _recompute_deps() {
@@ -71,7 +76,7 @@ precmd() {
       (( stash_count > 0 )) && GIT_INFO+=" ≡$stash_count"
     fi
   fi
-  [[ "$(fc -ln -1)" == "clear" ]] && START=""
+  [[ "$_LAST_CMD" == "clear" ]] && START=""
   # set the prompt to the current user, directory, branch, and dependencies
   local ELAPSED=""
   if [ $TIMER ]; then

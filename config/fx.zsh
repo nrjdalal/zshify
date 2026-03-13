@@ -226,6 +226,9 @@ rm() {
 
 # Remove commit history and create a new initial commit
 only-commit() {
+  echo "Will rewrite ALL history and force push."
+  read -q "?Are you sure? [y/N] " || { echo; return 1; }
+  echo
   CURRENT=$(git rev-parse --abbrev-ref origin/HEAD | cut -c8-)
   git checkout --orphan tempBranch
   git add -A
@@ -251,12 +254,18 @@ git-main() {
 
 # Reset the git repository to a specific commit
 reset() {
+  echo "Will reset to ${1:-HEAD} and force push."
+  read -q "?Are you sure? [y/N] " || { echo; return 1; }
+  echo
   git reset --hard "$1"
   git push -f
 }
 
 # Undo the last git commit
 undo() {
+  echo "Will discard last commit and force push."
+  read -q "?Are you sure? [y/N] " || { echo; return 1; }
+  echo
   git reset --hard HEAD~1
   git push -f
 }
