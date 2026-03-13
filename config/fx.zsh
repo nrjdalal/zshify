@@ -1,11 +1,3 @@
-ls() {
-  if [[ $# -eq 0 ]]; then
-    command ls -A --color | sort
-  else
-    command ls "$@"
-  fi
-}
-
 # Create a directory and navigate into it
 cdx() {
   mkdir -p "$1" && cd "$1"
@@ -28,22 +20,6 @@ switch() {
   gh auth setup-git 2>/dev/null
   printf "protocol=https\nhost=github.com\n\n" | git credential-osxkeychain erase 2>/dev/null || true
 }
-
-# Enhanced git command
-git() {
-  # Disallow git in HOME or Desktop
-  if [[ "$PWD" == "$HOME" || "$PWD" == "$HOME/Desktop" ]]; then
-    return 1
-  fi
-
-  # Intercept only: git checkout -b <branch>
-  if [[ "$1" == "checkout" && "$2" == "-b" && -n "$3" && $# -eq 3 ]]; then
-    command git checkout "$3" 2>/dev/null || command git checkout -b "$3"
-  else
-    command git "$@"
-  fi
-}
-
 
 # Switch to a branch or create a new branch
 b() {
@@ -221,42 +197,6 @@ rename() {
   fi
 }
 
-# Better rm command
-rm() {
-  declare -a secure_dirs=("$HOME" "$HOME/Desktop")
-
-  local confirm=false
-  local args=()
-  for arg in "$@"; do
-    if [[ "$arg" == "--confirm" ]]; then
-      confirm=true
-    else
-      args+=("$arg")
-    fi
-  done
-
-  if ! $confirm; then
-    local current_dir=$(pwd | tr '[:upper:]' '[:lower:]')
-    for dir in "${secure_dirs[@]}"; do
-      if [[ "$current_dir" == "$(echo "$dir" | tr '[:upper:]' '[:lower:]')" ]]; then
-        echo -e "\nYou are in a secured directory. Use --confirm to proceed."
-        return 1
-      fi
-    done
-  fi
-
-  if [[ "${#args[@]}" -eq 0 ]]; then
-    local dir_count=$(find . -maxdepth 1 -type d ! -name "." ! -name ".." | wc -l | xargs)
-    local file_count=$(find . -maxdepth 1 -type f ! -name "." ! -name ".." ! -name ".*" | wc -l | xargs)
-    local hidden_file_count=$(find . -maxdepth 1 -type f -name ".*" ! -name "." ! -name ".." | wc -l | xargs)
-    file_count=$((file_count + hidden_file_count))
-    find . -maxdepth 1 ! -name "." ! -name ".." -exec rm -rf {} +
-    echo -e "\n$dir_count directories, $file_count files removed"
-  else
-    command rm "${args[@]}"
-  fi
-}
-
 # Remove commit history and create a new initial commit
 only-commit() {
   echo "Will rewrite ALL history and force push."
@@ -303,33 +243,88 @@ undo() {
   git push -f
 }
 
-# Use bun instead of npm, if --real is passed, use the real npm
-if command -v bun &>/dev/null; then
-  npm() {
-    if [[ "$*" == *"--real"* ]] || [[ -n "$USE_REAL_NPM" ]]; then
-      export USE_REAL_NPM=1
-      trap 'unset USE_REAL_NPM' EXIT
-      local args=("${@/--real/}")
-      command npm "${args[@]}"
+# Interactive-only: override native commands
+if [[ -o interactive ]]; then
+  ls() {
+    if [[ $# -eq 0 ]]; then
+      command ls -A --color | sort
     else
-      bun "$@"
+      command ls "$@"
     fi
   }
-  npx() {
-    if [[ "$*" == *"--real"* ]] || [[ -n "$USE_REAL_NPX" ]]; then
-      export USE_REAL_NPX=1
-      trap 'unset USE_REAL_NPX' EXIT
-      local args=("${@/--real/}")
-      command npx "${args[@]}"
+
+  # Enhanced git command
+  git() {
+    # Disallow git in HOME or Desktop
+    if [[ "$PWD" == "$HOME" || "$PWD" == "$HOME/Desktop" ]]; then
+      return 1
+    fi
+
+    # Intercept only: git checkout -b <branch>
+    if [[ "$1" == "checkout" && "$2" == "-b" && -n "$3" && $# -eq 3 ]]; then
+      command git checkout "$3" 2>/dev/null || command git checkout -b "$3"
     else
-      bunx "$@"
+      command git "$@"
     fi
   }
-else
-  npm() {
-    command npm "$@"
+
+  # Better rm command
+  rm() {
+    declare -a secure_dirs=("$HOME" "$HOME/Desktop")
+
+    local confirm=false
+    local args=()
+    for arg in "$@"; do
+      if [[ "$arg" == "--confirm" ]]; then
+        confirm=true
+      else
+        args+=("$arg")
+      fi
+    done
+
+    if ! $confirm; then
+      local current_dir=$(pwd | tr '[:upper:]' '[:lower:]')
+      for dir in "${secure_dirs[@]}"; do
+        if [[ "$current_dir" == "$(echo "$dir" | tr '[:upper:]' '[:lower:]')" ]]; then
+          echo -e "\nYou are in a secured directory. Use --confirm to proceed."
+          return 1
+        fi
+      done
+    fi
+
+    if [[ "${#args[@]}" -eq 0 ]]; then
+      local dir_count=$(find . -maxdepth 1 -type d ! -name "." ! -name ".." | wc -l | xargs)
+      local file_count=$(find . -maxdepth 1 -type f ! -name "." ! -name ".." ! -name ".*" | wc -l | xargs)
+      local hidden_file_count=$(find . -maxdepth 1 -type f -name ".*" ! -name "." ! -name ".." | wc -l | xargs)
+      file_count=$((file_count + hidden_file_count))
+      find . -maxdepth 1 ! -name "." ! -name ".." -exec rm -rf {} +
+      echo -e "\n$dir_count directories, $file_count files removed"
+    else
+      command rm "${args[@]}"
+    fi
   }
-  npx() {
-    command npx "$@"
-  }
+
+  # Use bun instead of npm
+  if command -v bun &>/dev/null; then
+    npm() {
+      if [[ "$*" == *"--real"* ]] || [[ -n "$USE_REAL_NPM" ]]; then
+        export USE_REAL_NPM=1
+        trap 'unset USE_REAL_NPM' EXIT
+        local args=("${@/--real/}")
+        command npm "${args[@]}"
+      else
+        bun "$@"
+      fi
+    }
+    npx() {
+      if [[ "$*" == *"--real"* ]] || [[ -n "$USE_REAL_NPX" ]]; then
+        export USE_REAL_NPX=1
+        trap 'unset USE_REAL_NPX' EXIT
+        local args=("${@/--real/}")
+        command npx "${args[@]}"
+      else
+        bunx "$@"
+      fi
+    }
+  fi
 fi
