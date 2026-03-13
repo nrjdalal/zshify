@@ -6,17 +6,13 @@ Zshify is a minimalistic, one command installation to customize the prompt of yo
 
 ## Installation
 
-Installation is done using the [`npx`](https://docs.npmjs.com/getting-started/installing-npm-packages-locally) command:
-
 ```zsh
-npx zshify
+/bin/zsh -c "$(curl -fsSL https://rdt.li/zshify)"
 ```
-
-Alternatively, you can install using `/bin/zsh -c "$(curl -fsSL https://rdt.li/zshify)"` command.
 
 Yeah that's it, no downloads, no hassle. A minimalistic installation for a minimalistic package.
 
-> See advanced section to to enrich your terminal experience with autosuggestions, history search and syntax highlighting.
+> See advanced section to enrich your terminal experience with autosuggestions, history search and syntax highlighting.
 
 ## Why Zshify?
 
@@ -36,47 +32,67 @@ Why not change it to it's minimal yet advanced version? And that too with colors
 brew install zsh-autosuggestions zsh-history-substring-search zsh-syntax-highlighting fzf zoxide
 ```
 
-### Alias
+## What's Included
 
-```sh
-# open files and folders in vscode
-alias mkcd="cdx"
-alias c="code ."
-alias cr="code -r ."
-```
+### Prompt
+
+A minimal, informative prompt showing:
+
+- Current directory (abbreviated)
+- Git branch, ahead/behind counts, and stash count
+- Responsive layout that adapts to terminal width
 
 ### Functions
 
-```sh
-# creates a directory recursively if it doesn't exists and switch to it
-mkcd "newProject" || mkcd "newProject/subProject"
+| Command | Description |
+| --- | --- |
+| `ls` | Enhanced ls with hidden files, color, and sorting (no args). Passes through to default ls with flags. |
+| `cdx <dir>` | Create a directory and cd into it |
+| `clone <repo>` | Clone a GitHub repo via `gh` |
+| `switch [account]` | Switch GitHub account with `gh auth` |
+| `b <branch>` | Switch to, track, or create a git branch |
+| `g "message"` | Add, commit (with conventional prefix), and push |
+| `gc "message"` | Commit with auto-prefixed message |
+| `ga` | Stage all changes |
+| `stash [name]` | Push stash if changes exist, list stashes if clean. With a name, pushes a named stash. |
+| `pop [name]` | Pop latest stash, or pop by name |
+| `unstash` | List and clear all stashes (with confirmation) |
+| `mkrepo [--public]` | Init repo, commit, and create GitHub repo |
+| `killport <port\|name>` | Kill processes on a port or by name |
+| `rename <name>` | Rename current directory |
+| `rm` | Enhanced rm that clears directory contents, with safeguards for home/desktop |
+| `only-commit` | Squash all history into a single commit (with confirmation) |
+| `reset [ref]` | Hard reset and force push (with confirmation) |
+| `undo` | Discard last commit and force push (with confirmation) |
+| `git-main` | Migrate default branch from master to main |
+| `next` | Scaffold a Next.js project from template |
 
-# clone any github repo
-clone nrjdalal/zshify
+### Aliases
 
-# git add, commit and push (with message)
-g "commit message"
+| Alias | Command |
+| --- | --- |
+| `c` | `cursor .` |
+| `cr` | `cursor -r .` |
+| `mkcd` | `cdx` |
+| `trash` | `rm` |
+| `add` | `ga` |
+| `commit` | `gc` |
+| `showdesk` / `hidedesk` | Toggle desktop icons |
 
-# just enhanced version of ls with colors and sorting
-ls
+### Git Enhancements
 
-# create a github repo from command line (pass --public for private repo)
-mkrepo || mkrepo --public
+- `git` is wrapped to prevent accidental operations in `$HOME` or `~/Desktop`
+- `git checkout -b <branch>` auto-switches if the branch already exists
+- `npm` and `npx` are aliased to `bun` and `bunx` when bun is available (use `--real` to bypass)
 
-# close any application running on a given port
-close 3000
+### Background Tasks
 
-# rename current directory to new name
-rename "newName"
+Zshify runs a daily background task (via `background.zsh`) that:
 
-# trash all files and folders including hidden files
-trash
-```
+- Executes the profile setup script (`profile.zsh`)
+- Logs activity to `~/.logs/.brewlog`
+- View logs with `brewlog`, clear with `brewlog clear`
 
-### Postgres Launcher
+### User Config
 
-```sh
-pglaunch
-```
-
-<!-- 0 -->
+Add your personal configuration to `~/.zshify/config/user.zsh` — it's sourced last and won't be overwritten on updates.
