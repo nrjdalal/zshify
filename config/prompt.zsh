@@ -14,17 +14,33 @@ preexec() {
   TIMER=$(print -P %D{%s%3.})
 }
 
+_recompute_deps() {
+  DEPS="" DEVDEPS=""
+  [[ ! -f package.json ]] && return
+  local d=0 dd=0 section=""
+  while IFS= read -r line; do
+    case "$line" in
+      *'"dependencies"'*) section="deps"; continue ;;
+      *'"devDependencies"'*) section="devdeps"; continue ;;
+      *'}'*) section=""; continue ;;
+    esac
+    if [[ -n "$section" && "$line" == *'": '* ]]; then
+      [[ "$section" == "deps" ]] && ((d++))
+      [[ "$section" == "devdeps" ]] && ((dd++))
+    fi
+  done < package.json
+  (( d > 0 )) && DEPS=" 📦$d" || DEPS=""
+  (( dd > 0 )) && DEVDEPS=" 💠$dd" || DEVDEPS=""
+  DEPS="$DEVDEPS$DEPS"
+}
+
 precmd() {
   # Recompute deps when directory or package.json changes
   local _pkg_mtime=$(stat -f %m package.json 2>/dev/null)
   if [[ "$PWD" != "$_PROMPT_LAST_PWD" || "$_pkg_mtime" != "$_PROMPT_LAST_PKG" ]]; then
     _PROMPT_LAST_PWD="$PWD"
     _PROMPT_LAST_PKG="$_pkg_mtime"
-    DEPS=$(jq '.dependencies | length' package.json 2>/dev/null)
-    DEVDEPS=$(jq '.devDependencies | length' package.json 2>/dev/null)
-    DEPS=$([ "$DEPS" -eq 0 ] 2>/dev/null && echo "" || echo " 📦$DEPS")
-    DEVDEPS=$([ "$DEVDEPS" -eq 0 ] 2>/dev/null && echo "" || echo " 💠$DEVDEPS")
-    DEPS="$DEVDEPS$DEPS"
+    _recompute_deps
   fi
   CURRENT_BRANCH=$(git branch --show-current 2>/dev/null)
   [[ "$(fc -ln -1)" == "clear" ]] && START=""
