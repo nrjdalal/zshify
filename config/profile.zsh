@@ -60,11 +60,11 @@ if [[ "$USER" == "$MATCH_USERNAME" ]]; then
   brew analytics off && brew update
 
   echo && echo "==> Ensuring brew formulae..."
-  brew install -q --force fzf oven-sh/bun/bun gh git gnupg jq mas ni nvm ollama python@3.9 rsync tree zoxide zsh-autosuggestions zsh-history-substring-search zsh-syntax-highlighting
+  brew install -q --force fnm fzf oven-sh/bun/bun gh git gnupg jq mas ni ollama python@3.9 rsync tree zoxide zsh-autosuggestions zsh-history-substring-search zsh-syntax-highlighting
 
   echo && echo "==> Ensuring node..."
-  source "/opt/homebrew/opt/nvm/nvm.sh"
-  nvm install --lts
+  eval "$(fnm env)"
+  fnm install --lts
   corepack enable pnpm
   corepack enable yarn
 

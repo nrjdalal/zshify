@@ -1,20 +1,14 @@
+# bun
+[ -d ~/.bun/bin ] && PATH=~/.bun/bin:$PATH
+
 # corepack
 export COREPACK_ENABLE_AUTO_PIN=0
 
-# nvm
-[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && source "/opt/homebrew/opt/nvm/nvm.sh"
+# fnm
+command -v fnm &>/dev/null && eval "$(fnm env --use-on-cd --shell zsh)"
 
 # fzf
 command -v fzf &>/dev/null && source <(fzf --zsh)
 
 # zoxide
-command -v zoxide &>/dev/null && eval "$(zoxide init zsh --cmd cd)"
-
-# bun
-[ -d ~/.bun/bin ] && PATH=~/.bun/bin:$PATH
-
-# bun completions
-[ -s ~/.bun/_bun ] && source ~/.bun/_bun
-
-# console-ninja
-[ -d ~/.console-ninja/.bin ] && PATH=~/.console-ninja/.bin:$PATH
+command -v zoxide &>/dev/null && eval "$(zoxide init zsh)"
