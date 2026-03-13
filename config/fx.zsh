@@ -304,6 +304,11 @@ if [[ -o interactive ]]; then
     fi
   }
 
+  # Use bat for syntax-highlighted output (no pager, no line numbers)
+  if command -v bat &>/dev/null; then
+    cat() { bat --paging=never --style=plain "$@"; }
+  fi
+
   # Use bun instead of npm
   if command -v bun &>/dev/null; then
     npm() {
