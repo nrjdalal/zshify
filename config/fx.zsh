@@ -1,13 +1,14 @@
-# Create a directory and navigate into it
+# create a directory and cd into it
 cdx() {
   mkdir -p "$1" && cd "$1"
 }
 
-# Clone a GitHub repository
+# clone a GitHub repository via gh
 clone() {
   gh repo clone "$@"
 }
 
+# switch GitHub account via gh auth
 switch() {
   local account="$1"
 
@@ -21,7 +22,7 @@ switch() {
   printf "protocol=https\nhost=github.com\n\n" | git credential-osxkeychain erase 2>/dev/null || true
 }
 
-# Switch to a branch or create a new branch
+# switch to, track, or create a git branch
 b() {
   local name="$1"
   if [[ -z "$name" ]]; then
@@ -38,7 +39,7 @@ b() {
   fi
 }
 
-# Git operations
+# git operations
 _git_has_changes() {
   [[ -n "$(git status --porcelain)" ]]
 }
@@ -65,6 +66,7 @@ _git_commit_with_prefix() {
   git commit -m "$msg"
 }
 
+# add, commit with conventional prefix, and push
 gacp() {
   if _git_has_changes; then
     _git_maybe_add
@@ -83,6 +85,7 @@ alias commit="gc"
 ga() { git add -A; }
 alias add="ga"
 
+# stash changes or list stashes if clean
 stash() {
   local name="$1"
   if [[ -z "$name" ]]; then
@@ -101,6 +104,7 @@ stash() {
   git stash push -m "$name"
 }
 
+# pop latest stash or pop by name
 pop() {
   local name="$1"
   if [[ -z "$name" ]]; then
@@ -116,6 +120,7 @@ pop() {
   git stash pop "$ref"
 }
 
+# list and clear all stashes
 unstash() {
   local list=$(git stash list 2>/dev/null)
   if [[ -z "$list" ]]; then
@@ -132,7 +137,7 @@ unstash() {
   fi
 }
 
-# Initialize a git repository, add files, and create a GitHub repository
+# init repo, commit, and create GitHub repository
 mkrepo() {
   git init && git add -A
   repo_type="--private"
@@ -145,7 +150,7 @@ mkrepo() {
   gh repo create "$(basename "$(pwd)")" --description '' --source . "$repo_type" --push
 }
 
-# Kill processes using a specific port
+# kill processes by port or name
 killport() {
   if [[ -z "$1" ]]; then
     echo "Usage: killport <port|name>"
@@ -162,10 +167,10 @@ killport() {
       return 0
     fi
   else
-    # Match by name + find all child processes
+    # match by name + find all child processes
     pids=$(pgrep -f "$target" 2>/dev/null)
     if [[ -n "$pids" ]]; then
-      # Also find children of matched processes
+      # also find children of matched processes
       local children=""
       for pid in ${(f)pids}; do
         children+=$(pgrep -P "$pid" 2>/dev/null)$'\n'
@@ -182,7 +187,7 @@ killport() {
   echo "Killed processes: $pids"
 }
 
-# Rename current working directory or existing directory
+# rename current or existing directory
 rename() {
   if [[ "$#" == "1" ]]; then
     if [ ! -d "../$1/" ] && rsync -a "$(pwd)/" "../$1" && rm -rf "$(pwd)/" && cd "../$1/"; then
@@ -197,7 +202,7 @@ rename() {
   fi
 }
 
-# Remove commit history and create a new initial commit
+# squash all history into a single commit
 only-commit() {
   echo "Will rewrite ALL history and force push."
   read -q "?Are you sure? [y/N] " || { echo; return 1; }
@@ -216,7 +221,7 @@ only-commit() {
   git gc --aggressive --prune=all
 }
 
-# Change the default branch from master to main
+# migrate default branch from master to main
 git-main() {
   git checkout master
   git checkout -b main
@@ -225,7 +230,7 @@ git-main() {
   git push origin --delete master
 }
 
-# Reset the git repository to a specific commit
+# hard reset and force push
 reset() {
   echo "Will reset to ${1:-HEAD} and force push."
   read -q "?Are you sure? [y/N] " || { echo; return 1; }
@@ -234,7 +239,7 @@ reset() {
   git push -f
 }
 
-# Undo the last git commit
+# discard last commit and force push
 undo() {
   echo "Will discard last commit and force push."
   read -q "?Are you sure? [y/N] " || { echo; return 1; }
@@ -243,8 +248,9 @@ undo() {
   git push -f
 }
 
-# Interactive-only: override native commands
+# interactive-only: override native commands
 if [[ -o interactive ]]; then
+  # show hidden files with color and sorting
   ls() {
     if [[ $# -eq 0 ]]; then
       command ls -A --color | sort
@@ -253,14 +259,14 @@ if [[ -o interactive ]]; then
     fi
   }
 
-  # Enhanced git command
+  # block git in home/desktop, auto-switch existing branches
   git() {
-    # Disallow git in HOME or Desktop
+    # disallow git in home or desktop
     if [[ "$PWD" == "$HOME" || "$PWD" == "$HOME/Desktop" ]]; then
       return 1
     fi
 
-    # Intercept only: git checkout -b <branch>
+    # intercept only: git checkout -b <branch>
     if [[ "$1" == "checkout" && "$2" == "-b" && -n "$3" && $# -eq 3 ]]; then
       command git checkout "$3" 2>/dev/null || command git checkout -b "$3"
     else
@@ -268,7 +274,7 @@ if [[ -o interactive ]]; then
     fi
   }
 
-  # Better rm command
+  # clear directory contents with safeguards for home/desktop
   rm() {
     declare -a secure_dirs=("$HOME" "$HOME/Desktop")
 
@@ -304,12 +310,12 @@ if [[ -o interactive ]]; then
     fi
   }
 
-  # Use bat for syntax-highlighted output (no pager, no line numbers)
+  # syntax-highlighted output via bat
   if command -v bat &>/dev/null; then
     cat() { bat --paging=never --style=plain "$@"; }
   fi
 
-  # Use bun instead of npm
+  # use bun instead of npm/npx (--real to bypass)
   if command -v bun &>/dev/null; then
     npm() {
       if [[ "$*" == *"--real"* ]] || [[ -n "$USE_REAL_NPM" ]]; then

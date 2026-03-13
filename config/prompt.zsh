@@ -9,7 +9,7 @@ setopt INC_APPEND_HISTORY_TIME
 setopt RM_STAR_SILENT
 
 [ "$PWD" = "$HOME" ] && cd ~/Desktop
-# Newline before prompt unless fresh terminal (cursor at row 1)
+# newline before prompt unless fresh terminal (cursor at row 1)
 START=$'\n'
 print -n '\e[6n' > /dev/tty
 IFS='[;' read -sd R _ _row _ < /dev/tty
@@ -43,25 +43,25 @@ _recompute_deps() {
 
 precmd() {
   local _last_exit=$?
-  # Default to green if no command has run yet (fresh shell)
+  # default to green if no command has run yet (fresh shell)
   [[ -z "$_CMD_RUNNING" ]] && _last_exit=0
   _CMD_RUNNING=""
-  # Recompute deps when directory or package.json changes
+  # recompute deps when directory or package.json changes
   local _pkg_mtime=$(stat -f %m package.json 2>/dev/null)
   if [[ "$PWD" != "$_PROMPT_LAST_PWD" || "$_pkg_mtime" != "$_PROMPT_LAST_PKG" ]]; then
     _PROMPT_LAST_PWD="$PWD"
     _PROMPT_LAST_PKG="$_pkg_mtime"
     _recompute_deps
   fi
-  # Git info (branch, ahead/behind, stash)
+  # git info (branch, ahead/behind, stash)
   CURRENT_BRANCH=""
   local GIT_INFO=""
   local git_dir=$(command git rev-parse --git-dir 2>/dev/null)
   if [[ -n "$git_dir" ]]; then
-    # Branch from HEAD file (no fork)
+    # branch from HEAD file (no fork)
     local head=$(<"$git_dir/HEAD")
     [[ "$head" == ref:\ * ]] && CURRENT_BRANCH="${head#ref: refs/heads/}"
-    # Ahead/behind
+    # ahead/behind
     local ab=$(command git rev-list --left-right --count HEAD...@{u} 2>/dev/null)
     if [[ -n "$ab" ]]; then
       local ahead=${ab%%$'\t'*}
@@ -69,7 +69,7 @@ precmd() {
       (( ahead > 0 )) && GIT_INFO+=" ↑$ahead"
       (( behind > 0 )) && GIT_INFO+=" ↓$behind"
     fi
-    # Stash count (pure file read, no fork)
+    # stash count (pure file read, no fork)
     if [[ -f "$git_dir/logs/refs/stash" ]]; then
       local stash_count=0
       while IFS= read -r _; do ((stash_count++)); done < "$git_dir/logs/refs/stash"
@@ -77,7 +77,7 @@ precmd() {
     fi
   fi
   [[ "$_LAST_CMD" == "clear" ]] && START=""
-  # set the prompt to the current user, directory, branch, and dependencies
+  # set prompt with user, directory, branch, and dependencies
   local ELAPSED=""
   if [ $TIMER ]; then
     NOW=$(print -P %D{%s%3.})
@@ -95,7 +95,7 @@ precmd() {
   local padding=""
   if [[ -n "$right" ]]; then
     local left="$USER ${${PWD/#$HOME/~}} $CURRENT_BRANCH$DEPS$GIT_INFO"
-    # Count extra width for emojis (each emoji is 2 cols but ${#} counts 1)
+    # count extra width for emojis (each emoji is 2 cols but ${#} counts 1)
     local emoji_count=0
     [[ "$left" == *📦* ]] && ((emoji_count++))
     [[ "$left" == *💠* ]] && ((emoji_count++))

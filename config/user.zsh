@@ -16,7 +16,7 @@ command -v fzf &>/dev/null && source <(fzf --zsh)
 # zoxide
 command -v zoxide &>/dev/null && eval "$(zoxide init zsh)"
 
-# If command not found, try zoxide cd
+# if command not found, try zoxide cd
 if command -v zoxide &>/dev/null && [[ -o interactive ]] && [[ -o zle ]]; then
   _zoxide_accept_line() {
     local cmd="${BUFFER%% *}"
