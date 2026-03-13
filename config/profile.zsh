@@ -33,6 +33,19 @@ if [[ "$USER" == "$MATCH_USERNAME" ]]; then
   restart_finder=false
   pref_changed=false
 
+  _normalize_pref() {
+    local val="$1" type="$2"
+    if [[ "$type" == "-bool" ]]; then
+      case "$val" in
+        1|true|yes) echo "1" ;;
+        0|false|no) echo "0" ;;
+        *) echo "" ;;
+      esac
+    else
+      echo "$val"
+    fi
+  }
+
   for pref in "${preferences[@]}"; do
     domain=$(echo "$pref" | cut -d' ' -f1)
     key=$(echo "$pref" | cut -d' ' -f2)
@@ -40,7 +53,10 @@ if [[ "$USER" == "$MATCH_USERNAME" ]]; then
     value=$(echo "$pref" | cut -d' ' -f4)
     current_value=$(defaults read "$domain" "$key" 2>/dev/null)
 
-    if [[ "$current_value" != "$value" ]]; then
+    normalized_current=$(_normalize_pref "$current_value" "$type")
+    normalized_desired=$(_normalize_pref "$value" "$type")
+
+    if [[ "$normalized_current" != "$normalized_desired" ]]; then
       command="defaults write $domain $key"
       [[ "$type" == "bool" ]] && command="$command -bool"
       [[ "$type" == "int" ]] && command="$command -int"
