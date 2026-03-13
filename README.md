@@ -29,7 +29,7 @@ Why not change it to it's minimal yet advanced version? And that too with colors
 
 ```sh
 # to enrich your terminal experience run this command after installing brew
-brew install zsh-autosuggestions zsh-history-substring-search zsh-syntax-highlighting fzf zoxide
+brew install bat zsh-autosuggestions zsh-history-substring-search zsh-syntax-highlighting fzf zoxide
 ```
 
 ## What's Included
@@ -46,6 +46,7 @@ A minimal, informative prompt showing:
 
 | Command | Description |
 | --- | --- |
+| `cat` | Uses `bat` for syntax-highlighted output (no pager, no line numbers) when available |
 | `ls` | Enhanced ls with hidden files, color, and sorting (no args). Passes through to default ls with flags. |
 | `cdx <dir>` | Create a directory and cd into it |
 | `clone <repo>` | Clone a GitHub repo via `gh` |

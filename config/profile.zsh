@@ -76,7 +76,7 @@ if [[ "$USER" == "$MATCH_USERNAME" ]]; then
   brew analytics off && brew update
 
   echo && echo "==> Ensuring brew formulae..."
-  brew install -q fnm fzf gh git gnupg jq mas ollama rsync tree zoxide zsh-autosuggestions zsh-history-substring-search zsh-syntax-highlighting
+  brew install -q bat fnm fzf gh git gnupg jq mas ollama rsync tree zoxide zsh-autosuggestions zsh-history-substring-search zsh-syntax-highlighting
 
   echo && echo "==> Ensuring node..."
   eval "$(fnm env)"
