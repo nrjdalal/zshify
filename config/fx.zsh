@@ -1,3 +1,11 @@
+ls() {
+  if [[ $# -eq 0 ]]; then
+    command ls -A --color | sort
+  else
+    command ls "$@"
+  fi
+}
+
 # Create a directory and navigate into it
 cdx() {
   mkdir -p "$1" && cd "$1"
@@ -102,11 +110,15 @@ alias add="ga"
 stash() {
   local name="$1"
   if [[ -z "$name" ]]; then
-    local list=$(git stash list 2>/dev/null)
-    if [[ -z "$list" ]]; then
-      echo "No stashes found"
+    if git diff --quiet && git diff --cached --quiet; then
+      local list=$(git stash list 2>/dev/null)
+      if [[ -z "$list" ]]; then
+        echo "No stashes found"
+      else
+        echo "$list"
+      fi
     else
-      echo "$list"
+      git stash push
     fi
     return
   fi
@@ -126,6 +138,22 @@ pop() {
     return 1
   fi
   git stash pop "$ref"
+}
+
+unstash() {
+  local list=$(git stash list 2>/dev/null)
+  if [[ -z "$list" ]]; then
+    echo "No stashes found"
+    return
+  fi
+  echo "$list"
+  echo ""
+  read -q "confirm?Drop all stashes? [y/N] "
+  echo ""
+  if [[ "$confirm" == "y" ]]; then
+    git stash clear
+    echo "All stashes cleared"
+  fi
 }
 
 # Initialize a git repository, add files, and create a GitHub repository
