@@ -102,10 +102,15 @@ alias add="ga"
 stash() {
   local name="$1"
   if [[ -z "$name" ]]; then
-    git stash push
-  else
-    git stash push -m "$name"
+    local list=$(git stash list 2>/dev/null)
+    if [[ -z "$list" ]]; then
+      echo "No stashes found"
+    else
+      echo "$list"
+    fi
+    return
   fi
+  git stash push -m "$name"
 }
 
 pop() {
