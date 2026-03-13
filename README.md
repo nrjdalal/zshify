@@ -46,27 +46,27 @@ A minimal, informative prompt showing:
 
 | Command | Description |
 | --- | --- |
-| `cat` | Uses `bat` for syntax-highlighted output (no pager, no line numbers) when available |
-| `ls` | Enhanced ls with hidden files, color, and sorting (no args). Passes through to default ls with flags. |
-| `cdx <dir>` | Create a directory and cd into it |
-| `clone <repo>` | Clone a GitHub repo via `gh` |
-| `switch [account]` | Switch GitHub account with `gh auth` |
-| `b <branch>` | Switch to, track, or create a git branch |
-| `g "message"` | Add, commit (with conventional prefix), and push |
-| `gc "message"` | Commit with auto-prefixed message |
-| `ga` | Stage all changes |
-| `stash [name]` | Push stash if changes exist, list stashes if clean. With a name, pushes a named stash. |
-| `pop [name]` | Pop latest stash, or pop by name |
-| `unstash` | List and clear all stashes (with confirmation) |
-| `mkrepo [--public]` | Init repo, commit, and create GitHub repo |
-| `killport <port\|name>` | Kill processes on a port or by name |
-| `rename <name>` | Rename current directory |
-| `rm` | Enhanced rm that clears directory contents, with safeguards for home/desktop |
-| `only-commit` | Squash all history into a single commit (with confirmation) |
-| `reset [ref]` | Hard reset and force push (with confirmation) |
-| `undo` | Discard last commit and force push (with confirmation) |
-| `git-main` | Migrate default branch from master to main |
-| `next` | Scaffold a Next.js project from template |
+| `cat` | syntax-highlighted output via `bat` (no pager, no line numbers) |
+| `ls` | show hidden files with color and sorting when called without args |
+| `cdx <dir>` | create a directory and cd into it |
+| `clone <repo>` | clone a GitHub repository via `gh` |
+| `switch [account]` | switch GitHub account via `gh auth` |
+| `b <branch>` | switch to, track, or create a git branch |
+| `g "message"` | add, commit with conventional prefix, and push |
+| `gc "message"` | commit with auto-prefixed message |
+| `ga` | stage all changes |
+| `stash [name]` | stash changes or list stashes if clean |
+| `pop [name]` | pop latest stash or pop by name |
+| `unstash` | list and clear all stashes |
+| `mkrepo [--public]` | init repo, commit, and create GitHub repository |
+| `killport <port\|name>` | kill processes by port or name |
+| `rename <name>` | rename current or existing directory |
+| `rm` | clear directory contents with safeguards for home/desktop |
+| `only-commit` | squash all history into a single commit |
+| `reset [ref]` | hard reset and force push |
+| `undo` | discard last commit and force push |
+| `git-main` | migrate default branch from master to main |
+| `next` | scaffold a Next.js project from template |
 
 ### Aliases
 

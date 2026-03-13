@@ -13,7 +13,7 @@ if [ -s "/opt/homebrew/share/zsh-history-substring-search/zsh-history-substring-
   bindkey '^[[B' history-substring-search-down
 fi
 
-# zsh-syntax-highlighting (must be sourced last)
+# zsh-syntax-highlighting (source last)
 if [ -s "/opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ]; then
   source "/opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 fi
