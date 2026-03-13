@@ -253,7 +253,7 @@ if [[ -o interactive ]]; then
   # show hidden files with color and sorting
   ls() {
     if [[ $# -eq 0 ]]; then
-      command ls -A --color | sort
+      (command ls -A --color 2>/dev/null || command ls -A -G) | sort
     else
       command ls "$@"
     fi
