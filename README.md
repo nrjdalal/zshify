@@ -29,7 +29,7 @@ Why not change it to it's minimal yet advanced version? And that too with colors
 
 ```sh
 # to enrich your terminal experience run this command after installing brew
-brew install bat fzf zoxide zsh-autosuggestions zsh-history-substring-search zsh-syntax-highlighting
+brew install bat btop fd fzf ripgrep zoxide zsh-autosuggestions zsh-history-substring-search zsh-syntax-highlighting
 ```
 
 ## What's Included
@@ -42,11 +42,23 @@ A minimal, informative prompt showing:
 - Git branch, ahead/behind counts, and stash count
 - Responsive layout that adapts to terminal width
 
+### Included Tools
+
+These are available when installed via the advanced brew command above:
+
+| Command | Description |
+| --- | --- |
+| `cat <file>` | syntax-highlighted output via `bat` |
+| `fd <pattern>` | fast file search, respects `.gitignore` (e.g. `fd -e tsx component`) |
+| `rg <pattern>` | fast text search in files via `ripgrep` (e.g. `rg "TODO" --type ts`) |
+| `fzf` | interactive fuzzy finder (`Ctrl+T` to paste path, `Alt+C` to cd) |
+| `z <dir>` | smart cd that learns your frequent directories via `zoxide` |
+| `btop` | interactive system monitor for CPU, memory, disk, and network |
+
 ### Functions
 
 | Command | Description |
 | --- | --- |
-| `cat` | syntax-highlighted output via `bat` (no pager, no line numbers) |
 | `ls` | show hidden files with color and sorting when called without args |
 | `cdx <dir>` | create a directory and cd into it |
 | `clone <repo>` | clone a GitHub repository via `gh` |
