@@ -9,9 +9,11 @@ setopt INC_APPEND_HISTORY_TIME
 setopt RM_STAR_SILENT
 
 [ "$PWD" = "$HOME" ] && cd ~/Desktop
+START=$'\n'
 
 preexec() {
   TIMER=$(print -P %D{%s%3.})
+  _CMD_RUNNING=1
 }
 
 _recompute_deps() {
@@ -35,6 +37,10 @@ _recompute_deps() {
 }
 
 precmd() {
+  local _last_exit=$?
+  # Default to green if no command has run yet (fresh shell)
+  [[ -z "$_CMD_RUNNING" ]] && _last_exit=0
+  _CMD_RUNNING=""
   # Recompute deps when directory or package.json changes
   local _pkg_mtime=$(stat -f %m package.json 2>/dev/null)
   if [[ "$PWD" != "$_PROMPT_LAST_PWD" || "$_pkg_mtime" != "$_PROMPT_LAST_PKG" ]]; then
@@ -70,10 +76,12 @@ precmd() {
     (( pad > 0 )) && padding="${(l:$pad:)}"
   fi
   RPROMPT=""
+  local _c="%F{green}"
+  (( _last_exit != 0 )) && _c="%F{red}"
   if [[ -n "$ELAPSED" ]]; then
-    PROMPT="$START$USER %F{cyan}%~ %F{15}$CURRENT_BRANCH$DEPS$padding%(?.%F{green}.%F{red})$ELAPSED%f"$'\n'"%(?.%F{green}.%F{red})%B%(!.#.>)%b%f "
+    PROMPT="$START$USER %F{cyan}%~ %F{15}$CURRENT_BRANCH$DEPS$padding${_c}$ELAPSED%f"$'\n'"${_c}%B%(!.#.>)%b%f "
   else
-    PROMPT="$START$USER %F{cyan}%~ %F{15}$CURRENT_BRANCH$DEPS"$'\n'"%(?.%F{green}.%F{red})%B%(!.#.>)%b%f "
+    PROMPT="$START$USER %F{cyan}%~ %F{15}$CURRENT_BRANCH$DEPS"$'\n'"${_c}%B%(!.#.>)%b%f "
   fi
   START=$'\n'
   unset TIMER
