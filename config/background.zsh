@@ -47,7 +47,7 @@ fi
 
 if [ $TIME_DIFF -gt $INTERVAL ]; then
   # Create a lock using `ln`
-  if ln -s $$ "$LOCK_FILE" 2>/dev/null; then
+  if ln -s "$LOCK_FILE" "$LOCK_FILE.lock" 2>/dev/null; then
     # Set Zsh options to suppress job control notifications
     setopt NO_MONITOR NO_NOTIFY
 
@@ -68,7 +68,7 @@ if [ $TIME_DIFF -gt $INTERVAL ]; then
 
     # Start the background task with nohup
     nohup zsh -c "
-      trap 'rm -f \"$LOCK_FILE\"' EXIT
+      trap 'rm -f \"$LOCK_FILE.lock\"' EXIT
 
       # Log the start time
       echo \"$(date +"%Y-%m-%d %H:%M:%S") > ZSHIFY_BACKROUND_RUN\" >> \"$LOG_FILE\"
