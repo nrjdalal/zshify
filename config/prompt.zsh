@@ -15,9 +15,11 @@ preexec() {
 }
 
 precmd() {
-  # Recompute deps and branch only when directory changes
-  if [[ "$PWD" != "$_PROMPT_LAST_PWD" ]]; then
+  # Recompute deps when directory or package.json changes
+  local _pkg_mtime=$(stat -f %m package.json 2>/dev/null)
+  if [[ "$PWD" != "$_PROMPT_LAST_PWD" || "$_pkg_mtime" != "$_PROMPT_LAST_PKG" ]]; then
     _PROMPT_LAST_PWD="$PWD"
+    _PROMPT_LAST_PKG="$_pkg_mtime"
     DEPS=$(jq '.dependencies | length' package.json 2>/dev/null)
     DEVDEPS=$(jq '.devDependencies | length' package.json 2>/dev/null)
     DEPS=$([ "$DEPS" -eq 0 ] 2>/dev/null && echo "" || echo " 📦$DEPS")
