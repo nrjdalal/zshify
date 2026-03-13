@@ -4,11 +4,6 @@ if [ -s "/opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh" ]; the
   ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="bg=#000000,fg=#333333"
 fi
 
-# zsh-syntax-highlighting
-if [ -s "/opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ]; then
-  source "/opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
-fi
-
 # zsh-history-substring-search
 if [ -s "/opt/homebrew/share/zsh-history-substring-search/zsh-history-substring-search.zsh" ]; then
   source "/opt/homebrew/share/zsh-history-substring-search/zsh-history-substring-search.zsh"
@@ -16,4 +11,9 @@ if [ -s "/opt/homebrew/share/zsh-history-substring-search/zsh-history-substring-
   HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_NOT_FOUND="fg=red,bold,underline"
   bindkey '^[[A' history-substring-search-up
   bindkey '^[[B' history-substring-search-down
+fi
+
+# zsh-syntax-highlighting (must be sourced last)
+if [ -s "/opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ]; then
+  source "/opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 fi
