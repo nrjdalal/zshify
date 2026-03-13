@@ -1,6 +1,6 @@
 alias c="cursor ."
 alias cr="cursor -r ."
-alias ls="ls -A --color | sort"
+ls() { command ls -A --color "$@" | sort; }
 alias mkcd='cdx'
 alias trash='rm'
 
