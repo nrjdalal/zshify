@@ -1,11 +1,11 @@
 # Create a directory and navigate into it
 cdx() {
-  mkdir -p $1 && cd $1
+  mkdir -p "$1" && cd "$1"
 }
 
 # Clone a GitHub repository
 clone() {
-  gh repo clone $@
+  gh repo clone "$@"
 }
 
 switch() {
@@ -133,7 +133,7 @@ mkrepo() {
   commit_msg=$(echo "$commit_msg" | sed 's/--public//g' | sed 's/--private//g' | xargs)
   [[ -z "$commit_msg" ]] && commit_msg="feat: init awesomeness"
   git commit -m "$commit_msg" 2>/dev/null
-  gh repo create $(basename $(pwd)) --description '' --source . $repo_type --push
+  gh repo create "$(basename "$(pwd)")" --description '' --source . "$repo_type" --push
 }
 
 # Kill processes using a specific port
@@ -226,9 +226,9 @@ only-commit() {
   else
     git commit -m "$1"
   fi
-  git branch -D $CURRENT
-  git branch -m $CURRENT
-  git push -f origin $CURRENT
+  git branch -D "$CURRENT"
+  git branch -m "$CURRENT"
+  git push -f origin "$CURRENT"
   git gc --aggressive --prune=all
 }
 
@@ -243,7 +243,7 @@ git-main() {
 
 # Reset the git repository to a specific commit
 reset() {
-  git reset --hard $1
+  git reset --hard "$1"
   git push -f
 }
 
