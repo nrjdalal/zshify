@@ -153,7 +153,16 @@ killport() {
       return 0
     fi
   else
-    pids=$(pgrep -f "$target")
+    # Match by name + find all child processes
+    pids=$(pgrep -f "$target" 2>/dev/null)
+    if [[ -n "$pids" ]]; then
+      # Also find children of matched processes
+      local children=""
+      for pid in ${(f)pids}; do
+        children+=$(pgrep -P "$pid" 2>/dev/null)$'\n'
+      done
+      pids=$(echo "$pids"$'\n'"$children" | sort -u | grep -v '^$')
+    fi
     if [[ -z "$pids" ]]; then
       echo "No processes found matching name \"$target\""
       return 0
