@@ -20,8 +20,8 @@ _recompute_deps() {
   local d=0 dd=0 section=""
   while IFS= read -r line; do
     case "$line" in
-      *'"dependencies"'*) section="deps"; continue ;;
       *'"devDependencies"'*) section="devdeps"; continue ;;
+      *'"dependencies"'*) section="deps"; continue ;;
       *'}'*) section=""; continue ;;
     esac
     if [[ -n "$section" && "$line" == *'": '* ]]; then
@@ -45,7 +45,7 @@ precmd() {
   CURRENT_BRANCH=$(git branch --show-current 2>/dev/null)
   [[ "$(fc -ln -1)" == "clear" ]] && START=""
   # set the prompt to the current user, directory, branch, and dependencies
-  PROMPT="$START$USER %F{cyan}%~ %F{15}$CURRENT_BRANCH$DEPS"$'\n'"%(?.%F{green}.%F{red})%B%(!.#.>)%b%f "
+  local ELAPSED=""
   if [ $TIMER ]; then
     NOW=$(print -P %D{%s%3.})
     local diff=$(($NOW - $TIMER))
@@ -53,11 +53,27 @@ precmd() {
     local s=$(((diff / 1000) % 60))
     local m=$(((diff / 1000) / 60))
     if ((m > 0)); then
-      local ELAPSED="${m}m ${s}s"
+      ELAPSED="${m}m ${s}s"
     else
-      local ELAPSED="${s}.${ms}s"
+      ELAPSED="${s}.${ms}s"
     fi
-    RPROMPT="%(?.%F{green}.%F{red})${ELAPSED}%f"
+  fi
+  local right="$ELAPSED"
+  local padding=""
+  if [[ -n "$right" ]]; then
+    local left="$USER ${${PWD/#$HOME/~}} $CURRENT_BRANCH$DEPS"
+    # Count extra width for emojis (each emoji is 2 cols but ${#} counts 1)
+    local emoji_count=$(echo "$left" | grep -o '[📦💠]' | wc -l | tr -d ' ')
+    local left_len=$(( ${#left} + emoji_count ))
+    local right_len=${#right}
+    local pad=$((COLUMNS - left_len - right_len - 1))
+    (( pad > 0 )) && padding="${(l:$pad:)}"
+  fi
+  RPROMPT=""
+  if [[ -n "$ELAPSED" ]]; then
+    PROMPT="$START$USER %F{cyan}%~ %F{15}$CURRENT_BRANCH$DEPS$padding%(?.%F{green}.%F{red})$ELAPSED%f"$'\n'"%(?.%F{green}.%F{red})%B%(!.#.>)%b%f "
+  else
+    PROMPT="$START$USER %F{cyan}%~ %F{15}$CURRENT_BRANCH$DEPS"$'\n'"%(?.%F{green}.%F{red})%B%(!.#.>)%b%f "
   fi
   START=$'\n'
   unset TIMER
