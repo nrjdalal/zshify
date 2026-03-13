@@ -1,6 +1,6 @@
 #!/bin/zsh
 
-MATCH_USERNAME="neeraj-dalal"
+MATCH_USERNAME="nrjdalal"
 
 if [[ "$USER" == "$MATCH_USERNAME" ]]; then
 
@@ -60,7 +60,7 @@ if [[ "$USER" == "$MATCH_USERNAME" ]]; then
   brew analytics off && brew update
 
   echo && echo "==> Ensuring brew formulae..."
-  brew install -q --force fnm fzf oven-sh/bun/bun gh git gnupg jq mas ni ollama python@3.9 rsync tree zoxide zsh-autosuggestions zsh-history-substring-search zsh-syntax-highlighting
+  brew install -q fnm fzf gh git gnupg jq mas ollama rsync tree zoxide zsh-autosuggestions zsh-history-substring-search zsh-syntax-highlighting
 
   echo && echo "==> Ensuring node..."
   eval "$(fnm env)"
@@ -90,13 +90,13 @@ mas install 1491071483
 ---------------------------------------------"
 
   echo && echo "==> Ensuring primary casks..."
-  brew install -q --cask --force google-chrome visual-studio-code
+  brew install -q --cask google-chrome cursor
 
   echo && echo "==> Ensuring secondary casks..."
-  brew install -q --cask --force fontbase iina jordanbaird-ice qbittorrent raycast rocket whatsapp affinity
+  brew install -q --cask cleanshot fontbase iina jordanbaird-ice karabiner-elements numi qbittorrent rocket screen-studio whatsapp affinity
 
   echo && echo "==> Running brew upgrade..."
-  brew upgrade
+  brew upgrade --formula
 
   echo && echo "==> Running cleanup..."
   rm -rf ~/.junk && brew cleanup --prune=1 -s
