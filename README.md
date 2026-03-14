@@ -56,6 +56,7 @@ Yeah that's it, no downloads, no hassle. A minimalistic installation for a minim
 
 - 🎨 Minimal, informative prompt with colors
 - 🔀 Git branch, ahead/behind counts, and stash count
+- 🟢🟡🔴 Git file status — untracked, modified, deleted (staged in parentheses)
 - 📦 Package dependency counts for Node.js projects
 - ⏱️ Command execution time
 - 📁 Useful [file and directory functions](#file--directory)
@@ -82,18 +83,20 @@ brew install \
 ### Prompt
 
 ```
-┌─ username
-│        ┌─ current directory
-│        │         ┌─ git branch
-│        │         │
-nrjdalal ~/project main 💠3 📦5 ↑1 ↓2 ≡1                     0.123s
->                        │  │   │  │  │                        │
-                         │  │   │  │  └─ stash count           └─ elapsed time
+┌─ username                              ┌─ untracked (green)
+│        ┌─ current directory            │  ┌─ modified (yellow)
+│        │         ┌─ git branch         │  │   ┌─ staged files
+│        │         │                     │  │   │
+nrjdalal ~/project main 💠3 📦5 ↑1 ↓2 ≡1 •2 •1 (•3)                 0.123s
+>                        │  │   │  │  │                               │
+                         │  │   │  │  └─ stash count                  └─ elapsed time
                          │  │   │  └─ behind remote
                          │  │   └─ ahead of remote
                          │  └─ dependencies
                          └─ devDependencies
 ```
+
+> `•2` = untracked (green), `•1` = modified (yellow), `(•3)` = staged — colors visible in terminal
 
 ### Additional Tools
 
