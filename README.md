@@ -27,8 +27,9 @@ Why not change it to it's minimal yet advanced version? And that too with colors
 
 ### For Advanced Experience
 
-```sh
-# to enrich your terminal experience run this command after installing brew
+To enrich your terminal experience run this command after installing brew:
+
+```zsh
 brew install bat btop fd fzf ripgrep zoxide zsh-autosuggestions zsh-history-substring-search zsh-syntax-highlighting
 ```
 
