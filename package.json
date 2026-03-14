@@ -1,20 +1,18 @@
 {
   "name": "zshify",
-  "version": "14.2.0",
+  "version": "15.0.0",
   "description": "A minimalistic touch to your prompt!",
-  "bin": {
-    "prompt": "bin/script.zsh"
-  },
-  "author": "Neeraj Dalal",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/nrjdalal/zshify.git"
-  },
   "homepage": "https://github.com/nrjdalal/zshify#readme",
-  "bugs": {
-    "url": "https://github.com/nrjdalal/zshify/issues"
-  },
+  "bugs": "https://github.com/nrjdalal/zshify/issues",
   "license": "MIT",
+  "author": {
+    "name": "Neeraj Dalal",
+    "email": "admin@nrjdalal.com",
+    "url": "https://nrjdalal.com"
+  },
+  "repository": "nrjdalal/zshify",
+  "funding": "https://github.com/sponsors/nrjdalal",
+  "bin": "bin/script.zsh",
   "keywords": [
     "zsh",
     "zshell",
@@ -25,6 +23,9 @@
     "minimal",
     "fast",
     "prompt",
-    "theme"
+    "theme",
+    "cli",
+    "command-line",
+    "macos"
   ]
 }
