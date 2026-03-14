@@ -96,8 +96,6 @@ nrjdalal ~/project main 💠3 📦5 ↑1 ↓2 ≡1 •2 •1 (•3)             
                          └─ devDependencies
 ```
 
-> `•2` = untracked (green), `•1` = modified (yellow), `(•3)` = staged — colors visible in terminal
-
 ### Additional Tools
 
 These are available when installed via the [brew command above](#-advanced-experience):
