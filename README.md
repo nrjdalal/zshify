@@ -62,7 +62,11 @@ Yeah that's it, no downloads, no hassle. A minimalistic installation for a minim
 To enrich your terminal experience, install these tools via [Homebrew](https://brew.sh):
 
 ```zsh
-brew install bat btop fd fzf ripgrep zoxide zsh-autosuggestions zsh-history-substring-search zsh-syntax-highlighting
+brew install \
+  bat btop fd fzf ripgrep zoxide \         # recommended tools
+  zsh-autosuggestions \                    # fish-like suggestions
+  zsh-history-substring-search \           # history search with up/down
+  zsh-syntax-highlighting                  # command highlighting
 ```
 
 ---
