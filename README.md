@@ -75,23 +75,31 @@ brew install \
 
 ### Prompt
 
-A minimal, informative prompt showing:
-
-- Current directory (abbreviated)
-- Git branch, ahead/behind counts, and stash count
-- Responsive layout that adapts to terminal width
+```
+┌─ username
+│        ┌─ current directory
+│        │         ┌─ git branch
+│        │         │
+nrjdalal ~/project main 💠3 📦5 ↑1 ↓2 ≡1                     0.123s
+>                        │  │   │  │  │                        │
+                         │  │   │  │  └─ stash count           └─ elapsed time
+                         │  │   │  └─ behind remote
+                         │  │   └─ ahead of remote
+                         │  └─ dependencies
+                         └─ devDependencies
+```
 
 ### Additional Tools
 
 These are available when installed via the [brew command above](#-advanced-experience):
 
-| Command        | Description                                                                              |
-| -------------- | ---------------------------------------------------------------------------------------- |
-| `btop`         | interactive system monitor — [btop](https://github.com/aristocratos/btop)                |
-| `cat <file>`   | syntax-highlighted output — [bat](https://github.com/sharkdp/bat)                        |
-| `fd <pattern>` | fast file search, respects `.gitignore` — [fd](https://github.com/sharkdp/fd)            |
-| `fzf`          | interactive fuzzy finder (`Ctrl+T`, `Alt+C`) — [fzf](https://github.com/junegunn/fzf)    |
-| `rg <pattern>` | fast text search in files — [ripgrep](https://github.com/BurntSushi/ripgrep)              |
+| Command        | Description                                                                                 |
+| -------------- | ------------------------------------------------------------------------------------------- |
+| `btop`         | interactive system monitor — [btop](https://github.com/aristocratos/btop)                   |
+| `cat <file>`   | syntax-highlighted output — [bat](https://github.com/sharkdp/bat)                           |
+| `fd <pattern>` | fast file search, respects `.gitignore` — [fd](https://github.com/sharkdp/fd)               |
+| `fzf`          | interactive fuzzy finder (`Ctrl+T`, `Alt+C`) — [fzf](https://github.com/junegunn/fzf)       |
+| `rg <pattern>` | fast text search in files — [ripgrep](https://github.com/BurntSushi/ripgrep)                |
 | `z <dir>`      | smart cd that learns frequent directories — [zoxide](https://github.com/ajeetdsouza/zoxide) |
 
 ---
@@ -131,12 +139,12 @@ These are available when installed via the [brew command above](#-advanced-exper
 
 ### GitHub & Project Setup
 
-| Command             | Description                                                      |
-| ------------------- | ---------------------------------------------------------------- |
-| `clone <repo>`      | clone a GitHub repository via [`gh`](https://cli.github.com)     |
-| `mkrepo [--public]` | init repo, commit, and create GitHub repository                  |
-| `next`              | scaffold a Next.js project from template                         |
-| `switch [account]`  | switch GitHub account via [`gh auth`](https://cli.github.com)    |
+| Command             | Description                                                   |
+| ------------------- | ------------------------------------------------------------- |
+| `clone <repo>`      | clone a GitHub repository via [`gh`](https://cli.github.com)  |
+| `mkrepo [--public]` | init repo, commit, and create GitHub repository               |
+| `next`              | scaffold a Next.js project from template                      |
+| `switch [account]`  | switch GitHub account via [`gh auth`](https://cli.github.com) |
 
 ---
 
