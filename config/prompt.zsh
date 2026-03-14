@@ -76,6 +76,33 @@ precmd() {
       while IFS= read -r _; do ((stash_count++)); done < "$git_dir/logs/refs/stash"
       (( stash_count > 0 )) && GIT_INFO+=" ≡$stash_count"
     fi
+    # file status (unstaged: untracked/modified/deleted, staged: added/modified/deleted)
+    local s_add=0 s_mod=0 s_del=0 w_new=0 w_mod=0 w_del=0
+    while IFS= read -r line; do
+      case "${line:0:2}" in
+        \?\?) ((w_new++)) ;;
+        *)
+          case "${line:0:1}" in
+            A|?) ;& [!\ ]) [[ "${line:0:1}" == "A" ]] && ((s_add++));
+              [[ "${line:0:1}" == "M" ]] && ((s_mod++));
+              [[ "${line:0:1}" == "D" ]] && ((s_del++));
+              [[ "${line:0:1}" == "R" ]] && ((s_mod++));;
+          esac
+          [[ "${line:1:1}" == "M" ]] && ((w_mod++))
+          [[ "${line:1:1}" == "D" ]] && ((w_del++))
+          ;;
+      esac
+    done < <(command git status --porcelain 2>/dev/null)
+    # unstaged
+    (( w_new > 0 )) && GIT_INFO+=" %F{green}•%f$w_new"
+    (( w_mod > 0 )) && GIT_INFO+=" %F{yellow}•%f$w_mod"
+    (( w_del > 0 )) && GIT_INFO+=" %F{red}•%f$w_del"
+    # staged in parentheses
+    local _staged=""
+    (( s_add > 0 )) && _staged+="%F{green}•%f$s_add"
+    (( s_mod > 0 )) && { [[ -n "$_staged" ]] && _staged+=" "; _staged+="%F{yellow}•%f$s_mod"; }
+    (( s_del > 0 )) && { [[ -n "$_staged" ]] && _staged+=" "; _staged+="%F{red}•%f$s_del"; }
+    [[ -n "$_staged" ]] && GIT_INFO+=" ($_staged)"
   fi
   [[ "$_LAST_CMD" == "clear" ]] && START=""
   # set prompt with user, directory, branch, and dependencies
