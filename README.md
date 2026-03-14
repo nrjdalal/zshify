@@ -39,14 +39,14 @@
 ## 🚀 Quick Start
 
 ```zsh
-/bin/zsh -c "$(curl -fsSL https://rdt.li/zshify)"
+/bin/zsh -c "$(curl -fsSL https://raw.githubusercontent.com/nrjdalal/zshify/refs/heads/main/bin/script.zsh)"
 ```
 
 Yeah that's it, no downloads, no hassle. A minimalistic installation for a minimalistic package.
 
 ---
 
-## ✨ Features
+## 🔥 Features
 
 - 🎨 Minimal, informative prompt with colors
 - 🔀 Git branch, ahead/behind counts, and stash count
