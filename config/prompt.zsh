@@ -123,11 +123,13 @@ precmd() {
   local padding=""
   if [[ -n "$right" ]]; then
     local left="$USER ${${PWD/#$HOME/~}} $CURRENT_BRANCH$DEPS$GIT_INFO"
+    # strip zsh color codes to get visible length
+    local left_visible=$(print -P "$left" | command sed $'s/\e\\[[0-9;]*m//g')
     # count extra width for emojis (each emoji is 2 cols but ${#} counts 1)
     local emoji_count=0
-    [[ "$left" == *📦* ]] && ((emoji_count++))
-    [[ "$left" == *💠* ]] && ((emoji_count++))
-    local left_len=$(( ${#left} + emoji_count ))
+    [[ "$left_visible" == *📦* ]] && ((emoji_count++))
+    [[ "$left_visible" == *💠* ]] && ((emoji_count++))
+    local left_len=$(( ${#left_visible} + emoji_count ))
     local right_len=${#right}
     local pad=$((COLUMNS - left_len - right_len - 1))
     (( pad > 0 )) && padding="${(l:$pad:)}"
