@@ -1,10 +1,42 @@
-# Zshify - A Minimalistic Touch To Your Prompt!
+# Zshify
+
+<!--  -->
+
+**A minimalistic touch to your Zsh prompt!**
+
+📦 `Zero dependencies` / `One command install` / `Fast and lightweight`
+
+[![Twitter](https://img.shields.io/twitter/follow/nrjdalal_dev?label=%40nrjdalal_dev)](https://twitter.com/nrjdalal_dev)
+[![stars](https://img.shields.io/github/stars/nrjdalal/zshify?color=blue)](https://github.com/nrjdalal/zshify)
+
+> #### A minimalistic, one command installation to customize your Zsh prompt with colors, git info, and useful functions.
 
 <img src="zshify.png">
 
-Zshify is a minimalistic, one command installation to customize the prompt of your Zshell or Zsh!
+---
 
-## Installation
+## Table of Contents
+
+- [Quick Start](#-quick-start)
+- [Features](#-features)
+- [Advanced Experience](#-advanced-experience)
+- [What's Included](#-whats-included)
+  - [Prompt](#prompt)
+  - [Additional Tools](#additional-tools)
+- [Functions](#️-functions)
+  - [File & Directory](#file--directory)
+  - [Git Workflow](#git-workflow)
+  - [Git Dangerous](#git-dangerous-with-confirmation)
+  - [GitHub & Project Setup](#github--project-setup)
+- [Aliases](#️-aliases)
+- [Enhancements](#️-enhancements)
+- [Background Tasks](#-background-tasks)
+- [User Config](#-user-config)
+- [Uninstall](#-uninstall)
+
+---
+
+## 🚀 Quick Start
 
 ```zsh
 /bin/zsh -c "$(curl -fsSL https://rdt.li/zshify)"
@@ -12,28 +44,30 @@ Zshify is a minimalistic, one command installation to customize the prompt of yo
 
 Yeah that's it, no downloads, no hassle. A minimalistic installation for a minimalistic package.
 
-> See advanced section to enrich your terminal experience with autosuggestions, history search and syntax highlighting.
+---
 
-## Why Zshify?
+## ✨ Features
 
-- Aren't you tired of your default Zsh prompt looking like this? Cluttered, ugly and slow?
-- Don't you need some additional features / useful aliases and functions are added as default.
+- 🎨 Minimal, informative prompt with colors
+- 🔀 Git branch, ahead/behind counts, and stash count
+- 📦 Package dependency counts for Node.js projects
+- ⏱️ Command execution time
+- 📁 Useful [file and directory functions](#file--directory)
+- 🛠️ [Git workflow shortcuts](#git-workflow) with safety guards
 
-> dogefather@Dogeminers-Mac-mini ~ %
+---
 
-Appearing over and over again with the usual boring info? Like you really want to know your username over and over again.
+## 📖 Advanced Experience
 
-Why not change it to it's minimal yet advanced version? And that too with colors!
-
-### For Advanced Experience
-
-To enrich your terminal experience run this command after installing brew:
+To enrich your terminal experience, install these tools via [Homebrew](https://brew.sh):
 
 ```zsh
 brew install bat btop fd fzf ripgrep zoxide zsh-autosuggestions zsh-history-substring-search zsh-syntax-highlighting
 ```
 
-## What's Included
+---
+
+## 🔍 What's Included
 
 ### Prompt
 
@@ -45,20 +79,22 @@ A minimal, informative prompt showing:
 
 ### Additional Tools
 
-These are available when installed via the advanced brew command above:
+These are available when installed via the [brew command above](#-advanced-experience):
 
-| Command        | Description                                                          |
-| -------------- | -------------------------------------------------------------------- |
-| `btop`         | interactive system monitor for CPU, memory, disk, and network        |
-| `cat <file>`   | syntax-highlighted output via `bat`                                  |
-| `fd <pattern>` | fast file search, respects `.gitignore` (e.g. `fd -e tsx component`) |
-| `fzf`          | interactive fuzzy finder (`Ctrl+T` to paste path, `Alt+C` to cd)     |
-| `rg <pattern>` | fast text search in files via `ripgrep` (e.g. `rg "TODO" --type ts`) |
-| `z <dir>`      | smart cd that learns your frequent directories via `zoxide`          |
+| Command        | Description                                                                              |
+| -------------- | ---------------------------------------------------------------------------------------- |
+| `btop`         | interactive system monitor — [btop](https://github.com/aristocratos/btop)                |
+| `cat <file>`   | syntax-highlighted output — [bat](https://github.com/sharkdp/bat)                        |
+| `fd <pattern>` | fast file search, respects `.gitignore` — [fd](https://github.com/sharkdp/fd)            |
+| `fzf`          | interactive fuzzy finder (`Ctrl+T`, `Alt+C`) — [fzf](https://github.com/junegunn/fzf)    |
+| `rg <pattern>` | fast text search in files — [ripgrep](https://github.com/BurntSushi/ripgrep)              |
+| `z <dir>`      | smart cd that learns frequent directories — [zoxide](https://github.com/ajeetdsouza/zoxide) |
 
-### Functions
+---
 
-**File & directory**
+## 🛠️ Functions
+
+### File & Directory
 
 | Command                 | Description                                                       |
 | ----------------------- | ----------------------------------------------------------------- |
@@ -68,7 +104,7 @@ These are available when installed via the advanced brew command above:
 | `rename <name>`         | rename current or existing directory                              |
 | `rm`                    | clear directory contents with safeguards for home/desktop         |
 
-**Git workflow**
+### Git Workflow
 
 | Command        | Description                                    |
 | -------------- | ---------------------------------------------- |
@@ -80,7 +116,7 @@ These are available when installed via the advanced brew command above:
 | `stash [name]` | stash changes or list stashes if clean         |
 | `unstash`      | list and clear all stashes                     |
 
-**Git dangerous (with confirmation)**
+### Git Dangerous (with confirmation)
 
 | Command       | Description                                |
 | ------------- | ------------------------------------------ |
@@ -89,16 +125,18 @@ These are available when installed via the advanced brew command above:
 | `reset [ref]` | hard reset and force push                  |
 | `undo`        | discard last commit and force push         |
 
-**GitHub & project setup**
+### GitHub & Project Setup
 
-| Command             | Description                                     |
-| ------------------- | ----------------------------------------------- |
-| `clone <repo>`      | clone a GitHub repository via `gh`              |
-| `mkrepo [--public]` | init repo, commit, and create GitHub repository |
-| `next`              | scaffold a Next.js project from template        |
-| `switch [account]`  | switch GitHub account via `gh auth`             |
+| Command             | Description                                                      |
+| ------------------- | ---------------------------------------------------------------- |
+| `clone <repo>`      | clone a GitHub repository via [`gh`](https://cli.github.com)     |
+| `mkrepo [--public]` | init repo, commit, and create GitHub repository                  |
+| `next`              | scaffold a Next.js project from template                         |
+| `switch [account]`  | switch GitHub account via [`gh auth`](https://cli.github.com)    |
 
-### Aliases
+---
+
+## ⌨️ Aliases
 
 | Alias                   | Command              |
 | ----------------------- | -------------------- |
@@ -110,13 +148,17 @@ These are available when installed via the advanced brew command above:
 | `showdesk` / `hidedesk` | toggle desktop icons |
 | `trash`                 | `rm`                 |
 
-### Git Enhancements
+---
+
+## ⚙️ Enhancements
 
 - `git` is wrapped to prevent accidental operations in `$HOME` or `~/Desktop`
 - `git checkout -b <branch>` auto-switches if the branch already exists
-- `npm` and `npx` are aliased to `bun` and `bunx` when bun is available (use `--real` to bypass)
+- `npm` and `npx` are aliased to [`bun`](https://bun.sh) and `bunx` when bun is available (use `--real` to bypass)
 
-### Background Tasks
+---
+
+## 🔄 Background Tasks
 
 Zshify runs a daily background task (via `background.zsh`) that:
 
@@ -124,6 +166,24 @@ Zshify runs a daily background task (via `background.zsh`) that:
 - Logs activity to `~/.logs/.brewlog`
 - View logs with `brewlog`, clear with `brewlog clear`
 
-### User Config
+---
+
+## 👤 User Config
 
 Add your personal configuration to `~/.zshify/config/user.zsh` — it's sourced last and won't be overwritten on updates.
+
+---
+
+## 🗑️ Uninstall
+
+**Soft uninstall** — remove from shell but keep files (preserves `user.zsh` config):
+
+```zsh
+sed -i '' '/source ~\/.zshify\/config\//d' ~/.zshrc && exec zsh
+```
+
+**Hard uninstall** — remove everything:
+
+```zsh
+sed -i '' '/source ~\/.zshify\/config\//d' ~/.zshrc && rm -rf ~/.zshify && exec zsh
+```
