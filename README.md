@@ -42,55 +42,72 @@ A minimal, informative prompt showing:
 - Git branch, ahead/behind counts, and stash count
 - Responsive layout that adapts to terminal width
 
-### Included Tools
+### Additional Tools
 
 These are available when installed via the advanced brew command above:
 
-| Command | Description |
-| --- | --- |
-| `cat <file>` | syntax-highlighted output via `bat` |
+| Command        | Description                                                          |
+| -------------- | -------------------------------------------------------------------- |
+| `btop`         | interactive system monitor for CPU, memory, disk, and network        |
+| `cat <file>`   | syntax-highlighted output via `bat`                                  |
 | `fd <pattern>` | fast file search, respects `.gitignore` (e.g. `fd -e tsx component`) |
+| `fzf`          | interactive fuzzy finder (`Ctrl+T` to paste path, `Alt+C` to cd)     |
 | `rg <pattern>` | fast text search in files via `ripgrep` (e.g. `rg "TODO" --type ts`) |
-| `fzf` | interactive fuzzy finder (`Ctrl+T` to paste path, `Alt+C` to cd) |
-| `z <dir>` | smart cd that learns your frequent directories via `zoxide` |
-| `btop` | interactive system monitor for CPU, memory, disk, and network |
+| `z <dir>`      | smart cd that learns your frequent directories via `zoxide`          |
 
 ### Functions
 
-| Command | Description |
-| --- | --- |
-| `ls` | show hidden files with color and sorting when called without args |
-| `cdx <dir>` | create a directory and cd into it |
-| `clone <repo>` | clone a GitHub repository via `gh` |
-| `switch [account]` | switch GitHub account via `gh auth` |
-| `b <branch>` | switch to, track, or create a git branch |
-| `g "message"` | add, commit with conventional prefix, and push |
-| `gc "message"` | commit with auto-prefixed message |
-| `ga` | stage all changes |
-| `stash [name]` | stash changes or list stashes if clean |
-| `pop [name]` | pop latest stash or pop by name |
-| `unstash` | list and clear all stashes |
+**File & directory**
+
+| Command                 | Description                                                       |
+| ----------------------- | ----------------------------------------------------------------- |
+| `cdx <dir>`             | create a directory and cd into it                                 |
+| `killport <port\|name>` | kill processes by port or name                                    |
+| `ls`                    | show hidden files with color and sorting when called without args |
+| `rename <name>`         | rename current or existing directory                              |
+| `rm`                    | clear directory contents with safeguards for home/desktop         |
+
+**Git workflow**
+
+| Command        | Description                                    |
+| -------------- | ---------------------------------------------- |
+| `b <branch>`   | switch to, track, or create a git branch       |
+| `g "message"`  | add, commit with conventional prefix, and push |
+| `ga`           | stage all changes                              |
+| `gc "message"` | commit with auto-prefixed message              |
+| `pop [name]`   | pop latest stash or pop by name                |
+| `stash [name]` | stash changes or list stashes if clean         |
+| `unstash`      | list and clear all stashes                     |
+
+**Git dangerous (with confirmation)**
+
+| Command       | Description                                |
+| ------------- | ------------------------------------------ |
+| `git-main`    | migrate default branch from master to main |
+| `only-commit` | squash all history into a single commit    |
+| `reset [ref]` | hard reset and force push                  |
+| `undo`        | discard last commit and force push         |
+
+**GitHub & project setup**
+
+| Command             | Description                                     |
+| ------------------- | ----------------------------------------------- |
+| `clone <repo>`      | clone a GitHub repository via `gh`              |
 | `mkrepo [--public]` | init repo, commit, and create GitHub repository |
-| `killport <port\|name>` | kill processes by port or name |
-| `rename <name>` | rename current or existing directory |
-| `rm` | clear directory contents with safeguards for home/desktop |
-| `only-commit` | squash all history into a single commit |
-| `reset [ref]` | hard reset and force push |
-| `undo` | discard last commit and force push |
-| `git-main` | migrate default branch from master to main |
-| `next` | scaffold a Next.js project from template |
+| `next`              | scaffold a Next.js project from template        |
+| `switch [account]`  | switch GitHub account via `gh auth`             |
 
 ### Aliases
 
-| Alias | Command |
-| --- | --- |
-| `c` | `cursor .` |
-| `cr` | `cursor -r .` |
-| `mkcd` | `cdx` |
-| `trash` | `rm` |
-| `add` | `ga` |
-| `commit` | `gc` |
-| `showdesk` / `hidedesk` | Toggle desktop icons |
+| Alias                   | Command              |
+| ----------------------- | -------------------- |
+| `add`                   | `ga`                 |
+| `c`                     | `cursor .`           |
+| `commit`                | `gc`                 |
+| `cr`                    | `cursor -r .`        |
+| `mkcd`                  | `cdx`                |
+| `showdesk` / `hidedesk` | toggle desktop icons |
+| `trash`                 | `rm`                 |
 
 ### Git Enhancements
 
