@@ -39,6 +39,12 @@
 ## 🚀 Quick Start
 
 ```zsh
+npx zshify
+```
+
+or
+
+```zsh
 /bin/zsh -c "$(curl -fsSL https://raw.githubusercontent.com/nrjdalal/zshify/refs/heads/main/bin/script.zsh)"
 ```
 
