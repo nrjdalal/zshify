@@ -9,11 +9,12 @@ setopt INC_APPEND_HISTORY_TIME
 setopt RM_STAR_SILENT
 
 [ "$PWD" = "$HOME" ] && cd ~/Desktop
-# newline before prompt unless fresh terminal (cursor at row 1)
+# newline before prompt unless fresh terminal
 START=$'\n'
-print -n '\e[6n' > /dev/tty
-IFS='[;' read -sd R _ _row _ < /dev/tty
-(( _row == 1 )) && START=""
+if [[ -z "$_ZSHIFY_STARTED" ]]; then
+  START=""
+  _ZSHIFY_STARTED=1
+fi
 
 preexec() {
   TIMER=$(print -P %D{%s%3.})
