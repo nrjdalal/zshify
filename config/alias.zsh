@@ -1,6 +1,6 @@
-# cursor
-alias c="cursor ."
-alias cr="cursor -r ."
+# code
+alias c="code ."
+alias cr="code -r ."
 
 # shortcuts
 alias mkcd='cdx'

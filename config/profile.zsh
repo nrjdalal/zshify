@@ -109,7 +109,7 @@ mas install 1491071483
   brew install -q --cask google-chrome cursor
 
   echo && echo "==> Ensuring secondary casks..."
-  brew install -q --cask cleanshot fontbase iina jordanbaird-ice karabiner-elements numi qbittorrent rocket screen-studio whatsapp affinity
+  brew install -q --cask cleanshot fontbase iina jordanbaird-ice numi rocket screen-studio whatsapp affinity
 
   echo && echo "==> Running brew upgrade..."
   brew upgrade --formula
