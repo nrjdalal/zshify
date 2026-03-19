@@ -6,8 +6,8 @@ if [[ "$USER" == "$MATCH_USERNAME" ]]; then
 
   echo && echo "==> System preferences..."
   if [[ ! -f ~/.logs/.brewdock.lock ]]; then
-    defaults write com.apple.dock static-only -bool true
-    killall Dock
+    defaults write com.apple.dock static-only -bool true && killall Dock
+    defaults delete com.apple.dock static-only
     touch ~/.logs/.brewdock.lock
   fi
 
