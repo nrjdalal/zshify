@@ -100,7 +100,6 @@ gh auth login --scopes "repo, read:org, workflow, write:gpg_key"
 
 brew install --cask --force docker karabiner-elements
 
-mas install 1502839586
 mas install 1491071483
 
 ---------------------------------------------"
