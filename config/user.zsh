@@ -14,19 +14,4 @@ command -v fzf &>/dev/null && source <(fzf --zsh)
 [ -d ~/.local/bin ] && PATH=~/.local/bin:$PATH
 
 # zoxide
-command -v zoxide &>/dev/null && eval "$(zoxide init zsh)"
-
-# if command not found, try zoxide cd
-if command -v zoxide &>/dev/null && [[ -o interactive ]] && [[ -o zle ]]; then
-  _zoxide_accept_line() {
-    local cmd="${BUFFER%% *}"
-    if [[ -n "$cmd" ]] && ! whence "$cmd" &>/dev/null; then
-      local dir=$(zoxide query "$cmd" 2>/dev/null)
-      if [[ -n "$dir" ]]; then
-        BUFFER="cd ${(q)dir}"
-      fi
-    fi
-    zle .accept-line
-  }
-  zle -N accept-line _zoxide_accept_line
-fi
+[[ ! -o interactive ]] && command -v zoxide &>/dev/null && eval "$(zoxide init zsh --cmd cd)"
