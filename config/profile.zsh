@@ -1,8 +1,9 @@
 #!/bin/zsh
 
+DISABLE=0
 MATCH_USERNAME="nrjdalal"
 
-if [[ "$USER" == "$MATCH_USERNAME" ]]; then
+if [[ "$DISABLE" != "1" && "$USER" == "$MATCH_USERNAME" ]]; then
 
   echo && echo "==> System preferences..."
   if [[ ! -f ~/.logs/.brewdock.lock ]]; then
