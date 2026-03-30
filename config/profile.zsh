@@ -4,10 +4,12 @@ DISABLE=0
 MATCH_USERNAME="nrjdalal"
 
 if [[ "$DISABLE" != "1" && "$USER" == "$MATCH_USERNAME" ]]; then
+  mkdir -p ~/.logs
 
   echo && echo "==> System preferences..."
   if [[ ! -f ~/.logs/.brewdock.lock ]]; then
-    defaults write com.apple.dock static-only -bool true
+    defaults write com.apple.dock persistent-apps -array
+    defaults write com.apple.dock persistent-others -array
     killall Dock
     touch ~/.logs/.brewdock.lock
   fi
@@ -17,6 +19,7 @@ if [[ "$DISABLE" != "1" && "$USER" == "$MATCH_USERNAME" ]]; then
     "com.apple.dock minimize-to-application -bool 1"
     "com.apple.dock orientation -string left"
     "com.apple.dock show-recents -bool 0"
+    "com.apple.dock static-only -bool 0"
     "com.apple.finder CreateDesktop -bool 0"
     "com.apple.finder FXRemoveOldTrashItems -bool 1"
     "com.apple.finder ShowPathbar -bool 1"
@@ -59,9 +62,9 @@ if [[ "$DISABLE" != "1" && "$USER" == "$MATCH_USERNAME" ]]; then
 
     if [[ "$normalized_current" != "$normalized_desired" ]]; then
       command="defaults write $domain $key"
-      [[ "$type" == "bool" ]] && command="$command -bool"
-      [[ "$type" == "int" ]] && command="$command -int"
-      [[ "$type" == "string" ]] && command="$command -string"
+      [[ "$type" == "-bool" ]] && command="$command -bool"
+      [[ "$type" == "-int" ]] && command="$command -int"
+      [[ "$type" == "-string" ]] && command="$command -string"
       eval "$command $value"
       updated_value=$(defaults read "$domain" "$key")
       echo "==> Updated: $domain $key from $current_value to $updated_value"
