@@ -13,5 +13,8 @@ command -v fzf &>/dev/null && source <(fzf --zsh)
 # local
 [ -d ~/.local/bin ] && PATH=~/.local/bin:$PATH
 
+# nanobrew
+[ -d /opt/nanobrew/prefix/bin ] && PATH="/opt/nanobrew/prefix/bin:$PATH"
+
 # zoxide
 [[ ! -o interactive ]] && command -v zoxide &>/dev/null && eval "$(zoxide init zsh --cmd cd)"
