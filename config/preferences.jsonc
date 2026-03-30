@@ -7,38 +7,25 @@
     { "domain": "com.apple.dock", "key": "static-only", "type": "bool", "value": false }, // Show apps pinned to the dock.
     { "domain": "com.apple.dock", "key": "minimize-to-application", "type": "bool", "value": true }, // ⚠️ Minimized windows collapse into the app icon instead of a separate tile.
 
-    // Screenshots docs: https://macos-defaults.com/screenshots
-    { "domain": "com.apple.screencapture", "key": "disable-shadow", "type": "bool", "value": true }, // Remove the default shadow from screenshots.
-    { "domain": "com.apple.screencapture", "key": "show-thumbnail", "type": "bool", "value": false }, // Do not display the thumbnail.
-
     // Finder docs: https://macos-defaults.com/finder
-    { "domain": "NSGlobalDomain", "key": "AppleShowAllExtensions", "type": "bool", "value": true }, // Show all file extensions inside the Finder.
-    { "domain": "com.apple.finder", "key": "AppleShowAllFiles", "type": "bool", "value": true }, // Show hidden files inside the Finder.
     { "domain": "com.apple.finder", "key": "ShowPathbar", "type": "bool", "value": true }, // Show path bar.
-    { "domain": "com.apple.finder", "key": "_FXSortFoldersFirst", "type": "bool", "value": true }, // Keep folders on top.
-    { "domain": "com.apple.finder", "key": "FXDefaultSearchScope", "type": "string", "value": "SCcf" }, // Search the current folder.
     { "domain": "com.apple.finder", "key": "FXRemoveOldTrashItems", "type": "bool", "value": true }, // Automatically empty bin after 30 days.
-    { "domain": "com.apple.finder", "key": "FXEnableExtensionChangeWarning", "type": "bool", "value": false }, // Do not display the warning.
     { "domain": "com.apple.finder", "key": "ShowStatusBar", "type": "bool", "value": true }, // Show status bar.
-
-    // Desktop docs: https://macos-defaults.com/desktop
-    { "domain": "com.apple.finder", "key": "CreateDesktop", "type": "bool", "value": false }, // Hide all icons.
 
     // Trackpad docs: https://macos-defaults.com/trackpad
     { "domain": "com.apple.AppleMultitouchTrackpad", "key": "Clicking", "type": "bool", "value": true }, // ⚠️ Enable tap-to-click.
 
     // Keyboard docs: https://macos-defaults.com/keyboard
-    { "domain": "NSGlobalDomain", "key": "ApplePressAndHoldEnabled", "type": "bool", "value": false }, // Repeats the key as long as it is held down.
-    { "domain": "NSGlobalDomain", "key": "AppleKeyboardUIMode", "type": "integer", "value": 2 }, // Keyboard navigation: Enabled.
+    { "domain": "com.apple.HIToolbox", "key": "AppleFnUsageType", "type": "integer", "value": 0 }, // Press Globe key to: Do Nothing.
     { "domain": "NSGlobalDomain", "key": "NSAutomaticCapitalizationEnabled", "type": "bool", "value": false }, // ⚠️ Disable automatic capitalization.
     { "domain": "NSGlobalDomain", "key": "NSAutomaticSpellingCorrectionEnabled", "type": "bool", "value": false }, // ⚠️ Disable native spell correction.
     { "domain": "NSGlobalDomain", "key": "WebAutomaticSpellingCorrectionEnabled", "type": "bool", "value": false }, // ⚠️ Disable spell correction in web text fields.
 
-    // Mission Control docs: https://macos-defaults.com/mission-control
-    { "domain": "com.apple.dock", "key": "mru-spaces", "type": "bool", "value": false }, // Keep the Spaces arrangement.
-    { "domain": "NSGlobalDomain", "key": "AppleSpacesSwitchOnActivate", "type": "bool", "value": false }, // Do not switch to a Space with open windows for the application.
-
-    // Window Management docs: https://support.apple.com/guide/mac-help/mchl118087b0/mac
-    { "domain": "com.apple.WindowManager", "key": "EnableTiledWindowMargins", "type": "bool", "value": false }, // ⚠️ Remove extra margins around tiled windows.
+    // Keyboard Shortcuts docs: https://support.apple.com/guide/mac-help/create-keyboard-shortcuts-for-apps-mchlp2271/mac
+    { "domain": "com.apple.symbolichotkeys", "key": "AppleSymbolicHotKeys.28", "type": "json", "value": { "enabled": false, "value": { "parameters": [51, 20, 1179648], "type": "standard" } } }, // Disable "Save picture of screen as a file".
+    { "domain": "com.apple.symbolichotkeys", "key": "AppleSymbolicHotKeys.29", "type": "json", "value": { "enabled": false, "value": { "parameters": [51, 20, 1441792], "type": "standard" } } }, // Disable "Copy picture of screen to the clipboard".
+    { "domain": "com.apple.symbolichotkeys", "key": "AppleSymbolicHotKeys.30", "type": "json", "value": { "enabled": false, "value": { "parameters": [52, 21, 1179648], "type": "standard" } } }, // Disable "Save picture of selected area as a file".
+    { "domain": "com.apple.symbolichotkeys", "key": "AppleSymbolicHotKeys.31", "type": "json", "value": { "enabled": false, "value": { "parameters": [52, 21, 1441792], "type": "standard" } } }, // Disable "Copy picture of selected area to the clipboard".
+    { "domain": "com.apple.symbolichotkeys", "key": "AppleSymbolicHotKeys.184", "type": "json", "value": { "enabled": false, "value": { "parameters": [53, 23, 1179648], "type": "standard" } } }, // Disable "Screenshot and recording options".
   ],
 }

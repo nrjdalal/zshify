@@ -124,7 +124,7 @@ if [[ "$DISABLE" != "1" && "$USER" == "$MATCH_USERNAME" ]]; then
         echo "==> Skipped unsupported preference type: $type for $key"
         return 1
         ;;
-    esac
+      esac
   }
 
   if [[ ! -f "$PREFERENCES_SOURCE_FILE" ]]; then
