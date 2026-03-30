@@ -14,7 +14,8 @@ if [[ "$DISABLE" != "1" && "$USER" == "$MATCH_USERNAME" ]]; then
     touch ~/.logs/.brewdock.lock
   fi
 
-  PREFERENCES_FILE=~/.zshify/config/preferences.json
+  PREFERENCES_SOURCE_FILE=~/.zshify/config/preferences.jsonc
+  PREFERENCES_FILE=$(mktemp -t zshify-preferences)
 
   restart_dock=false
   restart_finder=false
@@ -35,9 +36,71 @@ if [[ "$DISABLE" != "1" && "$USER" == "$MATCH_USERNAME" ]]; then
     fi
   }
 
+  _prepare_preferences_file() {
+    awk '
+    BEGIN {
+      in_string = 0
+      in_block = 0
+      escape = 0
+    }
+    {
+      line = $0
+      out = ""
+      for (i = 1; i <= length(line); i++) {
+        c = substr(line, i, 1)
+        nextc = (i < length(line)) ? substr(line, i + 1, 1) : ""
+
+        if (in_block) {
+          if (c == "*" && nextc == "/") {
+            in_block = 0
+            i++
+          }
+          continue
+        }
+
+        if (in_string) {
+          out = out c
+          if (escape) {
+            escape = 0
+          } else if (c == "\\") {
+            escape = 1
+          } else if (c == "\"") {
+            in_string = 0
+          }
+          continue
+        }
+
+        if (c == "\"") {
+          in_string = 1
+          out = out c
+          continue
+        }
+
+        if (c == "/" && nextc == "/") {
+          break
+        }
+
+        if (c == "/" && nextc == "*") {
+          in_block = 1
+          i++
+          continue
+        }
+
+        out = out c
+      }
+
+      print out
+    }
+    ' "$PREFERENCES_SOURCE_FILE" > "$PREFERENCES_FILE"
+  }
+
   _json_pref_field() {
     local index="$1" field="$2" format="${3:-raw}"
     plutil -extract "preferences.$index.$field" "$format" -o - "$PREFERENCES_FILE" 2>/dev/null
+  }
+
+  _preferences_count() {
+    plutil -extract preferences raw -o - "$PREFERENCES_FILE" 2>/dev/null
   }
 
   _plist_pref_field() {
@@ -64,13 +127,22 @@ if [[ "$DISABLE" != "1" && "$USER" == "$MATCH_USERNAME" ]]; then
     esac
   }
 
-  if [[ ! -f "$PREFERENCES_FILE" ]]; then
-    echo "==> Preferences file not found: $PREFERENCES_FILE"
+  if [[ ! -f "$PREFERENCES_SOURCE_FILE" ]]; then
+    echo "==> Preferences file not found: $PREFERENCES_SOURCE_FILE"
+  elif ! _prepare_preferences_file; then
+    echo "==> Preferences file could not be prepared: $PREFERENCES_SOURCE_FILE"
   elif ! plutil -type preferences "$PREFERENCES_FILE" >/dev/null 2>&1; then
-    echo "==> Preferences file is invalid: $PREFERENCES_FILE"
+    echo "==> Preferences file is invalid: $PREFERENCES_SOURCE_FILE"
   else
     pref_index=0
-    while domain=$(_json_pref_field "$pref_index" domain raw); do
+    pref_count=$(_preferences_count)
+    while (( pref_index < pref_count )); do
+      domain=$(_json_pref_field "$pref_index" domain raw)
+      if [[ -z "$domain" ]]; then
+        ((pref_index++))
+        continue
+      fi
+
       key=$(_json_pref_field "$pref_index" key raw)
       type=$(_json_pref_field "$pref_index" type raw)
       extract_format="raw"
@@ -115,6 +187,8 @@ if [[ "$DISABLE" != "1" && "$USER" == "$MATCH_USERNAME" ]]; then
       rm -f "$pref_plist"
     done
   fi
+
+  rm -f "$PREFERENCES_FILE"
 
   echo && echo "==> Setting up brew..."
   export NONINTERACTIVE=1

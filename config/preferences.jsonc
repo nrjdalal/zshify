@@ -1,0 +1,44 @@
+{
+  "preferences": [
+    // Dock docs: https://macos-defaults.com/dock
+    { "domain": "com.apple.dock", "key": "orientation", "type": "string", "value": "left" }, // Put the Dock on the left of the screen.
+    { "domain": "com.apple.dock", "key": "autohide", "type": "bool", "value": true }, // Autohide the Dock when the mouse is out.
+    { "domain": "com.apple.dock", "key": "show-recents", "type": "bool", "value": false }, // Do not display recent apps in the Dock.
+    { "domain": "com.apple.dock", "key": "static-only", "type": "bool", "value": false }, // Show apps pinned to the dock.
+    { "domain": "com.apple.dock", "key": "minimize-to-application", "type": "bool", "value": true }, // ⚠️ Minimized windows collapse into the app icon instead of a separate tile.
+
+    // Screenshots docs: https://macos-defaults.com/screenshots
+    { "domain": "com.apple.screencapture", "key": "disable-shadow", "type": "bool", "value": true }, // Remove the default shadow from screenshots.
+    { "domain": "com.apple.screencapture", "key": "show-thumbnail", "type": "bool", "value": false }, // Do not display the thumbnail.
+
+    // Finder docs: https://macos-defaults.com/finder
+    { "domain": "NSGlobalDomain", "key": "AppleShowAllExtensions", "type": "bool", "value": true }, // Show all file extensions inside the Finder.
+    { "domain": "com.apple.finder", "key": "AppleShowAllFiles", "type": "bool", "value": true }, // Show hidden files inside the Finder.
+    { "domain": "com.apple.finder", "key": "ShowPathbar", "type": "bool", "value": true }, // Show path bar.
+    { "domain": "com.apple.finder", "key": "_FXSortFoldersFirst", "type": "bool", "value": true }, // Keep folders on top.
+    { "domain": "com.apple.finder", "key": "FXDefaultSearchScope", "type": "string", "value": "SCcf" }, // Search the current folder.
+    { "domain": "com.apple.finder", "key": "FXRemoveOldTrashItems", "type": "bool", "value": true }, // Automatically empty bin after 30 days.
+    { "domain": "com.apple.finder", "key": "FXEnableExtensionChangeWarning", "type": "bool", "value": false }, // Do not display the warning.
+    { "domain": "com.apple.finder", "key": "ShowStatusBar", "type": "bool", "value": true }, // Show status bar.
+
+    // Desktop docs: https://macos-defaults.com/desktop
+    { "domain": "com.apple.finder", "key": "CreateDesktop", "type": "bool", "value": false }, // Hide all icons.
+
+    // Trackpad docs: https://macos-defaults.com/trackpad
+    { "domain": "com.apple.AppleMultitouchTrackpad", "key": "Clicking", "type": "bool", "value": true }, // ⚠️ Enable tap-to-click.
+
+    // Keyboard docs: https://macos-defaults.com/keyboard
+    { "domain": "NSGlobalDomain", "key": "ApplePressAndHoldEnabled", "type": "bool", "value": false }, // Repeats the key as long as it is held down.
+    { "domain": "NSGlobalDomain", "key": "AppleKeyboardUIMode", "type": "integer", "value": 2 }, // Keyboard navigation: Enabled.
+    { "domain": "NSGlobalDomain", "key": "NSAutomaticCapitalizationEnabled", "type": "bool", "value": false }, // ⚠️ Disable automatic capitalization.
+    { "domain": "NSGlobalDomain", "key": "NSAutomaticSpellingCorrectionEnabled", "type": "bool", "value": false }, // ⚠️ Disable native spell correction.
+    { "domain": "NSGlobalDomain", "key": "WebAutomaticSpellingCorrectionEnabled", "type": "bool", "value": false }, // ⚠️ Disable spell correction in web text fields.
+
+    // Mission Control docs: https://macos-defaults.com/mission-control
+    { "domain": "com.apple.dock", "key": "mru-spaces", "type": "bool", "value": false }, // Keep the Spaces arrangement.
+    { "domain": "NSGlobalDomain", "key": "AppleSpacesSwitchOnActivate", "type": "bool", "value": false }, // Do not switch to a Space with open windows for the application.
+
+    // Window Management docs: https://support.apple.com/guide/mac-help/mchl118087b0/mac
+    { "domain": "com.apple.WindowManager", "key": "EnableTiledWindowMargins", "type": "bool", "value": false }, // ⚠️ Remove extra margins around tiled windows.
+  ],
+}
