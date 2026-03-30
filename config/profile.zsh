@@ -14,35 +14,20 @@ if [[ "$DISABLE" != "1" && "$USER" == "$MATCH_USERNAME" ]]; then
     touch ~/.logs/.brewdock.lock
   fi
 
-  preferences=(
-    "com.apple.dock autohide -bool 1"
-    "com.apple.dock minimize-to-application -bool 1"
-    "com.apple.dock orientation -string left"
-    "com.apple.dock show-recents -bool 0"
-    "com.apple.dock static-only -bool 0"
-    "com.apple.finder CreateDesktop -bool 0"
-    "com.apple.finder FXRemoveOldTrashItems -bool 1"
-    "com.apple.finder ShowPathbar -bool 1"
-    "com.apple.finder ShowStatusBar -bool 1"
-
-    "com.apple.AppleMultitouchTrackpad Clicking -bool 1"
-    "com.apple.HIToolbox AppleFnUsageType -int 0"
-    "com.apple.WindowManager EnableTiledWindowMargins -bool 0"
-    "NSGlobalDomain NSAutomaticCapitalizationEnabled -bool 0"
-    "NSGlobalDomain NSAutomaticSpellingCorrectionEnabled -bool 0"
-    "NSGlobalDomain WebAutomaticSpellingCorrectionEnabled -bool 0"
-  )
+  PREFERENCES_FILE=~/.zshify/config/preferences.json
 
   restart_dock=false
   restart_finder=false
   pref_changed=false
+  typeset -A pref_domain_files
+  typeset -A pref_domain_changed
 
-  _normalize_pref() {
+  _normalize_pref_value() {
     local val="$1" type="$2"
-    if [[ "$type" == "-bool" ]]; then
+    if [[ "$type" == "bool" ]]; then
       case "$val" in
-        1|true|yes) echo "1" ;;
-        0|false|no) echo "0" ;;
+        1|true|yes|TRUE|YES) echo "1" ;;
+        0|false|no|FALSE|NO) echo "0" ;;
         *) echo "" ;;
       esac
     else
@@ -50,30 +35,86 @@ if [[ "$DISABLE" != "1" && "$USER" == "$MATCH_USERNAME" ]]; then
     fi
   }
 
-  for pref in "${preferences[@]}"; do
-    domain=$(echo "$pref" | cut -d' ' -f1)
-    key=$(echo "$pref" | cut -d' ' -f2)
-    type=$(echo "$pref" | cut -d' ' -f3)
-    value=$(echo "$pref" | cut -d' ' -f4)
-    current_value=$(defaults read "$domain" "$key" 2>/dev/null)
+  _json_pref_field() {
+    local index="$1" field="$2" format="${3:-raw}"
+    plutil -extract "preferences.$index.$field" "$format" -o - "$PREFERENCES_FILE" 2>/dev/null
+  }
 
-    normalized_current=$(_normalize_pref "$current_value" "$type")
-    normalized_desired=$(_normalize_pref "$value" "$type")
+  _plist_pref_field() {
+    local plist="$1" key="$2" format="${3:-raw}"
+    plutil -extract "$key" "$format" -o - "$plist" 2>/dev/null
+  }
 
-    if [[ "$normalized_current" != "$normalized_desired" ]]; then
-      command="defaults write $domain $key"
-      [[ "$type" == "-bool" ]] && command="$command -bool"
-      [[ "$type" == "-int" ]] && command="$command -int"
-      [[ "$type" == "-string" ]] && command="$command -string"
-      eval "$command $value"
-      updated_value=$(defaults read "$domain" "$key")
-      echo "==> Updated: $domain $key from $current_value to $updated_value"
+  _plist_set_pref() {
+    local plist="$1" key="$2" type="$3" value="$4" action="-replace"
+    plutil -type "$key" "$plist" >/dev/null 2>&1 || action="-insert"
 
-      [[ "$domain" == "com.apple.dock" ]] && restart_dock=true
-      [[ "$domain" == "com.apple.finder" ]] && restart_finder=true
-      [[ "$domain" != "com.apple.dock" && "$domain" != "com.apple.finder" ]] && pref_changed=true
-    fi
-  done
+    case "$type" in
+      bool) plutil "$action" "$key" -bool "$value" "$plist" ;;
+      integer) plutil "$action" "$key" -integer "$value" "$plist" ;;
+      float) plutil "$action" "$key" -float "$value" "$plist" ;;
+      string) plutil "$action" "$key" -string "$value" "$plist" ;;
+      date) plutil "$action" "$key" -date "$value" "$plist" ;;
+      data) plutil "$action" "$key" -data "$value" "$plist" ;;
+      json) plutil "$action" "$key" -json "$value" "$plist" ;;
+      *)
+        echo "==> Skipped unsupported preference type: $type for $key"
+        return 1
+        ;;
+    esac
+  }
+
+  if [[ ! -f "$PREFERENCES_FILE" ]]; then
+    echo "==> Preferences file not found: $PREFERENCES_FILE"
+  elif ! plutil -type preferences "$PREFERENCES_FILE" >/dev/null 2>&1; then
+    echo "==> Preferences file is invalid: $PREFERENCES_FILE"
+  else
+    pref_index=0
+    while domain=$(_json_pref_field "$pref_index" domain raw); do
+      key=$(_json_pref_field "$pref_index" key raw)
+      type=$(_json_pref_field "$pref_index" type raw)
+      extract_format="raw"
+      [[ "$type" == "json" ]] && extract_format="json"
+      value=$(_json_pref_field "$pref_index" value "$extract_format")
+
+      if [[ -z "${pref_domain_files[$domain]}" ]]; then
+        pref_plist=$(mktemp -t zshify-pref)
+        if ! defaults export "$domain" "$pref_plist" >/dev/null 2>&1; then
+          plutil -create xml1 "$pref_plist"
+        fi
+        pref_domain_files[$domain]="$pref_plist"
+      fi
+
+      pref_plist="${pref_domain_files[$domain]}"
+      if plutil -type "$key" "$pref_plist" >/dev/null 2>&1; then
+        current_value=$(_plist_pref_field "$pref_plist" "$key" "$extract_format")
+      else
+        current_value="<missing>"
+      fi
+
+      normalized_current=$(_normalize_pref_value "$current_value" "$type")
+      normalized_desired=$(_normalize_pref_value "$value" "$type")
+
+      if [[ "$current_value" == "<missing>" || "$normalized_current" != "$normalized_desired" ]]; then
+        if _plist_set_pref "$pref_plist" "$key" "$type" "$value" >/dev/null; then
+          updated_value=$(_plist_pref_field "$pref_plist" "$key" "$extract_format")
+          echo "==> Updated: $domain $key from $current_value to $updated_value"
+          pref_domain_changed[$domain]=1
+
+          [[ "$domain" == "com.apple.dock" ]] && restart_dock=true
+          [[ "$domain" == "com.apple.finder" ]] && restart_finder=true
+          [[ "$domain" != "com.apple.dock" && "$domain" != "com.apple.finder" ]] && pref_changed=true
+        fi
+      fi
+
+      ((pref_index++))
+    done
+
+    for domain pref_plist in ${(kv)pref_domain_files}; do
+      [[ -n "${pref_domain_changed[$domain]}" ]] && defaults import "$domain" "$pref_plist"
+      rm -f "$pref_plist"
+    done
+  fi
 
   echo && echo "==> Setting up brew..."
   export NONINTERACTIVE=1
