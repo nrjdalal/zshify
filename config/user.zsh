@@ -17,4 +17,5 @@ command -v fzf &>/dev/null && source <(fzf --zsh)
 [ -d /opt/nanobrew/prefix/bin ] && PATH="/opt/nanobrew/prefix/bin:$PATH"
 
 # zoxide
-[[ ! -o interactive ]] && command -v zoxide &>/dev/null && eval "$(zoxide init zsh --cmd cd)"
+export _ZO_DOCTOR=0
+[[ -o interactive ]] && command -v zoxide &>/dev/null && eval "$(zoxide init zsh --cmd cd)"
