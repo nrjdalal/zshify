@@ -194,8 +194,17 @@ if [[ "$DISABLE" != "1" && "$USER" == "$MATCH_USERNAME" ]]; then
   export NONINTERACTIVE=1
   brew analytics off && brew update
 
+  _ensure_brew() {
+    local flag="$1"; shift
+    local missing=()
+    for pkg in "$@"; do
+      brew list "$flag" "$pkg" >/dev/null 2>&1 || missing+=("$pkg")
+    done
+    (( ${#missing[@]} )) && brew install -q "$flag" "${missing[@]}"
+  }
+
   echo && echo "==> Ensuring brew formulae..."
-  brew install -q bat btop fd fnm fzf gh git gnupg jq mas ollama ripgrep rsync tree zoxide zsh-autosuggestions zsh-history-substring-search zsh-syntax-highlighting
+  _ensure_brew --formula bat btop fd ffmpeg fnm fzf gh git gnupg hyperfine jq mas ollama ripgrep rsync tree zoxide zsh-autosuggestions zsh-history-substring-search zsh-syntax-highlighting
 
   echo && echo "==> Ensuring node..."
   eval "$(fnm env)"
@@ -224,10 +233,10 @@ mas install 1491071483
 ---------------------------------------------"
 
   echo && echo "==> Ensuring primary casks..."
-  brew install -q --cask google-chrome cursor
+  _ensure_brew --cask google-chrome visual-studio-code zed
 
   echo && echo "==> Ensuring secondary casks..."
-  brew install -q --cask cleanshot fontbase iina jordanbaird-ice numi rocket screen-studio whatsapp affinity
+  _ensure_brew --cask affinity cleanshot cmux fontbase iina jordanbaird-ice numi rocket screen-studio spotify whatsapp
 
   echo && echo "==> Running brew upgrade..."
   brew upgrade --formula
