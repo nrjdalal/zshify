@@ -233,7 +233,7 @@ mas install 1491071483
 ---------------------------------------------"
 
   echo && echo "==> Ensuring primary casks..."
-  _ensure_brew --cask google-chrome visual-studio-code zed
+  _ensure_brew --cask google-chrome visual-studio-code
 
   echo && echo "==> Ensuring secondary casks..."
   _ensure_brew --cask affinity cleanshot cmux fontbase iina jordanbaird-ice numi rocket screen-studio spotify whatsapp

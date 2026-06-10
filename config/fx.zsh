@@ -192,6 +192,7 @@ rename() {
   if [[ "$#" == "1" ]]; then
     if [ ! -d "../$1/" ] && rsync -a "$(pwd)/" "../$1" && rm -rf "$(pwd)/" && cd "../$1/"; then
       [[ "$TERM_PROGRAM" == "cursor" ]] && cursor -r .
+      [[ "$TERM_PROGRAM" == "vscode" ]] && code -r .
     fi
   elif [[ "$#" == "2" ]]; then
     [ ! -d "$2/" ] && rsync -a "$1/" "$2" && rm -rf "$1/"

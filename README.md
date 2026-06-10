@@ -160,9 +160,9 @@ These are available when installed via the [brew command above](#-advanced-exper
 | Alias                   | Command              |
 | ----------------------- | -------------------- |
 | `add`                   | `ga`                 |
-| `c`                     | `cursor .`           |
+| `c`                     | `code .`             |
 | `commit`                | `gc`                 |
-| `cr`                    | `cursor -r .`        |
+| `cr`                    | `code -r .`          |
 | `mkcd`                  | `cdx`                |
 | `showdesk` / `hidedesk` | toggle desktop icons |
 | `trash`                 | `rm`                 |
