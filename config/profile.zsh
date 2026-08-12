@@ -226,14 +226,14 @@ gh auth login --scopes "repo, read:org, workflow, write:gpg_key"
 # https://gumroad.com/library for Supercharge
 # https://usgraphics.com/accounts for Berkeley Mono
 
-brew install --cask --force docker karabiner-elements
+brew install --cask --force karabiner-elements
 
 mas install 1491071483
 
 ---------------------------------------------"
 
   echo && echo "==> Ensuring primary casks..."
-  _ensure_brew --cask google-chrome visual-studio-code
+  _ensure_brew --cask google-chrome orbstack visual-studio-code
 
   echo && echo "==> Ensuring secondary casks..."
   _ensure_brew --cask affinity cleanshot cmux fontbase iina jordanbaird-ice numi rocket screen-studio spotify whatsapp
